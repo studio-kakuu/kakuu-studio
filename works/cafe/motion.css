@@ -1,0 +1,87 @@
+/* YUGE — motion (STEP 3) */
+
+/* スクロール進捗バー */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60;
+  background: var(--clay);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+/* 湯気:ゆらぎながら立ちのぼる */
+.steam path {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: steam 4.8s ease-in-out infinite;
+}
+.steam .s2 { animation-delay: -1.6s; animation-duration: 5.4s; }
+.steam .s3 { animation-delay: -3.1s; animation-duration: 4.2s; }
+@keyframes steam {
+  0%   { opacity: 0; transform: translateY(16px) scaleY(.85); }
+  30%  { opacity: 1; }
+  65%  { opacity: .8; transform: translate(-4px, -6px) scaleY(1) skewX(-4deg); }
+  100% { opacity: 0; transform: translate(6px, -26px) scaleY(1.1) skewX(5deg); }
+}
+
+/* 窓の光がゆっくり揺れる */
+.hero-visual::before { animation: light 9s ease-in-out infinite alternate; }
+@keyframes light {
+  from { transform: rotate(-4deg) translateX(0); opacity: .55; }
+  to   { transform: rotate(-2deg) translateX(-18px); opacity: .85; }
+}
+
+/* マーキー */
+.marquee-track { animation: marquee 32s linear infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- scroll reveal(JSが動くときだけ隠す) ---------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s cubic-bezier(.2, .7, .2, 1), transform 1s cubic-bezier(.2, .7, .2, 1);
+  transition-delay: var(--d, 0s);
+}
+.js [data-reveal="zoom"] { transform: scale(.94); clip-path: inset(8% 8% 8% 8% round 200px 200px 22px 22px); transition-property: opacity, transform, clip-path; transition-duration: 1.4s; }
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+.js [data-reveal="zoom"].is-in { clip-path: inset(0 0 0 0 round 200px 200px 22px 22px); }
+
+/* ヒーロータイトル:1文字ずつ */
+.hero-title .ch { display: inline-block; }
+.js .hero-title .ch { opacity: 0; transform: translateY(.4em) rotate(4deg); transition: opacity .9s ease, transform 1.1s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(.25s + var(--i) * .08s); }
+.js .hero-title.is-in .ch { opacity: 1; transform: none; }
+.js .hero-title[data-reveal] { opacity: 1; transform: none; }
+
+/* メニュー行:ホバーで少し動く */
+.menu-item { transition: transform .4s ease, background .4s ease; }
+.menu-item:hover { transform: translateX(6px); }
+.menu-item:hover .menu-icon { background: var(--bean); }
+.menu-item:hover .menu-icon svg { stroke: var(--paper); }
+.menu-icon, .menu-icon svg { transition: background .4s ease, stroke .4s ease; }
+
+/* 工程カード:下線が伸びる */
+.step::after {
+  content: ""; position: absolute; left: 18px; right: 18px; bottom: 0; height: 2px;
+  background: #E7A47F; transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform 1.2s cubic-bezier(.2, .7, .2, 1) .4s;
+}
+.step.is-in::after { transform: scaleX(1); }
+
+/* シーン:中の絵がゆっくり寄る */
+.scene svg { transition: transform 6s ease-out; transform: scale(1.08); }
+.scene.is-in svg { transform: scale(1); }
+
+/* 地図:道順を描く */
+.map .route { stroke-dasharray: 2 8; }
+.js .map .route { clip-path: inset(0 100% 0 0); transition: clip-path 2.2s ease .4s; }
+.js .map.is-in .route { clip-path: inset(0 0 0 0); }
+.map .pin { transform-box: fill-box; transform-origin: 50% 100%; }
+.map.is-in .pin { animation: drop .9s cubic-bezier(.3, 1.6, .5, 1) 2.2s both; }
+@keyframes drop { from { transform: translateY(-30px); opacity: 0; } to { transform: none; opacity: 1; } }
+.map .pulse { transform-box: fill-box; transform-origin: center; animation: pulse 2.4s ease-out infinite; }
+@keyframes pulse { from { transform: scale(.6); opacity: .5; } to { transform: scale(1.8); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js [data-reveal], .js .hero-title .ch { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .js .map .route { clip-path: none !important; }
+}

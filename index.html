@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KAKUU STUDIO</title>
-<meta name="description" content="KAKUU STUDIO — 実在しないお店・ブランドのWebサイトをつくるスタジオ。">
+<title>KAKUU STUDIO — Imaginary worlds, made real.</title>
+<meta name="description" content="KAKUU STUDIO — AIでつくる、架空の世界。Webサイト、映像、アニメーション、映画風のショートフィルム、CMなど、ジャンルを問わず「実在しない世界」の作品を発表するスタジオです。">
+<meta property="og:title" content="KAKUU STUDIO — Imaginary worlds, made real.">
+<meta property="og:description" content="AIでつくる、架空の世界。ジャンルを問わず、実在しない世界の作品を発表するスタジオ。">
 <meta name="theme-color" content="#0E0E0E">
 <link rel="icon" href="brand/logo-on-black.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +50,11 @@
   .intro h1 span { color: var(--kakuu-accent); }
   .intro p { margin: 28px 0 0; max-width: 34em; color: var(--dim); font-size: 14px; }
   .intro p b { color: var(--kakuu-white); font-weight: 500; }
+  .genres { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .genres li, .genre {
+    font-size: 11px; font-weight: 500; letter-spacing: .14em; line-height: 1;
+    padding: 7px 10px 6px; border: 1px solid var(--rule); border-radius: 999px; color: var(--dim);
+  }
 
   .list-head {
     display: flex; justify-content: space-between; align-items: baseline;
@@ -72,6 +79,10 @@
     content: ""; position: absolute; width: 70%; aspect-ratio: 1; border-radius: 50%;
     right: -18%; bottom: -14%; background: var(--c3); opacity: .9;
     transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+  }
+  .thumb .genre {
+    position: absolute; top: 16px; right: 16px; z-index: 1;
+    background: var(--kakuu-black); color: var(--kakuu-accent); border-color: var(--kakuu-black);
   }
   .thumb-name { position: relative; z-index: 1; font-size: clamp(44px, 14vw, 72px); font-weight: 500; line-height: 1; letter-spacing: .04em; }
   .thumb-ja { position: relative; z-index: 1; font-size: 13px; letter-spacing: .3em; }
@@ -108,8 +119,9 @@
 <main>
   <section class="intro">
     <div class="wrap">
-      <h1>Websites for<br>places that<br>don’t exist<span>.</span></h1>
-      <p><b>実在しないお店・ブランドのWebサイトを、毎回ひとつ。</b><br>KAKUU STUDIO は、架空のブランドを考え、その世界をWebでかたちにしていく小さなスタジオです。制作の過程はショート動画で公開しています。</p>
+      <h1>Imaginary worlds,<br>made real<span>.</span></h1>
+      <p><b>AIでつくる、架空の世界。</b><br>KAKUU STUDIO は、AIとともに実在しない世界を描き、作品として発表するスタジオです。Webサイト、映像、アニメーション、映画のようなショートフィルム、CM — ジャンルを問わず、毎回ひとつの「架空」をかたちにしています。</p>
+      <ul class="genres" aria-label="ジャンル"><li>WEB</li><li>FILM</li><li>ANIMATION</li><li>CM</li></ul>
     </div>
   </section>
 
@@ -118,7 +130,7 @@
       <div class="list-head"><span>WORKS</span><span><b id="count">01</b> / ARCHIVE</span></div>
       <ul class="works" id="works-list">
         <!-- works.js から自動生成。JSが無効な環境用のフォールバック -->
-        <noscript><li><a href="works/cafe/">001 — YUGE 湯気と珈琲(架空のカフェ)</a></li></noscript>
+        <noscript><li><a href="works/cafe/">001 — [WEB] YUGE 湯気と珈琲(架空のカフェ)</a></li></noscript>
       </ul>
     </div>
   </section>
@@ -126,7 +138,7 @@
 
 <footer>
   <div class="wrap">
-    <span>© KAKUU STUDIO — All brands shown here are fictional.</span>
+    <span>© KAKUU STUDIO — All worlds shown here are fictional.</span>
     <span>@studio_kakuu</span>
   </div>
 </footer>
@@ -139,15 +151,17 @@
     var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
     list.innerHTML = works.map(function (w) {
       var p = w.palette || ['#FFFFFF', '#0E0E0E', '#C6FF3D'];
-      return '<li class="work"><a href="works/' + esc(w.slug) + '/">' +
+      var href = w.href || ('works/' + w.slug + '/');
+      return '<li class="work"><a href="' + esc(href) + '">' +
         '<div class="thumb" style="--c1:' + esc(p[0]) + ';--c2:' + esc(p[1]) + ';--c3:' + esc(p[2]) + '">' +
+          (w.genre ? '<span class="genre">' + esc(w.genre) + '</span>' : '') +
           '<span class="thumb-name">' + esc(w.name) + '</span>' +
           '<span class="thumb-ja">' + esc(w.nameJa) + '</span>' +
         '</div>' +
         '<div class="meta">' +
           '<span class="no">' + esc(w.no) + '</span>' +
           '<span class="title">' + esc(w.name) + ' ' + esc(w.nameJa) + '<small>' + esc(w.theme) + ' / ' + esc(w.themeEn) + '</small></span>' +
-          '<span class="time">' + esc(w.minutes) + ' min <span class="arrow">→</span></span>' +
+          '<span class="time">' + (w.minutes ? esc(w.minutes) + ' min ' : '') + '<span class="arrow">→</span></span>' +
         '</div></a></li>';
     }).join('');
     document.getElementById('count').textContent = String(works.length).padStart(2, '0');

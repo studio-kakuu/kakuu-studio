@@ -4,18 +4,21 @@
   (トップページ index.html が自動で並べます)
 
   slug    : works/ 以下のフォルダ名
-  name    : 架空ブランド名(英字)
+  genre   : ジャンル表記(大文字)。例:WEB / FILM / ANIMATION / CM / MV / PHOTO
+  href    : (任意)リンク先。省略時は works/<slug>/。映像作品で動画ページや外部URLに飛ばす場合に指定
+  name    : 架空ブランド名・作品名(英字)
   nameJa  : 日本語名
-  theme   : テーマ(例:架空のカフェ)
+  theme   : テーマ(例:架空のカフェ、架空の映画の予告編)
   themeEn : テーマ英語
   date    : 公開日 YYYY-MM-DD
-  minutes : 実測の制作時間(分。measured_time.txt の hook_minutes)
+  minutes : (任意)実測の制作時間(分。measured_time.txt の hook_minutes)。無ければ省略
   palette : カード用の色3つ [背景, 文字, アクセント](作品サイトの色)
 */
 window.KAKUU_WORKS = [
   {
     no: "001",
     slug: "cafe",
+    genre: "WEB",
     name: "YUGE",
     nameJa: "湯気と珈琲",
     theme: "架空のカフェ",

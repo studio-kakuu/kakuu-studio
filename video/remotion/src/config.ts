@@ -29,6 +29,7 @@ export const processSchema = z.object({
   badges: z.array(z.object({ from: z.number(), to: z.number(), text: z.string() })).optional(),
   notes: z.array(z.object({ from: z.number(), to: z.number(), text: z.string(), size: z.enum(["small", "caption"]).optional() })).optional(),
   closingSub: z.string().optional(),
+  duration: z.number().min(61).max(75).optional(),
   scenes: z.array(z.object({ from: z.number(), to: z.number(), chip: z.string(), title: z.string(), camera: z.any() })).optional(),
   sfx: z.array(z.object({ type: z.string(), at: z.number() })).optional(),
 });

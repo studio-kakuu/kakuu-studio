@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>x header 1500x500</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; width: 1500px; height: 500px; background: #0E0E0E; overflow: hidden; }
+  body { position: relative; font-family: "Space Grotesk", sans-serif; color: #FFFFFF; }
+  /* 細い罫線(白の不透明度のみ) */
+  .rule { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,.10); }
+  .r1 { top: 100px; } .r2 { top: 400px; }
+  .col { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.10); left: 1080px; }
+  /* 右側に主要要素(左下はプロフィール画像と重なるため空ける) */
+  .block { position: absolute; right: 120px; top: 50%; transform: translateY(-50%); width: 560px; }
+  .block img { width: 560px; display: block; }
+  .tag { margin-top: 28px; display: flex; justify-content: space-between; white-space: nowrap; font-size: 15px; letter-spacing: .14em; color: rgba(255,255,255,.62); }
+  .tag b { font-weight: 500; color: #C6FF3D; }
+  .top { position: absolute; left: 120px; top: 58px; font-size: 16px; letter-spacing: .24em; color: rgba(255,255,255,.5); }
+  .num { position: absolute; left: 1100px; top: 412px; font-size: 14px; letter-spacing: .2em; color: rgba(255,255,255,.4); }
+</style></head>
+<body>
+  <div class="rule r1"></div><div class="rule r2"></div>
+  <div class="top">WEBSITES FOR PLACES THAT DON’T EXIST</div>
+  <div class="block">
+    <img src="../../logo.svg" alt="KAKUU STUDIO">
+    <div class="tag"><span>FICTIONAL BRANDS / REAL WEBSITES</span><b>@studio_kakuu</b></div>
+  </div>
+</body></html>

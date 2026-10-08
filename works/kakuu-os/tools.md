@@ -8,8 +8,8 @@ KAKUU STUDIO を実際に動かしている制作システムを、SF映画のHU
 | ジャンル | WEB |
 | 棚0「考える」 | **frontend-design**(1作品1スキル) |
 | 棚1「作る」 | **React 19.2.3 + Motion(旧 Framer Motion)12.43.0**(動きのライブラリはこれだけ)。ビルドは Vite 7.3.7 |
-| 棚2「見せる」 | **Remotion 4.0.534**(`video/remotion/`、scenes 方式)+ Playwright 1.56.1(撮影)+ ffmpeg。書き出し:`videos/kakuu-os/*.mp4`、H.264 / yuv420p / 30fps / 64.0秒 / 効果音 AAC(v2)/ 各約19.7MB |
-| 棚3「届ける」 | 手動投稿(本文は `captions/kakuu-os/`)。Instagram のコメント返信は ManyChat(画面のログに記載) |
+| 棚2「見せる」 | **Remotion 4.0.534**(`video/remotion/`、scenes 方式)+ Playwright 1.56.1(撮影)+ ffmpeg。書き出し v2:`videos/kakuu-os/kakuu-os.mp4`(3媒体共通・プレゼントなし)、H.264 / yuv420p / 30fps / 62.0秒 / 効果音 AAC / 16.8MB |
+| 棚3「届ける」 | 手動投稿(本文は `captions/kakuu-os/`)。ManyChat(Instagram のコメント→自動DM)を実際に使用し、画面のログにも記載。動画 v2 はプレゼントなしのため、この作品ではコメント配布はしない |
 | スキル | frontend-design / remotion-best-practices / remotion-create / remotion-markup / remotion-render |
 | 依存パッケージ | `works/kakuu-os/source/` の中だけ(`package.json`、`node_modules` は git 管理外) |
 | 公開ファイル | `works/kakuu-os/index.html` と `assets/`(`source/` で `npm run build` すると書き出される) |
@@ -78,3 +78,9 @@ npm run build      # = 数字の集計(scripts/collect-stats.mjs)→ vite build 
 ## ページの表示について
 - フッターに「VISUALIZATION — 実際の制作の流れを可視化した作品です」と表示。
 - 数字は 2026-10-08(DAY 1)時点のスナップショット。投稿した動画・投稿文と一致させるため、ページだけ直すときは `npm run build:page`(数字を集計し直さない)。数字を最新にしたいときは `npm run build`。
+
+## 動画 v2(2026-10-08、プレゼントなし)
+- 台本:`video/storyboards/kakuu-os.md`(承認済み)。テンポのルールに従い、6部署の稼働は3倍速(16.5秒 → 5.5秒、右上に「×3」)、承認待ちの待ち時間はカット
+- 浮いた尺は「数字の出どころ」(3つ×2.5秒)と、カフェのサイトをじっくり見せる場面(10秒)で埋めた
+- URL の予告・コメント配布はなし。締めは「こうやって作っています。/次の作品も、お楽しみに。」+「NEXT WORK — COMING SOON」
+- 効果音は v2 をそのまま使用。早送り区間は tick を間引き、使い回した区間で承認音などが二重にならないよう止めている

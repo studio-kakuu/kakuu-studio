@@ -65,6 +65,42 @@ const Finale: React.FC<{ from: number; to: number; big: string; small: string; s
   );
 };
 
+// 早送りなどの表示(右上)
+const Badges: React.FC<{ items: { from: number; to: number; text: string }[] }> = ({ items }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const t = frame / fps;
+  const b = items.find((x) => t >= x.from && t < x.to);
+  if (!b) return null;
+  const o = Math.min(interpolate(t, [b.from, b.from + 0.2], [0, 1], clamp), interpolate(t, [b.to - 0.2, b.to], [1, 0], clamp));
+  return (
+    <div style={{ position: "absolute", right: 80, top: 96, display: "flex", alignItems: "center", gap: 14, opacity: o, fontFamily: FONT_EN, fontWeight: 700, fontSize: 44, color: ACCENT, letterSpacing: "0.04em" }}>
+      <span style={{ display: "inline-flex", gap: 4 }}>{[0, 1].map((k) => <span key={k} style={{ width: 0, height: 0, borderTop: "14px solid transparent", borderBottom: "14px solid transparent", borderLeft: `20px solid ${ACCENT}`, opacity: 0.55 + 0.45 * ((Math.floor(t * 4) + k) % 2) }} />)}</span>
+      {b.text}
+    </div>
+  );
+};
+
+// 画面下の小さな一言(small)/字幕(caption)
+const Notes: React.FC<{ items: { from: number; to: number; text: string; size?: "small" | "caption" }[] }> = ({ items }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const t = frame / fps;
+  const n = items.find((x) => t >= x.from && t < x.to);
+  if (!n) return null;
+  const o = Math.min(interpolate(t, [n.from, n.from + 0.25], [0, 1], clamp), interpolate(t, [n.to - 0.25, n.to], [1, 0], clamp));
+  const cap = n.size === "caption";
+  return (
+    <>
+      {cap && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 420, background: `linear-gradient(rgba(14,14,14,0), rgba(14,14,14,.92) 55%, ${BLACK})`, opacity: o }} />}
+      <div style={{ position: "absolute", left: 80, right: 80, bottom: cap ? 150 : 70, textAlign: "center", opacity: o, translate: `0px ${(1 - o) * 12}px`,
+        fontFamily: FONT, fontWeight: cap ? 700 : 500, fontSize: cap ? 50 : 28, lineHeight: 1.4, letterSpacing: cap ? "0.02em" : "0.1em", color: cap ? WHITE : white(0.6), whiteSpace: "pre-line" }}>
+        {cap ? n.text.split("←").map((part, i) => i === 0 ? <span key={i}>{part}</span> : <span key={i} style={{ color: ACCENT }}>← {part.trim()}</span>) : n.text}
+      </div>
+    </>
+  );
+};
+
 // 背景:黒地に細い罫線
 const Backdrop: React.FC = () => (
   <AbsoluteFill style={{ background: BLACK }}>
@@ -84,14 +120,16 @@ export const ScenesProcess: React.FC<ProcessProps> = (props) => {
       <Backdrop />
       <Phone slug={props.slug} clips={props.clips as Clip[]} pose={pose} hidden={(t) => !!fin && t >= fin.from + 0.1 && t < fin.to - 0.4} />
       <SceneHeader scenes={scenes} />
+      {props.badges && <Badges items={props.badges} />}
+      {props.notes && <Notes items={props.notes} />}
       {fin && <Finale {...fin} />}
       <Sequence name="Hook" durationInFrames={Math.round(((props.hookEnd ?? 2) + 0.5) * fps)} premountFor={fps}>
         <Hook text={fill(props.hook ?? COMMON.hookTemplate, props)} accent={props.hookAccent ?? `${props.minutes}分`} endSec={props.hookEnd ?? 2} />
       </Sequence>
       <Sequence name="Closing" from={Math.round(closingStart * fps)} durationInFrames={durationInFrames - Math.round(closingStart * fps)} layout="none">
-        <Closing text={fill(closingTpl, props)} keyword={props.keyword} handle={COMMON.handle} />
+        <Closing text={fill(closingTpl, props)} keyword={props.keyword} handle={COMMON.handle} sub={props.closingSub} />
       </Sequence>
-      <UrlNotice text={props.urlNotice} at={props.urlNoticeAt as unknown as readonly [number, number] | undefined} />
+      {props.urlNotice && <UrlNotice text={props.urlNotice} at={props.urlNoticeAt as unknown as readonly [number, number] | undefined} />}
       {(props.sfx ?? []).map((s, i) => (
         <Sequence key={i} name={`sfx:${s.type}`} from={Math.max(0, Math.round(s.at * fps))} durationInFrames={Math.round(3 * fps)} layout="none">
           <Audio src={staticFile(`sfx/${s.type}.wav`)} volume={VOLUME[s.type] ?? 0.5} />

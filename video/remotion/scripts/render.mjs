@@ -27,19 +27,25 @@ for (const c of theme.clips ?? []) {
   const f = join(PROJECT, 'public', slug, `${c.id}.sfx.json`);
   if (!existsSync(f)) continue;
   const tb = c.trimBefore ?? 0;
+  const rate = c.playbackRate ?? 1;          // 早送りした区間は音の時刻も縮める
+  const skip = new Set(c.sfxSkip ?? []);     // 早送りで重なる音・使い回しで二重になる音は間引く('*' で全部)
   for (const e of JSON.parse(readFileSync(f, 'utf8'))) {
-    if (e.t >= tb && e.t < tb + c.seconds) sfx.push({ type: e.type, at: +(c.from + e.t - tb).toFixed(3) });
+    if (skip.has('*') || skip.has(e.type)) continue;
+    if (e.t >= tb && e.t < tb + c.seconds * rate) sfx.push({ type: e.type, at: +(c.from + (e.t - tb) / rate).toFixed(3) });
   }
 }
 for (const e of theme.sfxExtra ?? []) sfx.push(e);
 sfx.sort((a, b) => a.at - b.at);
 const hasAudio = sfx.length > 0;
-const { _comment, capture, sfxExtra, ...themeProps } = theme;
+const { _comment, capture, sfxExtra, output, ...themeProps } = theme;
+// 締めが全媒体で同じテーマは1本だけ書き出す(output.single にファイル名)
+const targets = output?.single ? [{ platform: 'instagram', file: output.single }] : platforms.map((p) => ({ platform: p, file: `${p}.mp4` }));
+themeProps.clips = themeProps.clips?.map(({ sfxSkip, ...c }) => c);
 const outDir = join(ROOT, 'videos', slug);
 mkdirSync(outDir, { recursive: true });
 const browser = process.env.CHROMIUM_PATH ? [`--browser-executable=${process.env.CHROMIUM_PATH}`] : [];
 
-for (const platform of platforms) {
+for (const { platform, file } of targets) {
   const props = { ...themeProps, minutes: m ? Number(m[1]) : 0, platform, ...(hasAudio ? { sfx } : {}) };
   if (frames) {
     execFileSync('npx', ['remotion', 'render', 'src/index.ts', `Process-${platform}`, join(PROJECT, 'out', `frames_${slug}_${platform}`),
@@ -50,12 +56,12 @@ for (const platform of platforms) {
   execFileSync('npx', ['remotion', 'render', 'src/index.ts', `Process-${platform}`, tmp,
     `--props=${JSON.stringify(props)}`, '--codec=h264', '--crf=14', '--pixel-format=yuv420p', ...(hasAudio ? ['--audio-codec=aac'] : ['--muted']), ...browser],
     { cwd: PROJECT, stdio: 'inherit' });
-  const out = join(outDir, `${platform}.mp4`);
+  const out = join(outDir, file);
   // Remotion の出力はフルレンジ(yuvj420p)になることがあるため、iPhone 等で確実に再生できる標準の yuv420p に変換し直す
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmp, '-vf', 'scale=in_range=full:out_range=tv,format=yuv420p',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', crf, '-profile:v', 'high', '-level', '4.2', '-color_range', 'tv',
     '-r', '30', ...(hasAudio ? ['-c:a', 'aac', '-b:a', '192k', '-ar', '48000'] : ['-an']), '-movflags', '+faststart', out]);
   const mb = statSync(out).size / 1024 / 1024;
-  console.log(`  -> videos/${slug}/${platform}.mp4  ${mb.toFixed(1)}MB`);
+  console.log(`  -> videos/${slug}/${file}  ${mb.toFixed(1)}MB`);
   if (mb > 50) console.warn('  !! 50MB を超えています。--crf を上げて書き出し直してください(例: --crf 23)');
 }

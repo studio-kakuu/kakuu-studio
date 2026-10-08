@@ -1,25 +1,24 @@
 {
-  "_comment": "KAKUU OS(制作記録シリーズ 01)。scenes 方式:場面・素材・テロップ・効果音をこのファイルだけで決める。秒はすべて動画の時刻。",
+  "_comment": "KAKUU OS(制作記録シリーズ 01)v2:プレゼントなし・1本を3媒体で共通利用。台本は video/storyboards/kakuu-os.md(承認済み)。秒はすべて動画の時刻。",
   "slug": "kakuu-os",
   "theme": "制作システム",
-  "keyword": "OS",
+  "keyword": "",
   "hook": "AIで作品をつくる\nスタジオ、1日目。\n裏側はこうなってる。",
   "hookAccent": "1日目",
   "hookEnd": 2.5,
-  "urlNotice": "このダッシュボードのURLは最後に",
-  "urlNoticeAt": [
-    9.0,
-    11.8
-  ],
-  "closingStart": 56,
+  "closingStart": 53,
   "closing": {
-    "instagram": "コメントで『{keyword}』と送ってね\nURLをお届けします",
-    "tiktok": "Instagram(@studio_kakuu)の投稿に\n『{keyword}』とコメントすると届きます",
-    "x": "URLは\nプロフィールのリンクから"
+    "instagram": "こうやって作っています。\n次の作品も、お楽しみに。",
+    "tiktok": "こうやって作っています。\n次の作品も、お楽しみに。",
+    "x": "こうやって作っています。\n次の作品も、お楽しみに。"
+  },
+  "closingSub": "NEXT WORK — COMING SOON",
+  "output": {
+    "single": "kakuu-os.mp4"
   },
   "finale": {
-    "from": 47.5,
-    "to": 56,
+    "from": 46,
+    "to": 53,
     "big": "DAY 1",
     "small": "COMPLETE",
     "sub": "1日目の制作、おわり。"
@@ -41,12 +40,12 @@
       {
         "id": "cafe",
         "url": "/works/cafe/?capture",
-        "seconds": 4.5,
-        "holdStart": 4.5,
-        "holdEnd": 0,
+        "seconds": 10.6,
+        "holdStart": 2.0,
+        "holdEnd": 0.8,
         "scroll": [
           0,
-          0
+          0.42
         ]
       }
     ]
@@ -55,19 +54,89 @@
     {
       "id": "demo",
       "from": 0,
-      "seconds": 45.5
-    },
-    {
-      "id": "cafe",
-      "from": 45.5,
-      "seconds": 2.0,
-      "trimBefore": 2.2
+      "seconds": 10.5
     },
     {
       "id": "demo",
-      "from": 47.5,
-      "seconds": 16.5,
-      "trimBefore": 29.0
+      "from": 10.5,
+      "seconds": 5.5,
+      "trimBefore": 10.5,
+      "playbackRate": 3,
+      "sfxSkip": [
+        "tick",
+        "alert"
+      ]
+    },
+    {
+      "id": "demo",
+      "from": 16.0,
+      "seconds": 3.5,
+      "trimBefore": 26.5
+    },
+    {
+      "id": "demo",
+      "from": 19.5,
+      "seconds": 3.0,
+      "trimBefore": 33.0
+    },
+    {
+      "id": "demo",
+      "from": 22.5,
+      "seconds": 7.5,
+      "trimBefore": 36.0
+    },
+    {
+      "id": "demo",
+      "from": 30.0,
+      "seconds": 6.0,
+      "trimBefore": 38.0
+    },
+    {
+      "id": "cafe",
+      "from": 36.0,
+      "seconds": 10.0
+    },
+    {
+      "id": "demo",
+      "from": 46.0,
+      "seconds": 16.0,
+      "trimBefore": 29.5,
+      "sfxSkip": [
+        "*"
+      ]
+    }
+  ],
+  "badges": [
+    {
+      "from": 10.5,
+      "to": 16.0,
+      "text": "×3"
+    }
+  ],
+  "notes": [
+    {
+      "from": 2.7,
+      "to": 5.4,
+      "text": "VISUALIZATION — 実際の制作の流れを可視化",
+      "size": "small"
+    },
+    {
+      "from": 22.6,
+      "to": 25.0,
+      "text": "07 本日マージした変更\n← git の記録(PR #1〜#7)",
+      "size": "caption"
+    },
+    {
+      "from": 25.1,
+      "to": 27.5,
+      "text": "21 導入した公式スキル\n← .claude/skills",
+      "size": "caption"
+    },
+    {
+      "from": 27.6,
+      "to": 30.0,
+      "text": "03 書き出した動画\n← videos/ フォルダ",
+      "size": "caption"
     }
   ],
   "scenes": [
@@ -97,7 +166,7 @@
     },
     {
       "from": 2.5,
-      "to": 6.0,
+      "to": 5.5,
       "chip": "KAKUU OS",
       "title": "制作システム",
       "camera": {
@@ -108,7 +177,7 @@
           1.0,
           30
         ],
-        "move": 2.4,
+        "move": 2.2,
         "drift": [
           2,
           6,
@@ -119,8 +188,8 @@
       }
     },
     {
-      "from": 6.0,
-      "to": 9.0,
+      "from": 5.5,
+      "to": 8.5,
       "chip": "INPUT",
       "title": "1行で依頼する",
       "camera": {
@@ -131,7 +200,7 @@
           1.42,
           -420
         ],
-        "move": 1.1,
+        "move": 1.0,
         "drift": [
           4,
           -3,
@@ -142,8 +211,8 @@
       }
     },
     {
-      "from": 9.0,
-      "to": 12.0,
+      "from": 8.5,
+      "to": 10.5,
       "chip": "DISPATCH",
       "title": "6部署へ送る",
       "camera": {
@@ -154,12 +223,12 @@
           1.0,
           20
         ],
-        "move": 0.7
+        "move": 0.6
       }
     },
     {
-      "from": 12.0,
-      "to": 26.4,
+      "from": 10.5,
+      "to": 16.0,
       "chip": "PROCESS",
       "title": "各部署が動く",
       "camera": {
@@ -170,7 +239,7 @@
           1.3,
           260
         ],
-        "move": 1.2,
+        "move": 0.8,
         "drift": [
           3,
           -8,
@@ -181,8 +250,8 @@
       }
     },
     {
-      "from": 26.4,
-      "to": 37.0,
+      "from": 16.0,
+      "to": 22.5,
       "chip": "APPROVAL",
       "title": "最後は人が承認",
       "camera": {
@@ -193,7 +262,7 @@
           1.45,
           -430
         ],
-        "move": 1.0,
+        "move": 0.8,
         "drift": [
           5,
           4,
@@ -204,8 +273,89 @@
       }
     },
     {
-      "from": 37.0,
-      "to": 45.5,
+      "from": 22.5,
+      "to": 25.0,
+      "chip": "SOURCE",
+      "title": "数字の出どころ",
+      "camera": {
+        "to": [
+          2,
+          0,
+          0,
+          2.0,
+          917,
+          0,
+          0
+        ],
+        "move": 0.7,
+        "drift": [
+          1,
+          2,
+          0,
+          2.06,
+          945,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "from": 25.0,
+      "to": 27.5,
+      "chip": "SOURCE",
+      "title": "数字の出どころ",
+      "camera": {
+        "to": [
+          2,
+          -6,
+          0,
+          2.0,
+          991,
+          0,
+          -483
+        ],
+        "move": 0.6,
+        "drift": [
+          1,
+          -4,
+          0,
+          2.06,
+          1020,
+          0,
+          -498
+        ]
+      }
+    },
+    {
+      "from": 27.5,
+      "to": 30.0,
+      "chip": "SOURCE",
+      "title": "数字の出どころ",
+      "camera": {
+        "to": [
+          2,
+          6,
+          0,
+          2.0,
+          812,
+          0,
+          415
+        ],
+        "move": 0.6,
+        "drift": [
+          1,
+          4,
+          0,
+          2.06,
+          836,
+          0,
+          428
+        ]
+      }
+    },
+    {
+      "from": 30.0,
+      "to": 36.0,
       "chip": "DAY 01",
       "title": "今日の実績",
       "camera": {
@@ -216,7 +366,7 @@
           0.98,
           20
         ],
-        "move": 1.6,
+        "move": 1.4,
         "drift": [
           1,
           -10,
@@ -227,10 +377,10 @@
       }
     },
     {
-      "from": 45.5,
-      "to": 47.5,
+      "from": 36.0,
+      "to": 46.0,
       "chip": "WORK 001",
-      "title": "架空のカフェ",
+      "title": "この仕組みで作った作品",
       "camera": {
         "from": [
           4,
@@ -240,17 +390,25 @@
           30
         ],
         "to": [
-          1,
-          4,
+          2,
+          6,
           0,
-          1.03,
+          1.05,
+          20
+        ],
+        "move": 1.2,
+        "drift": [
+          1,
+          -6,
+          0,
+          1.08,
           20
         ]
       }
     },
     {
-      "from": 47.5,
-      "to": 56,
+      "from": 46.0,
+      "to": 53.0,
       "chip": "",
       "title": "",
       "camera": {
@@ -264,8 +422,8 @@
       }
     },
     {
-      "from": 56,
-      "to": 64,
+      "from": 53.0,
+      "to": 62.0,
       "chip": "",
       "title": "",
       "camera": {
@@ -288,31 +446,52 @@
     },
     {
       "type": "whoosh",
-      "at": 5.95
+      "at": 5.45
     },
     {
       "type": "whoosh",
-      "at": 11.95
+      "at": 10.45
     },
     {
       "type": "whoosh",
-      "at": 26.35
+      "at": 15.95
     },
     {
       "type": "whoosh",
-      "at": 36.95
+      "at": 19.45
     },
     {
       "type": "whoosh",
-      "at": 45.45
+      "at": 22.45
+    },
+    {
+      "type": "key",
+      "at": 22.6
+    },
+    {
+      "type": "key",
+      "at": 25.1
+    },
+    {
+      "type": "key",
+      "at": 27.6
+    },
+    {
+      "type": "whoosh",
+      "at": 29.95
+    },
+    {
+      "type": "whoosh",
+      "at": 35.95
     },
     {
       "type": "hit",
-      "at": 47.6
+      "at": 46.1
     },
     {
       "type": "close",
-      "at": 56.3
+      "at": 53.3
     }
-  ]
+  ],
+  "duration": 62.0
 }

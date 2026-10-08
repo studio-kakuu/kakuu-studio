@@ -6,13 +6,13 @@ KAKUU OS ― 1行の依頼が、企画・デザイン・制作・映像・公開
 ※実際の制作の流れと数字を、ダッシュボードとして可視化した作品です。
 制作記録シリーズ 第1弾。AIで制作しています。
 
-ダッシュボードは、Instagram(@studio_kakuu)の投稿に『OS』とコメントすると届きます。
+こうやって作っています。次の作品も、お楽しみに。
 
 【English】
 Day 1 of a studio that makes works with AI — here's the system behind it.
 One request flows through six units, and a human approves every post. All numbers are real, counted from our repository.
 *A work that visualizes our real production flow and numbers as a dashboard. Made with AI.
 
-Comment "OS" on our Instagram post (@studio_kakuu) and we'll send you the dashboard.
+This is how we make things. More works coming soon.
 
 #KAKUUSTUDIO #KAKUUOS #制作記録 #behindthescenes #creativecoding

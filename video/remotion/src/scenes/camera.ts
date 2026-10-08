@@ -3,9 +3,9 @@
 import { Easing, interpolate } from "remotion";
 import { TL } from "../config";
 
-export type Pose = { rx: number; ry: number; rz: number; s: number; ty: number; dim: number };
+export type Pose = { rx: number; ry: number; rz: number; s: number; ty: number; dim: number; tx: number };
 
-const P = (rx: number, ry: number, rz: number, s: number, ty: number, dim = 0): Pose => ({ rx, ry, rz, s, ty, dim });
+const P = (rx: number, ry: number, rz: number, s: number, ty: number, dim = 0, tx = 0): Pose => ({ rx, ry, rz, s, ty, dim, tx });
 const settle = Easing.bezier(0.16, 1, 0.3, 1);   // 素早く入ってゆっくり止まる
 const glide = Easing.bezier(0.45, 0, 0.55, 1);   // ゆるやかに
 
@@ -16,6 +16,7 @@ const mix = (a: Pose, b: Pose, k: number): Pose => ({
   s: a.s + (b.s - a.s) * k,
   ty: a.ty + (b.ty - a.ty) * k,
   dim: a.dim + (b.dim - a.dim) * k,
+  tx: a.tx + (b.tx - a.tx) * k,
 });
 // t が [t0, t1] のあいだ a → b
 const seg = (t: number, t0: number, t1: number, a: Pose, b: Pose, easing = glide) =>
@@ -51,11 +52,11 @@ export const poseAt = (t: number): Pose => {
 };
 
 // ---------- テーマの scenes から作るカメラ(作品ごとに自由に組める) ----------
-// camera: { to: [rx, ry, rz, scale, ty, dim], from?: [...], move?: 秒, ease?: "settle" | "glide", drift?: [rx, ry, rz, scale, ty, dim] }
+// camera: { to: [rx, ry, rz, scale, ty, dim, tx], from?: [...], move?: 秒, ease?: "settle" | "glide", drift?: [rx, ry, rz, scale, ty, dim] }
 //   from を省くと前の場面の終わりのポーズから動き出す。move 秒かけて to へ。drift があれば残りの時間で to → drift へゆっくり流れる。
 export type SceneCamera = { to: number[]; from?: number[]; move?: number; ease?: "settle" | "glide"; drift?: number[] };
 export type SceneSpec = { from: number; to: number; camera: SceneCamera };
-const arr = (a: number[]) => P(a[0], a[1], a[2], a[3], a[4], a[5] ?? 0);
+const arr = (a: number[]) => P(a[0], a[1], a[2], a[3], a[4], a[5] ?? 0, a[6] ?? 0);
 export const scenePose = (scenes: SceneSpec[]) => (t: number): Pose => {
   let prev: Pose = P(0, 0, 0, 1, 0);
   for (let i = 0; i < scenes.length; i++) {

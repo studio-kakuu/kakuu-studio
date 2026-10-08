@@ -13,7 +13,7 @@ const BEZEL = 16;
 const W = SCREEN_W + BEZEL * 2;
 const H = SCREEN_H + BEZEL * 2;
 
-export type Clip = { id: string; from: number; seconds: number; trimBefore?: number; src?: string };
+export type Clip = { id: string; from: number; seconds: number; trimBefore?: number; playbackRate?: number; src?: string };
 
 // clips / pose を渡さない場合はカフェ版(STEP 1〜3)の既定の並びとカメラになる
 export const Phone: React.FC<{ slug: string; clips?: Clip[]; pose?: (t: number) => Pose; hidden?: (t: number) => boolean }> = ({ slug, clips: customClips, pose, hidden }) => {
@@ -36,7 +36,7 @@ export const Phone: React.FC<{ slug: string; clips?: Clip[]; pose?: (t: number) 
       {/* 背面のほのかな光 */}
       <div
         style={{
-          position: "absolute", left: width / 2 - 560, top: height / 2 - 700 + p.ty, width: 1120, height: 1400,
+          position: "absolute", left: width / 2 - 560 + p.tx, top: height / 2 - 700 + p.ty, width: 1120, height: 1400,
           background: `radial-gradient(closest-side, ${white(0.07)}, ${white(0)})`,
           scale: String(p.s),
         }}
@@ -49,7 +49,7 @@ export const Phone: React.FC<{ slug: string; clips?: Clip[]; pose?: (t: number) 
           width: W,
           height: H,
           transformStyle: "preserve-3d",
-          translate: `0px ${p.ty}px`,
+          translate: `${p.tx}px ${p.ty}px`,
           scale: String(p.s),
           rotate: `x ${p.rx}deg`,
           transform: `rotateY(${p.ry}deg) rotateZ(${p.rz}deg)`,
@@ -63,7 +63,7 @@ export const Phone: React.FC<{ slug: string; clips?: Clip[]; pose?: (t: number) 
           <div style={{ position: "relative", width: SCREEN_W, height: SCREEN_H, borderRadius: 62, overflow: "hidden", background: BLACK }}>
             {clips.map((c) => (
               <Sequence key={`${c.id}-${c.from}`} name={`screen:${c.id}`} from={Math.round(c.from * fps)} durationInFrames={Math.round(c.seconds * fps)} premountFor={fps}>
-                <Video src={staticFile(c.src ?? `${slug}/${c.id}.mp4`)} trimBefore={c.trimBefore ? Math.round(c.trimBefore * fps) : undefined} muted style={{ width: SCREEN_W, height: SCREEN_H, objectFit: "cover" }} />
+                <Video src={staticFile(c.src ?? `${slug}/${c.id}.mp4`)} trimBefore={c.trimBefore ? Math.round(c.trimBefore * fps) : undefined} playbackRate={c.playbackRate ?? 1} muted style={{ width: SCREEN_W, height: SCREEN_H, objectFit: "cover" }} />
               </Sequence>
             ))}
             {/* ガラスの映り込み */}

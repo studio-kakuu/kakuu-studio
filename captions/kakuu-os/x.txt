@@ -1,4 +1,5 @@
 # X は日本語版を本投稿、英語版をそのリプライとして投稿する(各ブロックは単体で280字以内。日本語は1字=2で計算)。ハッシュタグは各2〜3個。
+# 動画は videos/kakuu-os/kakuu-os.mp4(3媒体共通)
 
 【日本語】(本投稿)
 AIで作品をつくるスタジオ、1日目。
@@ -8,14 +9,14 @@ AIで作品をつくるスタジオ、1日目。
 ※実際の制作の流れと数字を、ダッシュボードとして可視化した作品です
 制作記録01(AIで制作)
 
-URLはプロフィールのリンクから。
+こうやって作っています。次の作品も、お楽しみに。
 
 #KAKUUSTUDIO #KAKUUOS #制作記録
 
 【English】(リプライ)
-Day 1 of a studio that makes works with AI. One request, six units, and a human approves every post.
-*A work that visualizes our real production flow and numbers as a dashboard. Made with AI.
+Day 1 of a studio making works with AI. One request, six units, and a human approves every post.
+*A work visualizing our real production flow and numbers as a dashboard. Made with AI.
 
-URL via the link in our profile.
+This is how we make things. More works coming soon.
 
 #KAKUUSTUDIO #KAKUUOS #behindthescenes

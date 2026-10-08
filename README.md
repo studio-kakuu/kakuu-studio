@@ -14,4 +14,5 @@ GitHub Pages で公開する静的サイトです。
 | `videos/` | 書き出した動画(作品一覧からはリンクしない) |
 | `works/cafe-v1/` | カフェ v1 の保管版(作品一覧からはリンクしない) |
 | `toolbox/README.md` | 道具箱(使うツール・スキル・運用ルール) |
+| `toolbox/reference-analysis.md` | 参考動画の取り込みルール(Gemini の分析用プロンプト) |
 | `.claude/skills/` | 公式スキル(frontend-design / GSAP / Remotion) |

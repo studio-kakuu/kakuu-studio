@@ -12,7 +12,7 @@ const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i < 0 ? d : args[i + 1]; };
 const slug = opt('theme', 'cafe');
 const platforms = opt('platform', 'instagram,tiktok,x').split(',');
-const crf = opt('crf', '20');
+const crf = opt('crf', '20');   // 最終の画質(大きいほど軽い)
 
 const theme = JSON.parse(readFileSync(join(ROOT, `video/themes/${slug}.json`), 'utf8'));
 const m = readFileSync(join(ROOT, `works/${slug}/measured_time.txt`), 'utf8').match(/^hook_minutes:\s*(\d+)/m);
@@ -25,10 +25,13 @@ for (const platform of platforms) {
   const props = { slug, theme: theme.theme, keyword: theme.keyword, minutes: Number(m[1]), platform };
   const tmp = join(PROJECT, 'out', `${slug}_${platform}.mp4`);
   execFileSync('npx', ['remotion', 'render', 'src/index.ts', `Process-${platform}`, tmp,
-    `--props=${JSON.stringify(props)}`, '--codec=h264', `--crf=${crf}`, '--pixel-format=yuv420p', '--muted', ...browser],
+    `--props=${JSON.stringify(props)}`, '--codec=h264', '--crf=14', '--pixel-format=yuv420p', '--muted', ...browser],
     { cwd: PROJECT, stdio: 'inherit' });
   const out = join(outDir, `${platform}.mp4`);
-  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmp, '-c', 'copy', '-an', '-movflags', '+faststart', out]);
+  // Remotion の出力はフルレンジ(yuvj420p)になることがあるため、iPhone 等で確実に再生できる標準の yuv420p に変換し直す
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmp, '-vf', 'scale=in_range=full:out_range=tv,format=yuv420p',
+    '-c:v', 'libx264', '-preset', 'slow', '-crf', crf, '-profile:v', 'high', '-level', '4.2', '-color_range', 'tv',
+    '-r', '30', '-an', '-movflags', '+faststart', out]);
   const mb = statSync(out).size / 1024 / 1024;
   console.log(`  -> videos/${slug}/${platform}.mp4  ${mb.toFixed(1)}MB`);
   if (mb > 50) console.warn('  !! 50MB を超えています。--crf を上げて書き出し直してください(例: --crf 23)');

@@ -7,150 +7,103 @@
 <meta name="robots" content="noindex">
 <style>
   *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: #f4f4f4;
-    color: #777;
-    font: 12px/1.5 ui-monospace, "SFMono-Regular", Menlo, monospace;
-  }
-  .wrap { width: min(100% - 32px, 960px); margin-inline: auto; }
-  .box {
-    background: #dcdcdc;
-    border-radius: 6px;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    color: #8a8a8a;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    min-height: 16px;
-  }
-  .line { height: 10px; background: #e2e2e2; border-radius: 99px; margin: 8px 0; }
-  .line.s { width: 40%; } .line.m { width: 70%; } .line.l { width: 100%; }
-  .label {
-    display: inline-block; margin-bottom: 14px; padding: 2px 8px;
-    border: 1px dashed #bbb; border-radius: 99px; font-size: 10px;
-  }
-  section { padding: 56px 0; border-bottom: 1px dashed #d0d0d0; }
-
-  header { position: sticky; top: 0; z-index: 5; background: #f4f4f4; border-bottom: 1px dashed #d0d0d0; }
-  header .wrap { display: flex; justify-content: space-between; align-items: center; height: 56px; }
-  header .logo { width: 96px; height: 20px; }
-  header .menu { width: 28px; height: 16px; }
-
-  .hero { padding-top: 32px; }
-  .hero .visual { height: 300px; margin-bottom: 24px; }
-  .hero .title { height: 64px; width: 70%; margin-bottom: 14px; }
-  .hero .btn { height: 44px; width: 160px; margin-top: 20px; border-radius: 99px; }
-
-  .marquee .box { height: 36px; }
-
-  .grid2 { display: grid; gap: 20px; }
-  .menu-list { display: grid; gap: 14px; }
-  .menu-item { display: grid; grid-template-columns: 64px 1fr 48px; gap: 14px; align-items: center; }
-  .menu-item .icon { height: 64px; }
-  .menu-item .price { height: 16px; }
-
-  .steps { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
-  .steps .box { height: 140px; }
-
-  .space { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
-  .space .box:first-child { grid-column: 1 / -1; height: 220px; }
-  .space .box { height: 150px; }
-
-  .info .map { height: 240px; }
-  .info .row { display: grid; grid-template-columns: 80px 1fr; gap: 12px; margin: 10px 0; }
-
-  footer { padding: 40px 0 64px; }
-  footer .box { height: 40px; width: 140px; margin-bottom: 16px; }
-
-  @media (min-width: 800px) {
-    .hero .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
-    .hero .visual { height: 460px; order: 2; margin: 0; }
-    .grid2 { grid-template-columns: 1fr 1fr; gap: 48px; }
-    .steps { grid-template-columns: repeat(4, 1fr); }
-    .space { grid-template-columns: 2fr 1fr 1fr; }
-    .space .box:first-child { grid-column: auto; grid-row: span 2; height: auto; }
+  body { margin: 0; background: #f2f2f2; color: #8a8a8a; font: 11px/1.5 ui-monospace, Menlo, monospace; letter-spacing: .04em; }
+  .box { background: #dadada; border-radius: 4px; display: grid; place-items: center; text-align: center; padding: 4px; }
+  .line { height: 9px; background: #e0e0e0; border-radius: 9px; margin: 8px 0; }
+  .s { width: 45%; } .m { width: 72%; } .l { width: 100%; }
+  .tag { display: inline-block; margin-bottom: 12px; padding: 2px 8px; border: 1px dashed #b5b5b5; border-radius: 99px; }
+  section { position: relative; padding: 56px 22px; border-bottom: 1px dashed #cfcfcf; }
+  .bar { position: sticky; top: 0; z-index: 3; display: flex; justify-content: space-between; padding: 14px 22px; background: #f2f2f2; border-bottom: 1px dashed #cfcfcf; }
+  .bar .box { height: 18px; width: 70px; } .bar .t { width: 96px; }
+  .hero { height: 100svh; min-height: 600px; padding: 0; }
+  .hero .steam { position: absolute; left: 22px; right: 22px; top: 120px; bottom: 200px; border: 1px dashed #bbb; background: none; }
+  .hero .cup { position: absolute; left: 50%; bottom: 9svh; width: 200px; height: 110px; transform: translateX(-50%); }
+  .hero .title { position: absolute; right: 22px; top: 15svh; width: 90px; height: 52svh; }
+  .hero .meta { position: absolute; left: 22px; top: 76px; width: 140px; height: 48px; }
+  .row { display: flex; gap: 18px; }
+  .vtitle { width: 70px; height: 260px; flex: none; }
+  .art { height: 220px; margin-top: 24px; }
+  .pour { width: 200px; height: 260px; margin: 24px auto; }
+  .step { display: grid; grid-template-columns: 44px 1fr; gap: 12px; margin: 14px 0; }
+  .step .box { height: 44px; }
+  .tags { display: flex; gap: 12px; overflow: hidden; margin-top: 24px; }
+  .tags .box { flex: none; width: 100px; height: 330px; }
+  .plan { height: 240px; margin-top: 24px; }
+  .map { height: 280px; margin-top: 24px; }
+  .info { display: grid; grid-template-columns: 70px 1fr; gap: 10px; margin: 10px 0; }
+  .note { position: absolute; right: 22px; top: 20px; color: #a0a0a0; }
+  @media (min-width: 860px) {
+    section { padding: 88px 48px; }
+    .two { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center; }
+    .tags .box { width: 120px; height: 380px; }
   }
 </style>
 </head>
 <body>
-  <header>
-    <div class="wrap"><div class="box logo">logo</div><div class="box menu"></div></div>
-  </header>
+  <div class="bar"><div class="box">wordmark</div><div class="box t">timer 3:00</div></div>
 
   <section class="hero">
-    <div class="wrap">
-      <div class="box visual">hero visual (cup + steam)</div>
+    <div class="box steam">steam canvas</div>
+    <div class="box meta">name / hours</div>
+    <div class="box title">vertical title</div>
+    <div class="box cup">cup</div>
+    <span class="note">01 hero — pin + scrub</span>
+  </section>
+
+  <section>
+    <span class="tag">02 slope</span>
+    <div class="two">
+      <div class="row"><div class="box vtitle">vertical heading</div><div style="flex:1;padding-top:60px"><div class="line l"></div><div class="line l"></div><div class="line m"></div></div></div>
+      <div class="box art">line drawing (draw on scroll)</div>
+    </div>
+  </section>
+
+  <section>
+    <span class="tag">03 ritual</span><span class="note">pin — 4 steps</span>
+    <div class="box" style="height:36px;width:70%">heading</div>
+    <div class="two">
+      <div class="box pour">pour-over diagram</div>
       <div>
-        <span class="label">01 hero</span>
-        <div class="box title">brand name</div>
-        <div class="line l"></div><div class="line m"></div>
-        <div class="box btn">button</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="marquee"><div class="wrap"><div class="box">marquee text</div></div></section>
-
-  <section>
-    <div class="wrap grid2">
-      <div><span class="label">02 concept</span><div class="box" style="height:48px;width:80%">heading</div></div>
-      <div><div class="line l"></div><div class="line l"></div><div class="line m"></div><div class="line l"></div><div class="line s"></div></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <span class="label">03 menu</span>
-      <div class="box" style="height:40px;width:50%;margin-bottom:28px">heading</div>
-      <div class="grid2">
-        <div class="menu-list">
-          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
-          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
-          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
-        </div>
-        <div class="menu-list">
-          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
-          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
-          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
-        </div>
+        <div class="step"><div class="box">1</div><div><div class="line m"></div><div class="line l"></div></div></div>
+        <div class="step"><div class="box">2</div><div><div class="line m"></div><div class="line l"></div></div></div>
+        <div class="step"><div class="box">3</div><div><div class="line m"></div><div class="line l"></div></div></div>
+        <div class="step"><div class="box">4</div><div><div class="line m"></div><div class="line l"></div></div></div>
       </div>
     </div>
   </section>
 
   <section>
-    <div class="wrap">
-      <span class="label">04 process</span>
-      <div class="box" style="height:40px;width:60%;margin-bottom:28px">heading</div>
-      <div class="steps"><div class="box">step</div><div class="box">step</div><div class="box">step</div><div class="box">step</div></div>
+    <span class="tag">04 menu</span><span class="note">pin — horizontal</span>
+    <div class="box" style="height:36px;width:50%">heading</div>
+    <div class="tags"><div class="box">tag</div><div class="box">tag</div><div class="box">tag</div><div class="box">tag</div><div class="box">tag</div><div class="box">tag</div><div class="box">tag</div><div class="box">tag</div></div>
+  </section>
+
+  <section>
+    <span class="tag">05 seats</span>
+    <div class="two">
+      <div><div class="box" style="height:36px;width:70%">heading</div><div class="line l"></div><div class="line m"></div><div class="box" style="height:40px;width:80px;margin-top:16px">count</div></div>
+      <div class="box plan">floor plan (8 seats)</div>
     </div>
   </section>
 
   <section>
-    <div class="wrap">
-      <span class="label">05 space</span>
-      <div class="box" style="height:40px;width:40%;margin-bottom:28px">heading</div>
-      <div class="space"><div class="box">scene</div><div class="box">scene</div><div class="box">scene</div><div class="box">scene</div><div class="box">scene</div></div>
-    </div>
-  </section>
-
-  <section class="info">
-    <div class="wrap grid2">
+    <span class="tag">06 visit</span>
+    <div class="two">
       <div>
-        <span class="label">06 hours &amp; access</span>
-        <div class="row"><div class="box">label</div><div class="line l"></div></div>
-        <div class="row"><div class="box">label</div><div class="line m"></div></div>
-        <div class="row"><div class="box">label</div><div class="line l"></div></div>
-        <div class="row"><div class="box">label</div><div class="line s"></div></div>
+        <div class="box" style="height:36px;width:70%;margin-bottom:16px">heading</div>
+        <div class="info"><div class="box">label</div><div class="line l"></div></div>
+        <div class="info"><div class="box">label</div><div class="line m"></div></div>
+        <div class="info"><div class="box">label</div><div class="line l"></div></div>
+        <div class="info"><div class="box">label</div><div class="line s"></div></div>
       </div>
-      <div class="box map">map</div>
+      <div class="box map">map (route draws)</div>
     </div>
   </section>
 
-  <footer>
-    <div class="wrap"><div class="box">logo</div><div class="line m"></div><div class="line s"></div></div>
-  </footer>
+  <section>
+    <span class="tag">07 end</span>
+    <div class="row" style="justify-content:space-between;align-items:flex-end"><div class="box" style="width:150px;height:84px">cup (no steam)</div><div class="box vtitle">vertical heading</div></div>
+    <div class="line m" style="margin-top:24px"></div><div class="line s"></div>
+  </section>
 </body>
 </html>

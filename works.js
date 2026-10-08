@@ -24,7 +24,7 @@ window.KAKUU_WORKS = [
     theme: "架空のカフェ",
     themeEn: "Fictional Cafe",
     date: "2026-10-08",
-    minutes: 7,
+    minutes: 8,
     palette: ["#EFE4D4", "#2A1C15", "#C0663C"]
   }
 ];

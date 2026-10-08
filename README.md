@@ -10,6 +10,8 @@ GitHub Pages で公開する静的サイトです。
 | `brand/` | 世界観(色・フォント・ロゴ・`brand.md`) |
 | `works/cafe/` | 001 YUGE 湯気と珈琲(架空のカフェ)。`step1/` 構成、`step2/` デザイン、直下が完成版 |
 | `captions/cafe/` | Instagram / TikTok / X の投稿本文(日英) |
-| `video/` | 動画の設計書 `spec.md` とレンダラー |
+| `video/` | 動画の設計書 `spec.md`、Remotion テンプレート(`video/remotion/`) |
+| `videos/` | 書き出した動画(作品一覧からはリンクしない) |
+| `works/cafe-v1/` | カフェ v1 の保管版(作品一覧からはリンクしない) |
 | `toolbox/README.md` | 道具箱(使うツール・スキル・運用ルール) |
 | `.claude/skills/` | 公式スキル(frontend-design / GSAP / Remotion) |

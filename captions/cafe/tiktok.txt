@@ -1,5 +1,5 @@
 【日本語】
-架空のカフェのサイトを7分で作った。
+架空のカフェのサイトを8分で作った。
 
 YUGE 湯気と珈琲 ― 八席だけの小さな珈琲店。
 構成 → デザイン → 動き の順に、写真を使わずコードだけで。
@@ -8,7 +8,7 @@ YUGE 湯気と珈琲 ― 八席だけの小さな珈琲店。
 完成サイトはプロフィールのInstagramから。
 
 【English】
-I built a website for a café that doesn't exist — in 7 minutes.
+I built a website for a café that doesn't exist — in 8 minutes.
 YUGE: an eight-seat coffee shop, drawn only in code. No photos.
 Structure → Design → Motion.
 

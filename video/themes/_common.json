@@ -3,7 +3,7 @@
   "width": 1080,
   "height": 1920,
   "fps": 30,
-  "hookTemplate": "架空の{theme}のサイトを\n{minutes}分で作った",
+  "hookTemplate": "架空の{theme}の\nサイトを\n{minutes}分で作った",
   "urlNotice": "完成サイトのURLは最後に",
   "closing": {
     "instagram": "コメントで『{keyword}』と送ってね\nURLをお届けします",
@@ -12,23 +12,133 @@
   },
   "handle": "@studio_kakuu",
   "steps": [
-    { "id": "step1", "label": "STEP 1", "title": "構成" },
-    { "id": "step2", "label": "STEP 2", "title": "デザイン" },
-    { "id": "step3", "label": "STEP 3", "title": "動き" }
+    {
+      "id": "step1",
+      "label": "STEP 1",
+      "title": "構成"
+    },
+    {
+      "id": "step2",
+      "label": "STEP 2",
+      "title": "デザイン"
+    },
+    {
+      "id": "step3",
+      "label": "STEP 3",
+      "title": "動き"
+    }
   ],
   "timeline": {
-    "hook":     [0, 2],
-    "intro":    [2, 12],
-    "step1":    [12, 24.5],
-    "step2":    [24.5, 37],
-    "step3":    [37, 50],
-    "complete": [50, 56],
-    "closing":  [56, 64],
-    "urlNotice": [12, 14.8]
+    "hook": [
+      0,
+      2
+    ],
+    "intro": [
+      2,
+      12
+    ],
+    "step1": [
+      12,
+      24.5
+    ],
+    "step2": [
+      24.5,
+      37
+    ],
+    "step3": [
+      37,
+      50
+    ],
+    "complete": [
+      50,
+      56
+    ],
+    "closing": [
+      56,
+      64
+    ],
+    "urlNotice": [
+      12,
+      14.8
+    ]
   },
   "scroll": {
-    "intro":    [0, 0.55],
-    "step":     [0, 1],
-    "complete": [0, 0.12]
+    "intro": [
+      0,
+      0.55
+    ],
+    "step": [
+      0,
+      1
+    ],
+    "complete": [
+      0,
+      0.12
+    ]
+  },
+  "capture": {
+    "_comment": "Remotion版(video/remotion)用。サイトを幅390×高さ844・2倍密度で撮影する区間。scroll はページ全体に対する割合 [開始, 終了]、holdStart は動き出すまでの秒数",
+    "viewport": [
+      390,
+      844
+    ],
+    "deviceScaleFactor": 2,
+    "clips": [
+      {
+        "id": "intro",
+        "page": "final",
+        "seconds": 12.6,
+        "holdStart": 3.0,
+        "holdEnd": 1.0,
+        "scroll": [
+          0,
+          0.3
+        ]
+      },
+      {
+        "id": "step1",
+        "page": "step1",
+        "seconds": 13.1,
+        "holdStart": 1.0,
+        "holdEnd": 1.0,
+        "scroll": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "step2",
+        "page": "step2",
+        "seconds": 13.1,
+        "holdStart": 1.0,
+        "holdEnd": 1.0,
+        "scroll": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "step3",
+        "page": "final",
+        "seconds": 13.6,
+        "holdStart": 1.0,
+        "holdEnd": 0.8,
+        "scroll": [
+          0,
+          1
+        ]
+      },
+      {
+        "id": "complete",
+        "page": "final",
+        "seconds": 14.4,
+        "holdStart": 2.5,
+        "holdEnd": 6.0,
+        "scroll": [
+          0,
+          0.05
+        ]
+      }
+    ]
   }
 }

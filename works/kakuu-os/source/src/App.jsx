@@ -287,7 +287,7 @@ export default function App() {
       </section>
 
       <footer className="foot">
-        <span>数字は {stats.asOf} 時点のリポジトリから集計(works.js / videos / captions / git log)</span>
+        <span>VISUALIZATION — 実際の制作の流れを可視化した作品です。数字は {stats.asOf} 時点のリポジトリから集計(works.js / videos / captions / git log)</span>
         <span>A work by <a href="../../">KAKUU STUDIO</a></span>
       </footer>
     </div>

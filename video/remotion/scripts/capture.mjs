@@ -2,7 +2,7 @@
 // 使い方: node scripts/capture.mjs --theme cafe
 // 時計(setTimeout / requestAnimationFrame)を偽物に差し替え、1/30秒ずつ進めて撮るので、GSAP・Canvasの動きも欠けずに残る。
 import { createServer } from 'node:http';
-import { readFileSync, existsSync, mkdirSync, rmSync, statSync, createReadStream, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync, statSync, createReadStream, copyFileSync } from 'node:fs';
 import { join, extname, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
@@ -17,7 +17,10 @@ const slug = opt('theme', 'cafe');
 const only = opt('clip', null);
 
 const common = JSON.parse(readFileSync(join(ROOT, 'video/themes/_common.json'), 'utf8'));
-const { viewport, deviceScaleFactor, clips } = common.capture;
+const theme = JSON.parse(readFileSync(join(ROOT, `video/themes/${slug}.json`), 'utf8'));
+// テーマに capture.clips があればそれを使う(scenes 方式)。なければ共通の STEP 1〜3 構成
+const { viewport, deviceScaleFactor } = common.capture;
+const clips = theme.capture?.clips ?? common.capture.clips;
 const fps = common.fps;
 const pages = { final: `/works/${slug}/?capture`, step1: `/works/${slug}/step1/`, step2: `/works/${slug}/step2/` };
 
@@ -51,12 +54,13 @@ for (const clip of clips) {
   page.on('pageerror', (e) => console.warn('[page error]', e.message));
   await page.clock.install({ time: 0 });
   await page.clock.pauseAt(1000);   // 時間を止める(以後は runFor で手動で進める)
-  await page.goto(base + pages[clip.page], { waitUntil: 'networkidle' });
+  await page.goto(base + (clip.url ?? pages[clip.page]), { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
   await page.addStyleTag({ content: 'html{scrollbar-width:none}::-webkit-scrollbar{display:none}' });
   const max = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
   const total = Math.round(clip.seconds * fps);
   let clock = 0;
+  const t0 = await page.evaluate(() => performance.now());
   for (let f = 0; f < total; f++) {
     const t = f / fps;
     const k = ease((t - clip.holdStart) / (clip.seconds - clip.holdStart - clip.holdEnd));
@@ -68,6 +72,13 @@ for (const clip of clips) {
     if (f % fps === 0) process.stdout.write(`\r  ${clip.id}: ${(t).toFixed(0)}s / ${clip.seconds}s   `);
   }
   process.stdout.write('\n');
+  // 効果音のタイミング(ページが window.__sfx に記録したもの)を素材の秒に直して保存
+  if (clip.sfx) {
+    const ev = await page.evaluate(() => window.__sfx || []);
+    const list = ev.map((e) => ({ type: e.type, t: Math.max(0, (e.t - t0) / 1000 - 1 / fps) })).filter((e) => e.t < clip.seconds);
+    writeFileSync(join(outDir, `${clip.id}.sfx.json`), JSON.stringify(list, null, 1));
+    console.log(`  sfx events: ${list.length}`);
+  }
   await ctx.close();
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(fps), '-i', join(tmp, '%05d.jpg'),
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '14', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', join(outDir, `${clip.id}.mp4`)]);

@@ -3,15 +3,15 @@
 
 YUGE 湯気と珈琲 ― 八席だけの小さな珈琲店。
 構成 → デザイン → 動き の順に、写真を使わずコードだけで。
-※実在しない架空のお店です。
+※実在しない架空のお店です。AIで制作しています。
 
-完成サイトはプロフィールのInstagramから。
+完成サイトは、Instagram(@studio_kakuu)の投稿に『カフェ』とコメントすると届きます。
 
 【English】
 I built a website for a café that doesn't exist — in 8 minutes.
-YUGE: an eight-seat coffee shop, drawn only in code. No photos.
+YUGE: an eight-seat coffee shop, drawn only in code. No photos. Made with AI.
 Structure → Design → Motion.
 
-The finished site is on our Instagram (link in profile).
+Comment "カフェ" (cafe) on our Instagram post (@studio_kakuu) and we'll send you the site.
 
-#KAKUUSTUDIO #架空のカフェ #Webデザイン #サイト制作 #webdesign #cafedesign #designprocess #fictionalbrand
+#KAKUUSTUDIO #架空のお店 #Webデザイン #webdesign #fictionalbrand

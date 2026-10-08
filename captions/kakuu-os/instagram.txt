@@ -1,0 +1,31 @@
+【日本語】
+AIで作品をつくるスタジオ、1日目。裏側はこうなってる。
+
+KAKUU OS ― KAKUU STUDIO を実際に動かしている制作の流れを、ひとつのダッシュボードにしました。
+企画・デザイン・制作・映像・公開・届ける。1行の依頼が6つの部署を通って、最後は人が承認して投稿します。
+
+画面の数字は、すべてこのリポジトリの記録から集計した本物です(1日目時点)。
+・本日マージした変更 7
+・導入した公式スキル 21
+・書き出した動画 3
+
+制作記録シリーズ、第1弾。AIで制作しています。
+
+ダッシュボードを触ってみたい方は、コメントで『OS』と送ってね、URLをお届けします。
+
+―――
+
+【English】
+Day 1 of a studio that makes works with AI. Here's what runs behind it.
+
+KAKUU OS is a live-looking dashboard of the system that actually makes KAKUU STUDIO's work: Planning, Design, Build, Motion, Publish and Reach. One line of request travels through six units, and a human approves before anything is posted.
+
+Every number on screen is counted from the real repository (as of Day 1): 7 changes merged today, 21 official skills, 3 videos exported.
+
+Making-of series, part 1. Made with AI.
+
+Want to try the dashboard? Comment "OS" and I'll send you the URL.
+
+―――
+
+#KAKUUSTUDIO #KAKUUOS #制作記録 #behindthescenes #creativecoding

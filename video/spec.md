@@ -16,7 +16,7 @@ v2 からは **Remotion 版(`video/remotion/`)が正式** です。旧版(`video
 | 解像度 | **1080 × 1920**(縦型 9:16) |
 | フレームレート | **30fps**(固定) |
 | 尺 | **64.0 秒**(要件:61秒以上75秒以内) |
-| 音声 | **なし**(BGM・ナレーション・効果音なし。音声トラック自体を入れない) |
+| 音声 | **効果音のみ**(自作の合成音、AAC 192kbps)。BGM・ナレーションは入れない(BGMは各アプリで付ける)。効果音を使わないテーマは音声トラックなし |
 | 形式 | MP4 / H.264 / yuv420p / `+faststart`(iPhone で保存・投稿できる)。CRF 20 |
 | サイズ | **1本 50MB 以下**(超えたら `--crf 23` で書き出し直す) |
 | 本数 | 1作品につき **3本**:`instagram` / `tiktok` / `x`(違いは締めテロップのみ) |
@@ -24,6 +24,21 @@ v2 からは **Remotion 版(`video/remotion/`)が正式** です。旧版(`video
 | 公開URL | `https://studio-kakuu.github.io/kakuu-studio/videos/<slug>/<platform>.mp4` |
 
 ---
+
+## 1.5 2つの作り方
+
+| 方式 | 使う作品 | テーマJSONに書くもの |
+|---|---|---|
+| **STEP 方式**(既定) | Webサイトの制作過程(構成 → デザイン → 動き)。例:`cafe` | `slug` / `theme` / `keyword` の3つだけ |
+| **scenes 方式** | 決まった型に当てはまらない作品。例:`kakuu-os`(ダッシュボードのデモ) | 上の3つ+ `hook` / `urlNotice` / `urlNoticeAt` / `closing` / `finale` / `capture.clips` / `clips` / `scenes` / `sfxExtra` |
+
+scenes 方式の書き方(`video/themes/kakuu-os.json` が見本):
+- `capture.clips`:撮影する画面。`url`(例 `/works/kakuu-os/?demo=1`)、`seconds`、スクロール、`sfx: true` でページの効果音イベントも記録
+- `clips`:スマホ画面に流す素材の並び(`from` 秒から `seconds` 秒、`trimBefore` で素材の途中から)
+- `scenes`:場面ごとの左上ラベル(`chip` / `title`)とカメラ。`camera.to` = `[傾きX, 傾きY, 回転, 倍率, 上下位置, 暗さ]`、`move` 秒で移動、`drift` で残り時間にゆっくり流す
+- `finale`:全面の黒幕に大きな文字(例「DAY 1 / COMPLETE」)
+- `sfxExtra`:ページ以外で鳴らす効果音(場面転換の whoosh など)
+- 効果音ファイルは `scripts/make-sfx.py` で合成(`public/sfx/*.wav`)。外部の音源は使わない
 
 ## 2. 使い回しの仕組み(テーマを変えるだけ)
 
@@ -116,10 +131,18 @@ video/
 | 媒体 | 文言(改行位置も固定) |
 |---|---|
 | instagram | コメントで『{keyword}』と送ってね / URLをお届けします(『{keyword}』はアクセント色) |
-| tiktok | 完成サイトは / プロフィールのInstagramから |
+| tiktok | Instagram(@studio_kakuu)の投稿に / 『{keyword}』とコメントすると届きます(2026-10-08 変更。cafe の動画は旧文言「完成サイトは / プロフィールのInstagramから」で書き出し済み) |
 | x | URLは / プロフィールのリンクから |
 
 ---
+
+## 5.5 投稿文と投稿時のルール
+
+動画と一緒に出す投稿文は `brand/brand.md` 7章のルールで `captions/<slug>/` に作る。要点:
+- Instagram:ハッシュタグ5個まで(`#KAKUUSTUDIO` + シリーズ名 + 日本語1 + 英語2)。締めは動画と同じ文言
+- TikTok:締めは「Instagram(@studio_kakuu)の投稿に『{keyword}』とコメントすると届きます」。ハッシュタグ5個
+- X:日本語を本投稿、英語をそのリプライ。ハッシュタグは各2〜3個
+- 全媒体:**投稿時は毎回AIラベルをオン**(`captions/posting-checklist.md` で確認してから投稿)
 
 ## 6. 撮影の仕組み(`scripts/capture.mjs`)
 
@@ -140,7 +163,7 @@ video/
 ```bash
 ffprobe -v error -show_entries format=duration,size:stream=codec_name,codec_type,width,height,r_frame_rate,pix_fmt -of compact videos/cafe/instagram.mp4
 ```
-- [ ] `h264` / `yuv420p` / `1080x1920` / `30/1`、`codec_type=audio` の行が **無い**
+- [ ] `h264` / `yuv420p` / `1080x1920` / `30/1`。音声は効果音のあるテーマだけ `aac`(BGM は入っていないこと)、ないテーマは `codec_type=audio` の行が無い
 - [ ] 尺 61〜75秒(今回 64.0)、1本 50MB 以下
 - [ ] 0コマ目でフックが全文読める/分数が `measured_time.txt` と一致
 - [ ] 12.0〜14.8秒に右下の「完成サイトのURLは最後に」

@@ -1,0 +1,20 @@
+# X は日本語版を本投稿、英語版をそのリプライとして投稿する(各ブロックは単体で280字以内。日本語は1字=2で計算)。ハッシュタグは各2〜3個。
+
+【日本語】(本投稿)
+AIで作品をつくるスタジオ、1日目。
+裏側はこうなってる。
+
+1行の依頼が6部署を流れて、最後は人が承認して投稿。
+数字はリポジトリから集計した本物です。
+制作記録 01(AIで制作)
+
+URLはプロフィールのリンクから。
+
+#KAKUUSTUDIO #KAKUUOS #制作記録
+
+【English】(リプライ)
+Day 1 of a studio that makes works with AI. This is the system behind it: one request, six units, and a human approves every post. All numbers are real, counted from our repo. Made with AI.
+
+URL via the link in our profile.
+
+#KAKUUSTUDIO #KAKUUOS #behindthescenes

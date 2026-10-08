@@ -5,9 +5,11 @@ import { FONT } from "./brand";
 import { COMMON, TL, fill, type ProcessProps } from "./config";
 import { Phone } from "./scenes/Phone";
 import { Backdrop, Closing, Header, Hook, StepCard, UrlNotice } from "./scenes/Overlays";
+import { ScenesProcess } from "./ScenesProcess";
 
 export const Process: React.FC<ProcessProps> = (props) => {
   const { fps, durationInFrames } = useVideoConfig();
+  if (props.scenes) return <ScenesProcess {...props} />;
   const hook = fill(COMMON.hookTemplate, props);
   const closing = fill(COMMON.closing[props.platform], props);
   return (

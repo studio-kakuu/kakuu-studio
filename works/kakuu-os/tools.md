@@ -8,7 +8,7 @@ KAKUU STUDIO を実際に動かしている制作システムを、SF映画のHU
 | ジャンル | WEB |
 | 棚0「考える」 | **frontend-design**(1作品1スキル) |
 | 棚1「作る」 | **React 19.2.3 + Motion(旧 Framer Motion)12.43.0**(動きのライブラリはこれだけ)。ビルドは Vite 7.3.7 |
-| 棚2「見せる」 | **Remotion 4.0.534**(`video/remotion/`、scenes 方式)+ Playwright 1.56.1(撮影)+ ffmpeg。書き出し v2:`videos/kakuu-os/kakuu-os.mp4`(3媒体共通・プレゼントなし)、H.264 / yuv420p / 30fps / 62.0秒 / 効果音 AAC |
+| 棚2「見せる」 | **Remotion 4.0.534**(`video/remotion/`、scenes 方式)+ Playwright 1.56.1(撮影)+ ffmpeg。書き出し v2:`videos/kakuu-os/kakuu-os.mp4`(3媒体共通・プレゼントなし)、H.264 / yuv420p / 30fps / 62.0秒 / 効果音 AAC / 16.8MB |
 | 棚3「届ける」 | 手動投稿(本文は `captions/kakuu-os/`)。ManyChat(Instagram のコメント→自動DM)を実際に使用し、画面のログにも記載。動画 v2 はプレゼントなしのため、この作品ではコメント配布はしない |
 | スキル | frontend-design / remotion-best-practices / remotion-create / remotion-markup / remotion-render |
 | 依存パッケージ | `works/kakuu-os/source/` の中だけ(`package.json`、`node_modules` は git 管理外) |

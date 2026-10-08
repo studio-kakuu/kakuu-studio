@@ -8,8 +8,9 @@
   .rule { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,.10); }
   .r1 { top: 100px; } .r2 { top: 400px; }
   .col { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.10); left: 1080px; }
-  /* 右側に主要要素(左下はプロフィール画像と重なるため空ける) */
-  .block { position: absolute; right: 120px; top: 50%; transform: translateY(-50%); width: 560px; }
+  /* 安全エリア:上端150pxの左右の角(スマホXの戻る/検索ボタン)と左下(プロフィール画像)には置かない。
+     主要要素は「横は中央〜やや右(中心 x≈880)、縦は中央」 */
+  .block { position: absolute; left: 600px; top: 50%; transform: translateY(-50%); width: 560px; }
   .block img { width: 560px; display: block; }
   .motto { margin-top: 26px; font-size: 30px; font-weight: 400; letter-spacing: .01em; white-space: nowrap; color: #FFFFFF; }
   .tag { margin-top: 14px; display: flex; justify-content: space-between; align-items: baseline; white-space: nowrap; font-size: 15px; letter-spacing: .14em; color: rgba(255,255,255,.62); }
@@ -20,7 +21,6 @@
 </style></head>
 <body>
   <div class="rule r1"></div><div class="rule r2"></div>
-  <div class="top">WEB / FILM / ANIMATION / CM</div>
   <div class="block">
     <img src="../../logo.svg" alt="KAKUU STUDIO">
     <div class="motto">Imaginary worlds, made real.</div>

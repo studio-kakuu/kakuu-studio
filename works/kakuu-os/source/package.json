@@ -6,7 +6,8 @@
   "scripts": {
     "stats": "node scripts/collect-stats.mjs",
     "dev": "vite",
-    "build": "node scripts/collect-stats.mjs && node scripts/clean.mjs && vite build"
+    "build": "node scripts/collect-stats.mjs && node scripts/clean.mjs && vite build",
+    "build:page": "node scripts/clean.mjs && vite build"
   },
   "dependencies": {
     "motion": "12.43.0",

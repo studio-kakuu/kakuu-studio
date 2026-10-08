@@ -9,6 +9,7 @@ KAKUU OS ― KAKUU STUDIO を実際に動かしている制作の流れを、ひ
 ・導入した公式スキル 21
 ・書き出した動画 3
 
+※実際の制作の流れと数字を、ダッシュボードとして可視化した作品です。
 制作記録シリーズ、第1弾。AIで制作しています。
 
 ダッシュボードを触ってみたい方は、コメントで『OS』と送ってね、URLをお届けします。
@@ -22,6 +23,7 @@ KAKUU OS is a live-looking dashboard of the system that actually makes KAKUU STU
 
 Every number on screen is counted from the real repository (as of Day 1): 7 changes merged today, 21 official skills, 3 videos exported.
 
+*A work that visualizes our real production flow and numbers as a dashboard.
 Making-of series, part 1. Made with AI.
 
 Want to try the dashboard? Comment "OS" and I'll send you the URL.

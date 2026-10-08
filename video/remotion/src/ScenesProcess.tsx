@@ -12,9 +12,10 @@ const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 const OUT = Easing.bezier(0.16, 1, 0.3, 1);
 
 // 効果音の音量(すべて自作の合成音。public/sfx/*.wav、作り方は scripts/make-sfx.py)
+// 素材は -6dBFS にそろえてある。BGM を後から重ねても邪魔にならないよう全体は控えめ
 const VOLUME: Record<string, number> = {
-  panel: 0.35, key: 0.28, send: 0.5, pulse: 0.75, tick: 0.4, done: 0.45, alert: 0.6, approve: 0.75,
-  whoosh: 0.4, hit: 0.85, hook: 0.6, close: 0.5,
+  panel: 0.4, key: 0.3, send: 0.55, pulse: 0.8, tick: 0.4, done: 0.45, alert: 0.6, approve: 0.65,
+  whoosh: 0.5, hit: 0.85, hook: 0.6, close: 0.55,
 };
 
 type Scene = { from: number; to: number; chip: string; title: string; camera: SceneSpec["camera"] };

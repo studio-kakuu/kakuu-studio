@@ -7,7 +7,7 @@ v1(2026-10-08 午前、ライブラリなし・CSS中心)は `works/cafe-v1/` �
 | ジャンル | WEB |
 | 棚0「考える」 | **frontend-design**(1作品1スキルのルールどおりこれだけ) |
 | 棚1「作る」 | **GSAP 3.15.0 + Lenis 1.3.26**(動きのライブラリはこれだけ)。プラグイン:ScrollTrigger / SplitText / DrawSVGPlugin。`vendor/` に版固定で同梱(CDN非依存) |
-| 棚2「見せる」 | **Remotion 4.0.534**(`video/remotion/`)+ Playwright 1.56.1(撮影)+ ffmpeg |
+| 棚2「見せる」 | **Remotion 4.0.534**(`video/remotion/`、zod 4.5.4)+ Playwright 1.56.1(撮影)+ ffmpeg。書き出し:H.264 High / yuv420p / 30fps / 64.0秒 / 各約8.8MB |
 | 棚3「届ける」 | なし(手動投稿。本文は `captions/cafe/`) |
 | スキル | frontend-design / gsap-core / gsap-scrolltrigger / gsap-plugins / gsap-timeline / gsap-performance / remotion-best-practices / remotion-create / remotion-markup / remotion-render |
 | 表現 | 写真なし。Canvas(湯気の粒子)、SVG(カップ・坂の線画・ドリッパー・見取り図・地図)、CSSグラデーション、縦書きタイポグラフィ |

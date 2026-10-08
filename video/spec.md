@@ -40,7 +40,7 @@ v2 からは **Remotion 版(`video/remotion/`)が正式** です。旧版(`video
 | 音声 | **効果音のみ**(自作の合成音、AAC 192kbps)。BGM・ナレーションは入れない(BGMは各アプリで付ける)。効果音を使わないテーマは音声トラックなし |
 | 形式 | MP4 / H.264 / yuv420p / `+faststart`(iPhone で保存・投稿できる)。CRF 20 |
 | サイズ | **1本 50MB 以下**(超えたら `--crf 23` で書き出し直す) |
-| 本数 | 1作品につき **3本**:`instagram` / `tiktok` / `x`(違いは締めテロップのみ) |
+| 本数 | プレゼントあり:**3本**(`instagram` / `tiktok` / `x`、違いは締めテロップのみ)/プレゼントなし:締めが共通なので **1本**(`videos/<slug>/<slug>.mp4` を3媒体で使う) |
 | 出力先 | リポジトリ直下 `videos/<slug>/instagram.mp4` / `tiktok.mp4` / `x.mp4`(GitHub Pages で公開。作品一覧からはリンクしない) |
 | 公開URL | `https://studio-kakuu.github.io/kakuu-studio/videos/<slug>/<platform>.mp4` |
 
@@ -59,6 +59,11 @@ scenes 方式の書き方(`video/themes/kakuu-os.json` が見本):
 - `scenes`:場面ごとの左上ラベル(`chip` / `title`)とカメラ。`camera.to` = `[傾きX, 傾きY, 回転, 倍率, 上下位置, 暗さ]`、`move` 秒で移動、`drift` で残り時間にゆっくり流す
 - `finale`:全面の黒幕に大きな文字(例「DAY 1 / COMPLETE」)
 - `sfxExtra`:ページ以外で鳴らす効果音(場面転換の whoosh など)
+- `clips[].playbackRate`:早送り(例 3 = 3倍速)。`clips[].sfxSkip`:その区間で鳴らさない音(`["tick"]`、全部止めるなら `["*"]`)。早送り・使い回しで音が二重にならないようにする
+- `badges`:右上の小さな表示(例「×3」)/`notes`:画面下の一言(`size: "small"`)や字幕(`size: "caption"`、「←」以降はアクセント色)
+- カメラの `to` は7番目に左右位置 `tx` も書ける(数字に寄るときなど)
+- `closingSub`:締めの下の小さな1行(例「NEXT WORK — COMING SOON」)
+- `output.single`:締めが全媒体で同じとき、1本だけ書き出す(例 `kakuu-os.mp4`)。プレゼントなしの作品はこれを使う
 - 効果音ファイルは `scripts/make-sfx.py` で合成(`public/sfx/*.wav`)。外部の音源は使わない
 
 ## 2. 使い回しの仕組み(テーマを変えるだけ)

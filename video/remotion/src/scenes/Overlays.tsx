@@ -161,7 +161,7 @@ export const Hook: React.FC<{ text: string; accent: string; endSec?: number }> =
 };
 
 // 締め(媒体別)
-export const Closing: React.FC<{ text: string; keyword: string; handle: string }> = ({ text, keyword, handle }) => {
+export const Closing: React.FC<{ text: string; keyword: string; handle: string; sub?: string }> = ({ text, keyword, handle, sub }) => {
   const frame = useCurrentFrame();
   // Sequence の中なので frame は締めの開始からの相対コマ数
   const f0 = Math.round(useVideoConfig().fps / 3);
@@ -176,6 +176,7 @@ export const Closing: React.FC<{ text: string; keyword: string; handle: string }
           <div key={i}><Rhythm text={l} start={f0 + i * 8} step={1} accent={l.includes(kw) ? kw : undefined} /></div>
         ))}
       </div>
+      {sub && <div style={{ position: "absolute", left: 0, right: 0, top: 1330, textAlign: "center", fontFamily: FONT_EN, fontWeight: 500, fontSize: 32, letterSpacing: "0.22em", color: ACCENT, opacity: fade }}>{sub}</div>}
       <Img src={staticFile("brand/logo.svg")} style={{ position: "absolute", top: 1560, left: "50%", width: 360, marginLeft: -180, opacity: fade }} />
       <div style={{ position: "absolute", left: 0, right: 0, top: 1650, textAlign: "center", fontFamily: FONT_EN, fontWeight: 500, fontSize: 34, letterSpacing: "0.08em", color: white(0.7), opacity: fade }}>{handle}</div>
     </AbsoluteFill>

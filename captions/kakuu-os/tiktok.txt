@@ -1,0 +1,16 @@
+【日本語】
+AIで作品をつくるスタジオ、1日目。裏側はこうなってる。
+
+KAKUU OS ― 1行の依頼が、企画・デザイン・制作・映像・公開・届けるの6部署を流れて、最後は人が承認して投稿します。
+数字はすべてリポジトリの記録から集計した本物(本日マージ7・公式スキル21・動画3)。
+制作記録シリーズ 第1弾。AIで制作しています。
+
+ダッシュボードは、Instagram(@studio_kakuu)の投稿に『OS』とコメントすると届きます。
+
+【English】
+Day 1 of a studio that makes works with AI — here's the system behind it.
+One request flows through six units, and a human approves every post. All numbers are real, counted from our repository. Made with AI.
+
+Comment "OS" on our Instagram post (@studio_kakuu) and we'll send you the dashboard.
+
+#KAKUUSTUDIO #KAKUUOS #制作記録 #behindthescenes #creativecoding

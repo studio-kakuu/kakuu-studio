@@ -1,0 +1,318 @@
+{
+  "_comment": "KAKUU OS(制作記録シリーズ 01)。scenes 方式:場面・素材・テロップ・効果音をこのファイルだけで決める。秒はすべて動画の時刻。",
+  "slug": "kakuu-os",
+  "theme": "制作システム",
+  "keyword": "OS",
+  "hook": "AIで作品をつくる\nスタジオ、1日目。\n裏側はこうなってる。",
+  "hookAccent": "1日目",
+  "hookEnd": 2.5,
+  "urlNotice": "このダッシュボードのURLは最後に",
+  "urlNoticeAt": [
+    9.0,
+    11.8
+  ],
+  "closingStart": 56,
+  "closing": {
+    "instagram": "コメントで『{keyword}』と送ってね\nURLをお届けします",
+    "tiktok": "Instagram(@studio_kakuu)の投稿に\n『{keyword}』とコメントすると届きます",
+    "x": "URLは\nプロフィールのリンクから"
+  },
+  "finale": {
+    "from": 47.5,
+    "to": 56,
+    "big": "DAY 1",
+    "small": "COMPLETE",
+    "sub": "1日目の制作、おわり。"
+  },
+  "capture": {
+    "clips": [
+      {
+        "id": "demo",
+        "url": "/works/kakuu-os/?demo=1",
+        "seconds": 46,
+        "holdStart": 0,
+        "holdEnd": 0,
+        "scroll": [
+          0,
+          0
+        ],
+        "sfx": true
+      },
+      {
+        "id": "cafe",
+        "url": "/works/cafe/?capture",
+        "seconds": 4.5,
+        "holdStart": 4.5,
+        "holdEnd": 0,
+        "scroll": [
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "clips": [
+    {
+      "id": "demo",
+      "from": 0,
+      "seconds": 45.5
+    },
+    {
+      "id": "cafe",
+      "from": 45.5,
+      "seconds": 2.0,
+      "trimBefore": 2.2
+    },
+    {
+      "id": "demo",
+      "from": 47.5,
+      "seconds": 16.5,
+      "trimBefore": 29.0
+    }
+  ],
+  "scenes": [
+    {
+      "from": 0,
+      "to": 2.5,
+      "chip": "",
+      "title": "",
+      "camera": {
+        "from": [
+          16,
+          -30,
+          6,
+          0.84,
+          110,
+          0.55
+        ],
+        "to": [
+          16,
+          -30,
+          6,
+          0.84,
+          110,
+          0.55
+        ]
+      }
+    },
+    {
+      "from": 2.5,
+      "to": 6.0,
+      "chip": "KAKUU OS",
+      "title": "制作システム",
+      "camera": {
+        "to": [
+          4,
+          -8,
+          1,
+          1.0,
+          30
+        ],
+        "move": 2.4,
+        "drift": [
+          2,
+          6,
+          0,
+          1.02,
+          24
+        ]
+      }
+    },
+    {
+      "from": 6.0,
+      "to": 9.0,
+      "chip": "INPUT",
+      "title": "1行で依頼する",
+      "camera": {
+        "to": [
+          6,
+          0,
+          0,
+          1.42,
+          -420
+        ],
+        "move": 1.1,
+        "drift": [
+          4,
+          -3,
+          0,
+          1.46,
+          -430
+        ]
+      }
+    },
+    {
+      "from": 9.0,
+      "to": 12.0,
+      "chip": "DISPATCH",
+      "title": "6部署へ送る",
+      "camera": {
+        "to": [
+          2,
+          0,
+          0,
+          1.0,
+          20
+        ],
+        "move": 0.7
+      }
+    },
+    {
+      "from": 12.0,
+      "to": 26.4,
+      "chip": "PROCESS",
+      "title": "各部署が動く",
+      "camera": {
+        "to": [
+          6,
+          10,
+          0,
+          1.3,
+          260
+        ],
+        "move": 1.2,
+        "drift": [
+          3,
+          -8,
+          0,
+          1.3,
+          -170
+        ]
+      }
+    },
+    {
+      "from": 26.4,
+      "to": 37.0,
+      "chip": "APPROVAL",
+      "title": "最後は人が承認",
+      "camera": {
+        "to": [
+          8,
+          -4,
+          0,
+          1.45,
+          -430
+        ],
+        "move": 1.0,
+        "drift": [
+          5,
+          4,
+          0,
+          1.5,
+          -445
+        ]
+      }
+    },
+    {
+      "from": 37.0,
+      "to": 45.5,
+      "chip": "DAY 01",
+      "title": "今日の実績",
+      "camera": {
+        "to": [
+          3,
+          14,
+          -1,
+          0.98,
+          20
+        ],
+        "move": 1.6,
+        "drift": [
+          1,
+          -10,
+          0,
+          1.03,
+          20
+        ]
+      }
+    },
+    {
+      "from": 45.5,
+      "to": 47.5,
+      "chip": "WORK 001",
+      "title": "架空のカフェ",
+      "camera": {
+        "from": [
+          4,
+          16,
+          -2,
+          0.94,
+          30
+        ],
+        "to": [
+          1,
+          4,
+          0,
+          1.03,
+          20
+        ]
+      }
+    },
+    {
+      "from": 47.5,
+      "to": 56,
+      "chip": "",
+      "title": "",
+      "camera": {
+        "to": [
+          1,
+          -6,
+          0,
+          1.03,
+          20
+        ]
+      }
+    },
+    {
+      "from": 56,
+      "to": 64,
+      "chip": "",
+      "title": "",
+      "camera": {
+        "to": [
+          16,
+          -18,
+          4,
+          0.6,
+          -360,
+          0.62
+        ],
+        "move": 1.3
+      }
+    }
+  ],
+  "sfxExtra": [
+    {
+      "type": "hook",
+      "at": 0.0
+    },
+    {
+      "type": "whoosh",
+      "at": 5.95
+    },
+    {
+      "type": "whoosh",
+      "at": 11.95
+    },
+    {
+      "type": "whoosh",
+      "at": 26.35
+    },
+    {
+      "type": "whoosh",
+      "at": 36.95
+    },
+    {
+      "type": "whoosh",
+      "at": 45.45
+    },
+    {
+      "type": "hit",
+      "at": 47.6
+    },
+    {
+      "type": "close",
+      "at": 56.3
+    }
+  ]
+}

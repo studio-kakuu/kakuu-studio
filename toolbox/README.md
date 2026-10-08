@@ -36,6 +36,7 @@
 | 費用 | 無料(MIT)。有料の Motion+(追加コンポーネント・例集)は不要なら使わない |
 | 相性の悪い組み合わせ | GSAP(1作品1ライブラリのルール)。React以外の環境。Lenis との併用はスクロール連動の挙動がずれやすい |
 | 対応スキル | 専用の公式スキルはなし → `frontend-design` に従い、公式ドキュメント(motion.dev)を参照 |
+| 使用例 | `works/kakuu-os/`(React 19 + Motion 12 + Vite 7。`source/` で書き出して作品フォルダ直下に静的ファイルを置く) |
 | 導入方法 | 作品フォルダで Vite + React を作り `npm i motion`。GitHub Pages には `vite build` の出力(`dist/`)を作品フォルダに置く |
 
 ### Three.js(3D作品)

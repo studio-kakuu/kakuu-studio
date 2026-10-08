@@ -1,0 +1,39 @@
+{
+  "asOf": "2026-10-08",
+  "ref": "origin/main @ 28f0937",
+  "day": 1,
+  "works": 1,
+  "inProgress": 1,
+  "videos": 3,
+  "worksWithoutVideo": 1,
+  "platforms": 3,
+  "platformNames": [
+    "instagram",
+    "tiktok",
+    "x"
+  ],
+  "captions": 3,
+  "pages": 6,
+  "designs": 2,
+  "measured": [
+    {
+      "slug": "cafe",
+      "seconds": 434
+    }
+  ],
+  "skills": 21,
+  "mergedPRs": 7,
+  "prRange": "#1–#7",
+  "mergedToday": 7,
+  "commits": 18,
+  "sources": {
+    "works": "works.js(この作品を除く)",
+    "videos": "videos/<作品>/*.mp4",
+    "captions": "captions/<作品>/*.txt",
+    "pages": "works/**/index.html(この作品を除く)",
+    "measured": "works/<作品>/measured_time.txt の elapsed_seconds",
+    "skills": ".claude/skills/*/SKILL.md",
+    "mergedPRs": "git log origin/main --merges(Merge pull request)",
+    "commits": "git rev-list --count origin/main"
+  }
+}

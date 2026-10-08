@@ -117,29 +117,30 @@ export const StepCard: React.FC<{ at: number; label: string; title: string }> = 
 };
 
 // 「完成サイトのURLは最後に」:右下固定、全作品で同じ位置・フォント・色
-export const UrlNotice: React.FC = () => {
+export const UrlNotice: React.FC<{ text?: string; at?: readonly [number, number] }> = ({ text = COMMON.urlNotice, at = TL.urlNotice }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
-  const [a, b] = TL.urlNotice;
+  const [a, b] = at;
   const o = Math.min(interpolate(t, [a, a + 0.3], [0, 1], clamp), interpolate(t, [b - 0.3, b], [1, 0], clamp));
   if (o <= 0) return null;
   return (
     <div style={{ position: "absolute", right: 56, bottom: 56, fontFamily: FONT_JA, fontWeight: 700, fontSize: 34, lineHeight: 1, letterSpacing: "0.04em", color: ACCENT, opacity: o }}>
-      {COMMON.urlNotice}
+      {text}
     </div>
   );
 };
 
 const lines = (s: string) => s.split("\n");
-const fitSize = (ls: string[], max: number, area = 920) =>
-  Math.min(max, Math.floor(area / Math.max(...ls.map((l) => [...l].reduce((w, c) => w + (c.charCodeAt(0) < 0x2000 ? 0.62 : 1), 0)))));
+// 文字間(letter-spacing 0.03em)の分も見込んで、1行が area に収まる大きさにする
+const fitSize = (ls: string[], max: number, area = 900) =>
+  Math.min(max, Math.floor(area / Math.max(...ls.map((l) => [...l].reduce((w, c) => w + (c.charCodeAt(0) < 0x2000 ? 0.62 : 1) + 0.03, 0)))));
 
 // 冒頭のフック
-export const Hook: React.FC<{ text: string; accent: string }> = ({ text, accent }) => {
+export const Hook: React.FC<{ text: string; accent: string; endSec?: number }> = ({ text, accent, endSec = TL.hook[1] }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const end = Math.round(TL.hook[1] * fps);
+  const end = Math.round(endSec * fps);
   const ls = lines(text);
   const size = fitSize(ls, 112);
   if (frame > end + 12) return null;

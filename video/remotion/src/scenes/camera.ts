@@ -49,3 +49,27 @@ export const poseAt = (t: number): Pose => {
   if (t < cl) return seg(t, c + 0.5, cl, P(6, 18, -2, 0.94, 30), P(1, -6, 0, 1.03, 20));
   return seg(t, cl, cl + 1.3, P(1, -6, 0, 1.03, 20), P(16, -18, 4, 0.6, -360, 0.62), settle);
 };
+
+// ---------- テーマの scenes から作るカメラ(作品ごとに自由に組める) ----------
+// camera: { to: [rx, ry, rz, scale, ty, dim], from?: [...], move?: 秒, ease?: "settle" | "glide", drift?: [rx, ry, rz, scale, ty, dim] }
+//   from を省くと前の場面の終わりのポーズから動き出す。move 秒かけて to へ。drift があれば残りの時間で to → drift へゆっくり流れる。
+export type SceneCamera = { to: number[]; from?: number[]; move?: number; ease?: "settle" | "glide"; drift?: number[] };
+export type SceneSpec = { from: number; to: number; camera: SceneCamera };
+const arr = (a: number[]) => P(a[0], a[1], a[2], a[3], a[4], a[5] ?? 0);
+export const scenePose = (scenes: SceneSpec[]) => (t: number): Pose => {
+  let prev: Pose = P(0, 0, 0, 1, 0);
+  for (let i = 0; i < scenes.length; i++) {
+    const sc = scenes[i];
+    const c = sc.camera;
+    const start = c.from ? arr(c.from) : prev;
+    const target = arr(c.to);
+    const end = c.drift ? arr(c.drift) : target;
+    const move = Math.min(c.move ?? sc.to - sc.from, sc.to - sc.from);
+    if (t < sc.to || i === scenes.length - 1) {
+      if (t < sc.from + move) return seg(t, sc.from, sc.from + move, start, target, c.ease === "glide" ? glide : settle);
+      return c.drift ? seg(t, sc.from + move, sc.to, target, end, glide) : target;
+    }
+    prev = end;
+  }
+  return prev;
+};

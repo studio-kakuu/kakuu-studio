@@ -16,6 +16,17 @@
 */
 window.KAKUU_WORKS = [
   {
+    no: "002",
+    slug: "kakuu-os",
+    genre: "WEB",
+    name: "KAKUU OS",
+    nameJa: "制作記録 01",
+    theme: "制作システムのダッシュボード",
+    themeEn: "Studio OS — Making-of Series 01",
+    date: "2026-10-08",
+    palette: ["#C6FF3D", "#0E0E0E", "#0E0E0E"]
+  },
+  {
     no: "001",
     slug: "cafe",
     genre: "WEB",

@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YUGE 湯気と珈琲 — 湯気がやむまで、ここにいていい。</title>
+<meta name="description" content="坂の途中にある、八席だけの小さな珈琲店「YUGE 湯気と珈琲」。※KAKUU STUDIOが制作した架空のカフェです。">
+<meta name="theme-color" content="#F7F1E8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Shippori+Mincho+B1:wght@500;600&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="#top">YUGE<span>湯気と珈琲</span></a>
+    <nav class="nav" aria-label="ページ内">
+      <a href="#concept">Concept</a>
+      <a href="#menu">Menu</a>
+      <a href="#process">Process</a>
+      <a href="#space">Space</a>
+      <a href="#info">Access</a>
+    </nav>
+    <span class="open-pill"><i></i>OPEN 7:30</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 01 HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-visual" data-reveal="zoom">
+        <svg viewBox="0 0 400 500" aria-hidden="true">
+          <defs>
+            <linearGradient id="table" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#7A4E36"/>
+              <stop offset="1" stop-color="#4A2F21"/>
+            </linearGradient>
+            <linearGradient id="cup" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#E9DFD1"/>
+              <stop offset=".45" stop-color="#FFFBF4"/>
+              <stop offset="1" stop-color="#D6C6B2"/>
+            </linearGradient>
+            <radialGradient id="coffee" cx=".45" cy=".4" r=".7">
+              <stop offset="0" stop-color="#9A5B36"/>
+              <stop offset=".55" stop-color="#5A311D"/>
+              <stop offset="1" stop-color="#2E180E"/>
+            </radialGradient>
+            <linearGradient id="steamGrad" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0" stop-color="#FFF8EC" stop-opacity=".9"/>
+              <stop offset="1" stop-color="#FFF8EC" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="soft"><feGaussianBlur stdDeviation="2.4"/></filter>
+          </defs>
+          <!-- table -->
+          <rect x="0" y="392" width="400" height="108" fill="url(#table)"/>
+          <rect x="0" y="392" width="400" height="3" fill="#9A6A4C"/>
+          <path d="M0 430 Q200 420 400 436 M0 466 Q180 458 400 470" stroke="#3E271B" stroke-width="1" fill="none" opacity=".5"/>
+          <!-- shadow -->
+          <ellipse cx="218" cy="414" rx="150" ry="18" fill="#2A1C15" opacity=".35" filter="url(#soft)"/>
+          <!-- saucer -->
+          <ellipse cx="200" cy="404" rx="124" ry="22" fill="#D9CBB8"/>
+          <ellipse cx="200" cy="399" rx="124" ry="20" fill="#FBF6EE"/>
+          <ellipse cx="200" cy="398" rx="78" ry="11" fill="#E7DCCD"/>
+          <!-- handle -->
+          <path d="M276 322 C322 318 326 372 272 370" stroke="#EDE3D6" stroke-width="15" fill="none" stroke-linecap="round"/>
+          <path d="M276 322 C322 318 326 372 272 370" stroke="#FFFBF4" stroke-width="6" fill="none" stroke-linecap="round" opacity=".8"/>
+          <!-- cup -->
+          <path d="M116 302 L284 302 C284 350 268 392 200 394 C132 392 116 350 116 302 Z" fill="url(#cup)"/>
+          <ellipse cx="200" cy="302" rx="84" ry="14" fill="#F4ECE0"/>
+          <ellipse cx="200" cy="303" rx="76" ry="11" fill="url(#coffee)"/>
+          <ellipse cx="184" cy="300" rx="22" ry="3" fill="#C98A5E" opacity=".55"/>
+          <path d="M132 318 C138 352 152 378 176 388" stroke="#FFFFFF" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/>
+          <!-- steam -->
+          <g class="steam" fill="none" stroke="url(#steamGrad)" stroke-linecap="round" filter="url(#soft)">
+            <path class="s1" d="M176 286 C160 250 196 228 178 192 C162 160 192 140 182 104" stroke-width="10"/>
+            <path class="s2" d="M206 290 C224 252 188 232 208 196 C226 164 196 140 212 96" stroke-width="12"/>
+            <path class="s3" d="M232 288 C246 260 222 244 236 214 C248 190 230 172 240 146" stroke-width="8"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="hero-copy">
+        <h1 class="hero-title" data-reveal>YU<em>ge</em></h1>
+        <p class="hero-sub" data-reveal>湯気と珈琲</p>
+        <p class="hero-lead" data-reveal>湯気がやむまで、<br>ここにいていい。</p>
+        <p class="hero-lead-en" data-reveal>Stay until the steam settles.</p>
+        <a class="btn" href="#menu" data-reveal>
+          メニューを見る
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Stay until the steam settles</span><span>湯気がやむまで</span><span>Roasted every morning</span><span>八席だけの珈琲店</span>
+      <span>Stay until the steam settles</span><span>湯気がやむまで</span><span>Roasted every morning</span><span>八席だけの珈琲店</span>
+    </div>
+  </div>
+
+  <!-- 02 CONCEPT -->
+  <section class="concept" id="concept">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="eyebrow">Concept</p>
+        <h2 class="h2">一杯のあいだだけ、<br>時計をはずす場所。<small>A cup-long pause, on the slope.</small></h2>
+      </div>
+      <div class="concept-body" data-reveal>
+        <p>白縫町の坂の途中、古い製本所を直した小さな店です。席はカウンターと窓辺をあわせて八つだけ。</p>
+        <p>豆は毎朝、その日の分だけを焙煎します。注いだ珈琲から立つ湯気が、ゆっくり細くなって消えるまで — それがこの店の、ちょうどいい滞在時間。急ぐ理由のない一杯を、どうぞ。</p>
+        <div class="concept-figures">
+          <div><b>8</b><span>SEATS</span></div>
+          <div><b>92<sup>℃</sup></b><span>POUR</span></div>
+          <div><b>3<sup>min</sup></b><span>STEAM</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 MENU -->
+  <section class="menu" id="menu">
+    <div class="wrap">
+      <div class="menu-head" data-reveal>
+        <div>
+          <p class="eyebrow">Menu</p>
+          <h2 class="h2">お品書き<small>Coffee, tea &amp; a little something.</small></h2>
+        </div>
+        <p class="menu-note">価格はすべて税込です</p>
+      </div>
+
+      <div class="menu-cols">
+        <div data-reveal>
+          <h3>Drinks</h3>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round"><path d="M7 13h16v5a8 8 0 0 1-16 0z"/><path d="M23 15h2a3 3 0 0 1 0 6h-2.4"/><path d="M12 9c-1-1.5 1-2.5 0-4M16 9c-1-1.5 1-2.5 0-4M20 9c-1-1.5 1-2.5 0-4"/></svg></div>
+            <div><h4>湯気ブレンド<small>Yuge Blend — dark roast</small></h4><p>黒糖とカカオ。冷めても甘い、店の基本の一杯。</p></div>
+            <span class="price">580</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round"><path d="M9 8h14l-3 8h-8z"/><path d="M16 16v3"/><path d="M10 26h12l-1.5-7h-9z"/><circle cx="16" cy="5" r="1"/></svg></div>
+            <div><h4>朝霧<small>Asagiri — light roast, pour over</small></h4><p>柑橘と白い花。午前中だけの浅煎り。</p></div>
+            <span class="price">620</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round"><path d="M9 7h14l-1.6 19H10.6z"/><path d="M9.6 14h12.8"/><path d="M13 19c2 1.5 4 1.5 6 0"/></svg></div>
+            <div><h4>焦がしミルクの珈琲<small>Burnt-milk café au lait</small></h4><p>表面を炙ったミルクの、香ばしいカフェオレ。</p></div>
+            <span class="price">650</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round"><path d="M8 12h16v4a8 8 0 0 1-16 0z"/><path d="M6 26h20"/><path d="M14 8c3-3 6-1 7-4"/></svg></div>
+            <div><h4>ほうじ茶ラテ<small>Hojicha latte</small></h4><p>店で焙じる茶葉。珈琲が苦手な方にも。</p></div>
+            <span class="price">640</span>
+          </div>
+        </div>
+
+        <div data-reveal>
+          <h3>Sweets &amp; Toast</h3>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21l20-9v9z"/><path d="M5 21v4h20v-4"/><circle cx="19" cy="9" r="2.5"/><path d="M19 6.5V5"/></svg></div>
+            <div><h4>無花果のチーズケーキ<small>Fig cheesecake — seasonal</small></h4><p>焼いた無花果をのせた、しっとり重めの一切れ。</p></div>
+            <span class="price">540</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14a5 5 0 0 1 2-9.5c2 0 4 1 6 1s4-1 6-1A5 5 0 0 1 24 14v12H8z"/><rect x="13" y="15" width="6" height="4" rx="1"/></svg></div>
+            <div><h4>厚切りバタートースト<small>Thick butter toast</small></h4><p>四センチの山型パンに、発酵バターをたっぷり。</p></div>
+            <span class="price">480</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round"><ellipse cx="16" cy="22" rx="10" ry="4"/><path d="M8 20c0-6 3.5-10 8-10s8 4 8 10"/><path d="M13 12c1-2 5-2 6 0"/></svg></div>
+            <div><h4>固めのプリン<small>Firm custard pudding</small></h4><p>苦めのカラメル。湯気ブレンドと一緒に。</p></div>
+            <span class="price">460</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-icon"><svg viewBox="0 0 32 32" fill="none" stroke="#2A1C15" stroke-width="1.3" stroke-linecap="round"><rect x="7" y="9" width="18" height="16" rx="2"/><path d="M7 14h18M12 9V6M20 9V6"/></svg></div>
+            <div><h4>今月の豆(100g)<small>Beans of the month</small></h4><p>持ち帰り用。挽き方はお好みで。</p></div>
+            <span class="price">1,200</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 PROCESS -->
+  <section class="process" id="process">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="eyebrow">Process</p>
+        <h2 class="h2">一杯ができるまで<small>Four quiet steps.</small></h2>
+      </div>
+      <ol class="steps">
+        <li class="step" data-reveal>
+          <span class="step-num">01</span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="#F7F1E8" stroke-width="1.4" stroke-linecap="round"><ellipse cx="24" cy="24" rx="9" ry="13" transform="rotate(30 24 24)"/><path d="M18 34c4-6 8-14 12-20"/></svg>
+          <h3>焙煎<small>Roast</small></h3>
+          <p>毎朝六時、その日の分だけを小さな釜で。</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-num">02</span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="#F7F1E8" stroke-width="1.4" stroke-linecap="round"><rect x="13" y="20" width="22" height="20" rx="2"/><path d="M15 20l3-8h12l3 8M24 12V6M24 6h8"/><circle cx="24" cy="31" r="3"/></svg>
+          <h3>挽く<small>Grind</small></h3>
+          <p>注文を受けてから、手回しのミルで。</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-num">03</span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="#F7F1E8" stroke-width="1.4" stroke-linecap="round"><path d="M10 16h18v10a9 9 0 0 1-18 0z"/><path d="M28 18c6-6 10-6 12-4"/><path d="M14 40h10"/><path d="M38 20v6"/></svg>
+          <h3>注ぐ<small>Pour</small></h3>
+          <p>九十二度のお湯を、細く、三回に分けて。</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step-num">04</span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="#F7F1E8" stroke-width="1.4" stroke-linecap="round"><circle cx="24" cy="26" r="14"/><path d="M24 18v8l5 3M20 6h8M24 6v6"/></svg>
+          <h3>待つ<small>Wait</small></h3>
+          <p>湯気が落ち着くまでの三分が、いちばんおいしい。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 05 SPACE -->
+  <section class="space" id="space">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="eyebrow">Space</p>
+        <h2 class="h2">店のなか<small>Light, wood and eight seats.</small></h2>
+      </div>
+      <div class="space-grid">
+        <figure class="scene wide" data-reveal>
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="sc1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4DDBB"/><stop offset=".6" stop-color="#D8A57B"/><stop offset="1" stop-color="#8F5A3C"/></linearGradient>
+              <linearGradient id="beam" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF6E4" stop-opacity=".85"/><stop offset="1" stop-color="#FFF6E4" stop-opacity="0"/></linearGradient>
+            </defs>
+            <rect width="400" height="300" fill="url(#sc1)"/>
+            <!-- window -->
+            <rect x="40" y="30" width="170" height="190" rx="4" fill="#FFF3DD" opacity=".9"/>
+            <path d="M125 30v190M40 125h170" stroke="#8F5A3C" stroke-width="6"/>
+            <rect x="40" y="30" width="170" height="190" rx="4" fill="none" stroke="#8F5A3C" stroke-width="8"/>
+            <!-- light beams -->
+            <path d="M40 30 L210 30 L400 260 L250 300 Z" fill="url(#beam)" opacity=".55"/>
+            <!-- plant -->
+            <g fill="#5E6B4F">
+              <path d="M300 200c-20-40-10-80 10-100 0 30 10 60-10 100z"/>
+              <path d="M310 205c10-40 40-60 70-62-20 20-30 50-70 62z"/>
+              <path d="M298 205c-20-30-50-36-70-30 20 10 40 30 70 30z"/>
+            </g>
+            <path d="M286 200h40l-6 40h-28z" fill="#C0663C"/>
+            <!-- table -->
+            <rect x="0" y="240" width="400" height="60" fill="#5B3B2B"/>
+            <rect x="0" y="240" width="400" height="4" fill="#7A5038"/>
+          </svg>
+          <figcaption>窓辺の朝<small>Morning by the window</small></figcaption>
+        </figure>
+
+        <figure class="scene" data-reveal>
+          <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><radialGradient id="lamp" cx=".5" cy=".28" r=".6"><stop offset="0" stop-color="#FFD9A6"/><stop offset=".35" stop-color="#B9774E"/><stop offset="1" stop-color="#2A1C15"/></radialGradient></defs>
+            <rect width="200" height="230" fill="url(#lamp)"/>
+            <path d="M100 0v50" stroke="#2A1C15" stroke-width="1.5"/>
+            <path d="M80 62 Q100 40 120 62 Z" fill="#2A1C15"/>
+            <rect x="0" y="150" width="200" height="14" fill="#7A5038"/>
+            <rect x="0" y="164" width="200" height="66" fill="#3A261C"/>
+            <g fill="#2A1C15"><rect x="30" y="180" width="26" height="6" rx="3"/><rect x="41" y="186" width="4" height="44"/><rect x="88" y="180" width="26" height="6" rx="3"/><rect x="99" y="186" width="4" height="44"/><rect x="146" y="180" width="26" height="6" rx="3"/><rect x="157" y="186" width="4" height="44"/></g>
+          </svg>
+          <figcaption>八席のカウンター<small>The counter</small></figcaption>
+        </figure>
+
+        <figure class="scene" data-reveal>
+          <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="200" height="230" fill="#8B977A"/>
+            <circle cx="160" cy="40" r="70" fill="#A3AE92" opacity=".6"/>
+            <g fill="#2A1C15">
+              <rect x="60" y="80" width="80" height="70" rx="34"/>
+              <rect x="88" y="54" width="24" height="30" rx="4"/>
+              <path d="M80 54h40l-6-14H86z"/>
+              <rect x="70" y="150" width="60" height="50"/>
+            </g>
+            <circle cx="100" cy="115" r="16" fill="none" stroke="#C0663C" stroke-width="3"/>
+            <path d="M140 110h26v8" stroke="#2A1C15" stroke-width="6" fill="none"/>
+            <rect x="0" y="200" width="200" height="30" fill="#5B3B2B"/>
+          </svg>
+          <figcaption>小さな焙煎機<small>The roaster</small></figcaption>
+        </figure>
+
+        <figure class="scene" data-reveal>
+          <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="rain" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AA19A"/><stop offset="1" stop-color="#5B5F58"/></linearGradient></defs>
+            <rect width="200" height="230" fill="url(#rain)"/>
+            <g stroke="#E3E6DF" stroke-width="1.2" opacity=".55" stroke-linecap="round">
+              <path d="M20 10l-6 22M60 40l-6 22M100 8l-6 22M140 30l-6 22M180 6l-6 22M40 90l-6 22M80 120l-6 22M120 84l-6 22M160 110l-6 22M30 160l-6 22M110 150l-6 22M170 170l-6 22"/>
+            </g>
+            <rect x="0" y="0" width="200" height="230" fill="none" stroke="#3A261C" stroke-width="14"/>
+            <path d="M100 0v200" stroke="#3A261C" stroke-width="6"/>
+            <rect x="0" y="196" width="200" height="34" fill="#3A261C"/>
+            <path d="M60 196h30l-3-20h-24z" fill="#F7F1E8"/>
+            <path d="M90 182c8 0 8 10 0 10" stroke="#F7F1E8" stroke-width="3" fill="none"/>
+          </svg>
+          <figcaption>雨の日の窓<small>Rainy afternoon</small></figcaption>
+        </figure>
+
+        <figure class="scene" data-reveal>
+          <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C0663C"/><stop offset=".6" stop-color="#6E3A25"/><stop offset="1" stop-color="#2A1C15"/></linearGradient></defs>
+            <rect width="200" height="230" fill="url(#dusk)"/>
+            <circle cx="140" cy="120" r="30" fill="#F2B27C" opacity=".85"/>
+            <path d="M0 150 L40 120 L70 140 L110 104 L150 140 L200 118 V230 H0Z" fill="#3A261C"/>
+            <path d="M0 176 Q100 160 200 178 V230 H0Z" fill="#2A1C15"/>
+            <g fill="#FFD9A6"><rect x="30" y="190" width="6" height="8"/><rect x="44" y="190" width="6" height="8"/><rect x="150" y="194" width="6" height="8"/></g>
+          </svg>
+          <figcaption>坂の夕方<small>Dusk on the slope</small></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 INFO -->
+  <section class="info" id="info">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="eyebrow">Hours &amp; Access</p>
+        <h2 class="h2">営業時間とアクセス<small>Find us halfway up the hill.</small></h2>
+        <dl class="info-list">
+          <div><dt>Open</dt><dd>7:30 – 18:00<small>ラストオーダー 17:30</small></dd></div>
+          <div><dt>Closed</dt><dd>水曜日・第三木曜日</dd></div>
+          <div><dt>Seats</dt><dd>8席(カウンター5・窓辺3)<small>ご予約は承っておりません</small></dd></div>
+          <div><dt>Address</dt><dd>白縫町 坂上 3-14<small>白縫駅から坂をのぼって徒歩6分</small></dd></div>
+        </dl>
+      </div>
+      <div class="map" data-reveal>
+        <svg viewBox="0 0 400 400" aria-label="白縫駅から店までの簡易地図">
+          <rect width="400" height="400" fill="#EFE4D4"/>
+          <g fill="#E3D2BC">
+            <rect x="24" y="24" width="120" height="90" rx="8"/><rect x="170" y="24" width="90" height="140" rx="8"/><rect x="284" y="24" width="92" height="70" rx="8"/>
+            <rect x="24" y="140" width="120" height="110" rx="8"/><rect x="284" y="120" width="92" height="120" rx="8"/>
+            <rect x="24" y="276" width="70" height="100" rx="8"/><rect x="190" y="268" width="186" height="108" rx="8"/>
+          </g>
+          <path d="M-10 330 C80 300 120 250 160 240 S240 230 270 250 S330 300 410 270" stroke="#8B977A" stroke-width="18" fill="none" opacity=".55"/>
+          <g stroke="#F7F1E8" stroke-width="14" fill="none" stroke-linecap="round">
+            <path d="M157 0V400"/><path d="M0 127H400"/><path d="M272 0V262"/><path d="M0 262H400"/>
+          </g>
+          <path d="M60 380 L157 262 L157 190 L272 127" stroke="#C0663C" stroke-width="3" fill="none" stroke-dasharray="2 8" stroke-linecap="round"/>
+          <rect x="22" y="368" width="78" height="28" rx="14" fill="#2A1C15"/>
+          <text x="61" y="387" text-anchor="middle" fill="#F7F1E8" font-size="12" font-family="Zen Maru Gothic, sans-serif" letter-spacing="1">白縫駅</text>
+          <g transform="translate(272 127)">
+            <circle r="26" fill="#C0663C" opacity=".18"/>
+            <path d="M0 0 C-14 -18 -16 -26 -16 -32 a16 16 0 0 1 32 0 c0 6 -2 14 -16 32Z" fill="#C0663C"/>
+            <circle cy="-32" r="6" fill="#F7F1E8"/>
+          </g>
+          <text x="290" y="96" fill="#2A1C15" font-size="16" font-family="Fraunces, serif" letter-spacing="3">YUGE</text>
+          <text x="186" y="216" fill="#5B3B2B" font-size="10" font-family="Zen Maru Gothic, sans-serif" transform="rotate(-28 186 216)">坂道</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="footer-title">YU<em>ge</em></p>
+    <p class="footer-lead">湯気がやむまで、ここにいていい。</p>
+    <div class="footer-bottom">
+      <span>© YUGE 湯気と珈琲 — これは実在しない架空のカフェです。</span>
+      <span>A fictional brand by <a href="../../../">KAKUU STUDIO</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

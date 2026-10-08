@@ -1,11 +1,11 @@
-# KAKUU STUDIO — 制作過程ショート動画 設計書(spec)
+# KAKUU STUDIO — 制作過程ショート動画 設計書(spec)v2
 
 このファイルは、**別のPCの Claude Code がこれだけを読んで動画を制作できる** ことを目的にした仕様書です。
-同じフォルダに、この仕様どおりに動く **参照実装(`video/render/`)** があります。基本はそれを実行するだけで3本の動画が出力されます。
-仕様を変える場合は、この spec と `video/themes/_common.json` / `video/render/stage.html` を同時に更新してください。
+v2 からは **Remotion 版(`video/remotion/`)が正式** です。旧版(`video/render/`、Playwright だけで合成)は参考として残しています。
 
-- 有料API(画像生成・音声生成・動画生成など)は **一切使わない**。素材はすべてリポジトリ内のHTMLをブラウザで撮影したもの+テキスト。
-- 依存:Node.js 18 以上、ffmpeg、Playwright(Chromium)。すべて無料・ローカル。
+- 有料API(画像・音声・動画の生成など)は **一切使わない**。素材はリポジトリ内のサイトをブラウザで撮影したもの+テキスト。
+- 依存:Node.js 18 以上、ffmpeg、Remotion 4(`video/remotion/package.json` で版固定)、Playwright(撮影用)。すべて無料・ローカル。Remotion は個人・3人以下の会社は無料。
+- 使うスキル:`remotion-best-practices`(入口)→ `remotion-create` / `remotion-markup` / `remotion-render`。
 
 ---
 
@@ -15,195 +15,147 @@
 |---|---|
 | 解像度 | **1080 × 1920**(縦型 9:16) |
 | フレームレート | **30fps**(固定) |
-| 尺 | **64.0 秒**(要件:61秒以上75秒以内。レンダラーは範囲外だとエラー終了) |
-| 音声 | **なし**(BGM・ナレーション・効果音なし。音声トラック自体を入れない `-an`) |
-| コーデック | H.264(libx264)/ yuv420p / CRF 18 / `+faststart` |
+| 尺 | **64.0 秒**(要件:61秒以上75秒以内) |
+| 音声 | **なし**(BGM・ナレーション・効果音なし。音声トラック自体を入れない) |
+| 形式 | MP4 / H.264 / yuv420p / `+faststart`(iPhone で保存・投稿できる)。CRF 20 |
+| サイズ | **1本 50MB 以下**(超えたら `--crf 23` で書き出し直す) |
 | 本数 | 1作品につき **3本**:`instagram` / `tiktok` / `x`(違いは締めテロップのみ) |
-| ファイル名 | `video/out/<slug>_instagram.mp4`、`<slug>_tiktok.mp4`、`<slug>_x.mp4` |
+| 出力先 | リポジトリ直下 `videos/<slug>/instagram.mp4` / `tiktok.mp4` / `x.mp4`(GitHub Pages で公開。作品一覧からはリンクしない) |
+| 公開URL | `https://studio-kakuu.github.io/kakuu-studio/videos/<slug>/<platform>.mp4` |
 
 ---
 
-## 2. 使い回しの仕組み(テーマ名とキーワードを変えるだけ)
+## 2. 使い回しの仕組み(テーマを変えるだけ)
 
 ```
 video/
-  spec.md               … この設計書
-  themes/_common.json   … 全作品共通(尺・タイムライン・テロップの型・締め文言)。基本触らない
-  themes/<slug>.json    … 作品ごと(slug / theme / keyword の3つだけ)
-  render/stage.html     … 1080x1920 の「舞台」ページ(枠・テロップ・スマホ画面)
-  render/render.mjs     … 舞台を1フレームずつ撮影して mp4 にする
-  render/package.json
-  out/                  … 出力先(git管理外)
+  spec.md                 … この設計書
+  themes/_common.json     … 全作品共通:尺・タイムライン・テロップの型・締め文言・撮影区間(capture)
+  themes/<slug>.json      … 作品ごと:slug / theme / keyword の3つだけ
+  remotion/               … Remotion プロジェクト(正式)
+    scripts/capture.mjs   … サイトを1コマずつ撮影 → public/<slug>/*.mp4
+    scripts/render.mjs    … 3媒体を書き出し → videos/<slug>/*.mp4
+    src/Root.tsx          … Composition「Process-instagram / -tiktok / -x」
+    src/Process.tsx       … 動画本体(テンプレート)
+    src/scenes/           … Phone(立体スマホ)/ camera(カメラワーク)/ Overlays(テロップ類)
+    src/brand.ts          … 3色・2フォント(public/fonts に同梱)
+    public/brand/logo.svg … 文字ロゴ(capture.mjs が brand/ からコピー)
+  render/                 … 旧版(参考)
 ```
 
-### 次の作品を作るとき
-1. サイトを `works/<slug>/`(完成版)、`works/<slug>/step1/`、`works/<slug>/step2/` に置く
-2. `works/<slug>/measured_time.txt` に `hook_minutes: <分>` を書く(実測。秒は切り上げ。盛らない)
-3. `video/themes/cafe.json` をコピーして `video/themes/<slug>.json` を作り、3項目を書き換える
+### 次の作品の手順
+1. サイトを `works/<slug>/`(完成版)、`works/<slug>/step1/`、`works/<slug>/step2/` に置く。完成版は URL に `?capture` が付いたとき **なめらかスクロール(Lenis 等)を無効にする**(撮影でスクロール位置を直接指定するため)
+2. `works/<slug>/measured_time.txt` に `hook_minutes: <分>`(実測。秒は切り上げ。盛らない)
+3. `video/themes/<slug>.json` を作る:`{ "slug": "bakery", "theme": "パン屋", "keyword": "パン" }`
+4. 必要なら `_common.json` の `capture.clips[].scroll`(どこまでスクロールするか)を調整
+5. 実行:
+   ```bash
+   cd video/remotion
+   npm install
+   npx playwright install chromium          # 初回のみ
+   node scripts/capture.mjs --theme <slug>  # 撮影(数分)
+   npx remotion studio                       # 確認したいとき(任意)
+   node scripts/render.mjs --theme <slug>   # 3本書き出し
+   ```
 
-```json
-{ "slug": "bakery", "theme": "パン屋", "keyword": "パン" }
-```
-
-4. `cd video/render && node render.mjs --theme <slug>` を実行
-
-### 差し込みルール(テンプレート)
+### 差し込みルール
 | 置き換え文字 | 中身 | 取得元 |
 |---|---|---|
-| `{theme}` | テーマ名(例:カフェ) | `themes/<slug>.json` の `theme` |
-| `{keyword}` | コメント用キーワード(例:カフェ) | `themes/<slug>.json` の `keyword` |
+| `{theme}` | テーマ名 | `themes/<slug>.json` の `theme` |
+| `{keyword}` | コメント用キーワード | `themes/<slug>.json` の `keyword` |
 | `{minutes}` | 実測の制作時間(分) | `works/<slug>/measured_time.txt` の `hook_minutes` |
 
-**今回(cafe)の値**:theme=カフェ / keyword=カフェ / minutes=**7**(実測 6分31秒 → 切り上げて7分)
+**cafe(v2)の値**:theme=カフェ / keyword=カフェ / minutes=**8**(実測 7分14秒 → 切り上げ)
 
 ---
 
-## 3. タイムライン(秒)
+## 3. タイムライン(秒)— `_common.json` の `timeline`
 
-`themes/_common.json` の `timeline` と同一。フレーム番号 = 秒 × 30。
-
-| 区間 | 秒 | フレーム | 画面(スマホ内) | 上部ラベル | テロップ |
-|---|---|---|---|---|---|
-| ① フック | 0.0–2.0 | 0–59 | 完成版トップ(静止) | なし | 中央に大きく「架空の{theme}のサイトを / {minutes}分で作った」。上部に文字ロゴ |
-| ② 完成サイト | 2.0–12.0 | 60–359 | 完成版をゆっくりスクロール(ページ上端 → 55%) | `COMPLETE` 完成 | なし |
-| ③ STEP 1 | 12.0–24.5 | 360–734 | `step1/`(ワイヤーフレーム)を上端→下端までスクロール | `STEP 1` 構成 | 12.0–14.8秒:右下に「完成サイトのURLは最後に」 |
-| ④ STEP 2 | 24.5–37.0 | 735–1109 | `step2/`(デザイン、動きなし)を上端→下端 | `STEP 2` デザイン | なし |
-| ⑤ STEP 3 | 37.0–50.0 | 1110–1499 | 完成版を **読み込み直して** 上端→下端(スクロールアニメが発火する様子を見せる) | `STEP 3` 動き | なし |
-| ⑥ 再表示 | 50.0–56.0 | 1500–1679 | 完成版をトップに戻して表示(上端 → 12% までわずかにスクロール) | `COMPLETE` 完成 | なし |
-| ⑦ 締め | 56.0–64.0 | 1680–1919 | ⑥の画面を暗く敷いたまま | なし | 中央に媒体別の締め文言、下に文字ロゴと `@studio_kakuu` |
+| 区間 | 秒 | スマホの中 | カメラワーク(`src/scenes/camera.ts`) | 上に重なるもの |
+|---|---|---|---|---|
+| ① フック | 0.0–2.0 | 完成版の読み込み直後(開幕演出) | 大きく傾いた状態(rotateX 16° / rotateY −30° / rotateZ 6°、0.84倍)、画面は暗く | 中央に大きく「架空の{theme}の / サイトを / {minutes}分で作った」(0コマ目から全文表示、{minutes}分はアクセント色で弾む)。上に文字ロゴ |
+| ② 完成サイト | 2.0–12.0 | 完成版をゆっくりスクロール | 2.6秒かけて正面へ起き上がり、その後ゆっくり反対側へ回り込む | 左上に `COMPLETE` 完成 |
+| ③ STEP 1 | 12.0–24.5 | `step1/`(構成) | 右から傾いて入り(rotateY 26°)、正面を通って左へ流れる | STEPカード → 左上 `STEP 1` 構成 + 進捗バー。**12.0–14.8秒 右下に「完成サイトのURLは最後に」** |
+| ④ STEP 2 | 24.5–37.0 | `step2/`(デザイン) | ③の左右反転 | STEPカード → `STEP 2` デザイン |
+| ⑤ STEP 3 | 37.0–50.0 | 完成版を **読み込み直して** 全体をスクロール | 1.5倍に寄って上半分(湯気)を見せ、41.2秒から引いて全体へ | STEPカード → `STEP 3` 動き |
+| ⑥ 完成 | 50.0–56.0 | 完成版を再度読み込み(開幕演出をもう一度) | 右から入り、正面よりやや寄る | カード「COMPLETE 完成」→ 左上 `COMPLETE` 完成 |
+| ⑦ 締め | 56.0–64.0 | ⑥の続き | 1.3秒で上へ小さく退き(0.6倍)、画面を暗く | 媒体別の締め文言(1文字ずつ)、下に文字ロゴと `@studio_kakuu` |
 
 ### 動きのルール
-- **スクロール**:各区間の最初と最後に 0.8 秒静止 → 間を easeInOutSine で移動。スクロール量は「ページ全体の高さ − 画面の高さ」に対する割合で指定(`scroll.intro = [0, 0.55]`、`scroll.step = [0, 1]`、`scroll.complete = [0, 0.12]`)。
-- **画面の切り替え**:区間の境目で 0.35 秒のクロスフェード。
-- **ラベル/テロップのフェード**:0.3 秒。フックだけは 0 フレーム目から全表示(最初の1コマで内容が読めるように)、1.7–2.0 秒でフェードアウト。締めは 0.4 秒でフェードイン。
-- **STEP 進捗バー**:12.0–50.0 秒のあいだ、上部ラベルの下に3本のバーを表示し、現在のSTEPのバーが左から伸びる。
-- サイト内のCSSアニメーション/トランジション/JSアニメーションは **動画の時刻に同期**(4章「撮影方法」参照)。実時間で撮るとコマ落ちするため禁止。
+- **STEPカード**(12.0 / 24.5 / 37.0 / 50.0 秒):黒い幕が右から0.37秒で全面を覆い(左端にアクセント色の縦線)、「STEP n」(Space Grotesk 190px)とアクセントの線、見出し(Zen Kaku Gothic New 120px)が1文字ずつばねで立ち上がる。0.57秒後から0.4秒で左へ抜ける。**幕が覆っている間に画面の素材とカメラ位置を切り替える**(切れ目を見せない)。
+- **リズムのある文字**:見出し・締めはすべて1文字ずつ `spring`(damping 16 / stiffness 170 / mass 0.7)で下から立ち上がる。間隔はSTEPカード2〜3コマ、締め1コマ。
+- **立体感**:スマホ枠は `perspective: 2200px` の中で `preserve-3d`。前面(白2pxの枠)の奥に2枚の面(−9px / −18px)を重ねて厚みを出す。画面にガラスの映り込み(白のグラデーション)。
+- **背景**:黒地に白8%の横罫線2本、STEP中は大きな輪郭数字(01/02/03、白7%の線)がゆっくり横に流れる。
+- アニメーションはすべて `useCurrentFrame()` + `interpolate()` / `spring()` で書く(CSSの transition / animation は使わない)。
 
 ---
 
 ## 4. レイアウト(1080×1920 の実寸 px)
 
-すべて `brand/brand.md` の3色・2フォントのみを使用。
+色は `#0E0E0E` / `#FFFFFF` / `#C6FF3D` のみ(中間色は白の不透明度)。フォントは Space Grotesk(英数字)と Zen Kaku Gothic New(日本語)。
 
-| 要素 | 位置・サイズ | 見た目 |
-|---|---|---|
-| 背景 | 全面 | `#0E0E0E` |
-| スマホ枠 | left 184 / top 262 / 712×1506、角丸 72 | 線 `#FFFFFF` 2px、内側余白 13px |
-| スマホ画面 | 683×1477、角丸 58 | サイトを **幅390×高さ844(CSS px)** で表示し **1.75倍** に拡大 |
-| ノッチ | 画面上端から 18px、150×40、角丸20 | `#0E0E0E` |
-| 上部ラベル | left 72 / top 92 / 高さ120 | チップ:背景 `#C6FF3D`・文字 `#0E0E0E`・Space Grotesk 700・34px・字間 .06em・角丸999・padding 10/22。右に見出し:Zen Kaku Gothic New 700・60px・`#FFFFFF`・字間 .08em。間隔 24px |
-| STEP 進捗バー | left 72 / right 72 / top 222、高さ4、間隔12 | 地 `rgba(255,255,255,.18)`、進捗 `#C6FF3D` |
-| **URL予告** | **right 56 / bottom 56**(右下固定) | 「完成サイトのURLは最後に」Zen Kaku Gothic New 700・**34px**・`#C6FF3D`・行高1・字間 .04em。**全作品で同じ位置・同じフォント・同じ色** |
-| 全面の暗幕(フック・締め) | 全面 | `rgba(14,14,14,.78)` |
-| フック文字 | 左右 72px、上下中央 | Zen Kaku Gothic New 700・最大80px(1行が936pxに収まるまで自動縮小)・行高1.45・中央揃え・`#FFFFFF`。「{minutes}分」部分のみ `#C6FF3D` |
-| 締め文字 | 同上 | 同上・最大60px・行高1.6。Instagramの『{keyword}』部分のみ `#C6FF3D` |
-| 文字ロゴ(冒頭) | 中央、top 120、幅360 | `brand/logo.svg`(フック中のみ) |
-| 文字ロゴ(末尾) | 中央、top 1560、幅360 | `brand/logo.svg`(締め中のみ) |
-| ハンドル | 中央、top 1640 | `@studio_kakuu`・Space Grotesk 34px・`rgba(255,255,255,.7)`・字間 .08em |
-
-英数字は Space Grotesk、日本語は Zen Kaku Gothic New(`font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif`)。Google Fonts から読み込む。
+| 要素 | 位置・サイズ |
+|---|---|
+| スマホ画面 | 撮影素材 780×1688(=390×844 の2倍)を幅600で表示。ベゼル16、外形 632×1330、角丸78。中央配置(カメラの ty で上下) |
+| 上部ラベル | left 80 / top 100。チップ:アクセント地・黒文字・Space Grotesk 700・34px・角丸999。見出し:Zen Kaku Gothic New 700・60px |
+| STEP 進捗バー | left 80 / right 80 / top 232、高さ4、間隔12(12.0–50.0秒) |
+| **URL予告** | **right 56 / bottom 56**「完成サイトのURLは最後に」Zen Kaku Gothic New 700・**34px**・アクセント色。**全作品で同じ位置・同じフォント・同じ色**。0.3秒フェード |
+| フック文字 | 中央、最大112px(1行が920pxに収まるよう自動縮小)、行高1.42 |
+| 締め文字 | top 1010、左右80、最大72px(自動縮小)、行高1.55 |
+| 文字ロゴ | 冒頭:top 150・幅330/末尾:top 1560・幅360(`public/brand/logo.svg`) |
+| ハンドル | top 1650、Space Grotesk 500・34px・白70% |
 
 ---
 
 ## 5. テロップ文言(確定)
 
-### フック(全媒体共通)
-```
-架空の{theme}のサイトを
-{minutes}分で作った
-```
-→ 今回:「架空のカフェのサイトを / **7分**で作った」
-※ `{minutes}` は必ず `measured_time.txt` の実測値。手で書き換えて短くしない。
+- フック:`架空の{theme}の\nサイトを\n{minutes}分で作った`(`{minutes}` は必ず実測値)
+- URL予告:`完成サイトのURLは最後に`
+- 締め(`captions/<slug>/` と同じ文言)
 
-### URL予告(全媒体共通)
-```
-完成サイトのURLは最後に
-```
-
-### 締め(媒体別。`captions/<slug>/` の締めと同じ文言)
 | 媒体 | 文言(改行位置も固定) |
 |---|---|
-| instagram | コメントで『{keyword}』と送ってね / URLをお届けします |
+| instagram | コメントで『{keyword}』と送ってね / URLをお届けします(『{keyword}』はアクセント色) |
 | tiktok | 完成サイトは / プロフィールのInstagramから |
 | x | URLは / プロフィールのリンクから |
 
 ---
 
-## 6. 撮影方法(参照実装の仕組み)
+## 6. 撮影の仕組み(`scripts/capture.mjs`)
 
-`render/render.mjs` がやっていること。自作する場合も同じ方式にすること。
+1. Node の簡易サーバーでリポジトリ直下を配信し、Playwright(Chromium)で各ページを **390×844・deviceScaleFactor 2** で開く。完成版は `?capture` 付き。
+2. `page.clock.install()` → **`page.clock.pauseAt()` で時間を止める**(止めないと実時間が流れて開幕演出がずれる)。
+3. 1コマごとに「スクロール位置を指定 → `clock.runFor(1/30秒)` → JPEG 撮影」。GSAP・Canvas・ScrollTrigger の scrub も時計に同期するので、コマ落ちしない。
+4. スクロールは区間の最初 `holdStart` 秒と最後 `holdEnd` 秒は静止し、間を easeInOutSine で `scroll[0]→scroll[1]`(ページ全体に対する割合)。
+5. ffmpeg で `public/<slug>/<clip>.mp4`(CRF 14)にする。区間:`intro` / `step1` / `step2` / `step3` / `complete`(秒数は `_common.json` の `capture.clips`)。
 
-1. Node の簡易HTTPサーバーでリポジトリ直下を配信(`file://` だと iframe の操作ができないため)。
-2. Playwright(Chromium)で `video/render/stage.html` を **viewport 1080×1920 / deviceScaleFactor 1** で開く。
-3. `page.clock.install()` で `setTimeout`・`requestAnimationFrame`・`Date`・`performance.now` を偽の時計にする。
-4. `setup(config)` で完成版・STEP1・STEP2 を iframe に読み込む(フォント読み込み完了まで待つ)。STEP 3 用の完成版は ⑤ の開始0.5秒前に新規読み込み(リビールアニメを最初から見せるため)。
-5. 各フレーム `f` で:
-   - `page.clock.runFor()` で偽の時計を `f/30` 秒まで進める(JSアニメ・カウントアップ等が同期)
-   - `renderFrame(t)` を呼ぶ → iframe のスクロール位置、表示切替、ラベル、テロップを時刻 `t` の状態にする
-   - iframe 内の `document.getAnimations()` を全部 `pause()` し、`currentTime = 動画時刻 − そのアニメを最初に見つけた時刻` に設定(CSSアニメ・トランジションを動画の時刻に同期)
-   - `page.screenshot()` で PNG を保存
-6. 0–56秒の共通部分は1回撮って3媒体にコピー。56秒以降は1フレームごとに締め文言を3媒体分差し替えて撮る。
-7. ffmpeg で連番PNG → mp4(`-framerate 30 -c:v libx264 -crf 18 -pix_fmt yuv420p -an -movflags +faststart`)。
+## 7. 書き出し(`scripts/render.mjs`)
 
-iframe には撮影用に `scroll-behavior:auto` とスクロールバー非表示のCSSを注入する(サイト本体は変更しない)。
+- `npx remotion render src/index.ts Process-<platform> --props=... --codec=h264 --crf=20 --pixel-format=yuv420p --muted` → ffmpeg で `-c copy -movflags +faststart`。
+- 環境によって Remotion がブラウザを取得できない場合は、環境変数 `CHROMIUM_PATH` に Chromium(headless shell)のパスを入れる(`--browser-executable` に渡される)。
+- フォントは `public/fonts` の同梱ファイルを使う(書き出し中にネットへ取りに行かない)。
 
----
-
-## 7. 実行手順(別のPCで)
+## 8. 完成チェックリスト
 
 ```bash
-# 0) 事前に必要なもの:Node.js 18+ と ffmpeg
-node -v
-ffmpeg -version
-
-# 1) リポジトリを取得
-git clone <このリポジトリのURL>
-cd kakuu-studio/video/render
-
-# 2) 依存のインストール(初回のみ)
-npm install
-npx playwright install chromium
-
-# 3) まず確認用(5fps・数分で終わる)
-node render.mjs --theme cafe --preview
-
-# 4) 本番(30fps・3本。目安 10〜20分)
-node render.mjs --theme cafe
-
-# 媒体を絞る場合
-node render.mjs --theme cafe --platform instagram
+ffprobe -v error -show_entries format=duration,size:stream=codec_name,codec_type,width,height,r_frame_rate,pix_fmt -of compact videos/cafe/instagram.mp4
 ```
-
-出力:`video/out/cafe_instagram.mp4` / `cafe_tiktok.mp4` / `cafe_x.mp4`
-
-オプション:`--preview`(5fps確認版、ファイル名末尾 `_preview`)、`--platform a,b`、`--keep-frames`(連番PNGを残す)。
-
----
-
-## 8. 完成チェックリスト(書き出し後に必ず確認)
-
-```bash
-ffprobe -v error -show_entries format=duration:stream=codec_type,width,height,r_frame_rate -of compact video/out/cafe_instagram.mp4
-```
-- [ ] `width=1080 height=1920`、`r_frame_rate=30/1`
-- [ ] `duration` が 61〜75 秒(今回 64.0)
-- [ ] `codec_type=audio` の行が **無い**(音声なし)
-- [ ] 0秒の1コマ目でフック文字が読める/分数が `measured_time.txt` と一致
-- [ ] 12.0〜14.8秒に右下の「完成サイトのURLは最後に」(アクセント色)
-- [ ] STEP 1 → 2 → 3 の順で、ラベルとバーが切り替わる
-- [ ] STEP 3 でリビール(ふわっと出る動き)・湯気の動きが映っている
-- [ ] 締め文言が媒体ごとに正しい(instagram / tiktok / x)
-- [ ] 冒頭と末尾に文字ロゴ、色は `#0E0E0E` / `#FFFFFF` / `#C6FF3D` のみ(サイト画面内を除く)
-- [ ] 文字が画面からはみ出していない・1行が途中で折り返していない
-
----
+- [ ] `h264` / `yuv420p` / `1080x1920` / `30/1`、`codec_type=audio` の行が **無い**
+- [ ] 尺 61〜75秒(今回 64.0)、1本 50MB 以下
+- [ ] 0コマ目でフックが全文読める/分数が `measured_time.txt` と一致
+- [ ] 12.0〜14.8秒に右下の「完成サイトのURLは最後に」
+- [ ] STEP 1 → 2 → 3 の順にカード・ラベル・バーが切り替わる/切れ目が見えない
+- [ ] STEP 3 で開幕演出・湯気・スクロール演出が映っている
+- [ ] 締め文言が媒体ごとに正しい。冒頭と末尾に文字ロゴ
+- [ ] 文字のはみ出し・途中の折り返しがない
 
 ## 9. よくあるつまずき
 
 | 症状 | 対処 |
 |---|---|
-| `Cannot find module 'playwright'` | `video/render` で `npm install` を実行したか確認 |
+| `Cannot find module 'playwright'` | `video/remotion` で `npm install` |
 | `Executable doesn't exist` | `npx playwright install chromium` |
-| `ffmpeg: command not found` | ffmpeg をインストール(Mac: `brew install ffmpeg` / Windows: `winget install ffmpeg`) |
-| 文字が明朝/ゴシックの代替フォントになる | ネット接続を確認(Google Fonts を読み込むため) |
-| 尺エラー | `_common.json` の `timeline.closing[1]` が 61〜75 の範囲か確認 |
+| 書き出しでブラウザのダウンロードに失敗 | `CHROMIUM_PATH` に手元の Chromium / Chrome のパスを指定 |
+| 開幕演出が撮れていない・速すぎる | capture.mjs の `pauseAt` が効いているか確認 |
+| 50MB を超える | `node scripts/render.mjs --theme <slug> --crf 23` |
+| 尺を変えたい | `_common.json` の `timeline`(各区間)と `capture.clips[].seconds` を一緒に変える。`closing[1]` は 61〜75 |

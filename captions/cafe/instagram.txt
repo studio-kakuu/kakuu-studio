@@ -1,11 +1,11 @@
 【日本語】
-架空のカフェのサイトを、7分で。
+架空のカフェのサイトを、8分で。
 
 YUGE 湯気と珈琲 ― 坂の途中にある、八席だけの小さな珈琲店。
 「湯気がやむまで、ここにいていい。」という一行から、色と文字と余白を決めていきました。
 
 STEP 1 構成 → STEP 2 デザイン → STEP 3 動き
-写真は使わず、カップも窓辺の光も地図も、すべてコードで描いています。
+写真は使わず、湯気もカップも坂の線画も、すべてコードで描いています。
 
 ※実在しない、架空のお店です。
 
@@ -14,13 +14,13 @@ STEP 1 構成 → STEP 2 デザイン → STEP 3 動き
 ―――
 
 【English】
-A website for a café that doesn't exist — made in 7 minutes.
+A website for a café that doesn't exist — made in 8 minutes.
 
 YUGE — a tiny eight-seat coffee shop halfway up a quiet hill.
 Everything grew from one line: "Stay until the steam settles."
 
 STEP 1 Structure → STEP 2 Design → STEP 3 Motion
-No photos. The cup, the window light and the map are all drawn in code.
+No photos. The steam, the cup and the hillside drawing are all made in code.
 
 *A fictional brand.
 

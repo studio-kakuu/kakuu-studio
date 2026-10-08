@@ -11,3 +11,5 @@ GitHub Pages で公開する静的サイトです。
 | `works/cafe/` | 001 YUGE 湯気と珈琲(架空のカフェ)。`step1/` 構成、`step2/` デザイン、直下が完成版 |
 | `captions/cafe/` | Instagram / TikTok / X の投稿本文(日英) |
 | `video/` | 動画の設計書 `spec.md` とレンダラー |
+| `toolbox/README.md` | 道具箱(使うツール・スキル・運用ルール) |
+| `.claude/skills/` | 公式スキル(frontend-design / GSAP / Remotion) |

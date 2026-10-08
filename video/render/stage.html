@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>KAKUU STUDIO — video stage</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../brand/colors.css">
+<style>
+  /* すべて 1080x1920 の実寸ピクセルで配置(spec.md「4. レイアウト」と同じ数値) */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--kakuu-black); }
+  body { font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif; color: var(--kakuu-white); position: relative; }
+
+  /* ヘッダー(STEPラベル) */
+  .head { position: absolute; left: 72px; right: 72px; top: 92px; height: 120px; display: flex; align-items: center; gap: 24px; opacity: 0; }
+  .chip { background: var(--kakuu-accent); color: var(--kakuu-black); font-weight: 700; font-size: 34px; letter-spacing: .06em; padding: 10px 22px; border-radius: 999px; line-height: 1; }
+  .title { font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 700; font-size: 60px; letter-spacing: .08em; line-height: 1; }
+  .bars { position: absolute; left: 72px; right: 72px; top: 222px; display: flex; gap: 12px; opacity: 0; }
+  .bars i { flex: 1; height: 4px; background: rgba(255, 255, 255, .18); border-radius: 2px; overflow: hidden; position: relative; }
+  .bars i b { position: absolute; inset: 0; background: var(--kakuu-accent); transform-origin: 0 50%; transform: scaleX(0); }
+
+  /* スマホ枠:画面 390x844(CSS px)を 1.75 倍 → 683x1477 */
+  .phone { position: absolute; left: 184px; top: 262px; width: 712px; height: 1506px; border: 2px solid var(--kakuu-white); border-radius: 72px; padding: 13px; }
+  .screen { position: relative; width: 683px; height: 1477px; border-radius: 58px; overflow: hidden; background: #fff; }
+  .screen iframe { position: absolute; left: 0; top: 0; width: 390px; height: 844px; border: 0; transform: scale(1.75); transform-origin: 0 0; opacity: 0; background: #fff; }
+  .notch { position: absolute; left: 50%; top: 18px; width: 150px; height: 40px; margin-left: -75px; border-radius: 20px; background: var(--kakuu-black); z-index: 3; }
+
+  /* 「完成サイトのURLは最後に」:右下固定 */
+  .notice { position: absolute; right: 56px; bottom: 56px; font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: .04em; color: var(--kakuu-accent); opacity: 0; }
+
+  /* 全面テロップ(フック・締め) */
+  .scrim { position: absolute; inset: 0; background: rgba(14, 14, 14, .78); opacity: 0; }
+  .big { position: absolute; left: 72px; right: 72px; top: 50%; transform: translateY(-50%); text-align: center; font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 700; font-size: 80px; line-height: 1.45; letter-spacing: .04em; white-space: pre-line; opacity: 0; }
+  .big em { font-style: normal; color: var(--kakuu-accent); }
+  .closing { font-size: 60px; line-height: 1.6; }
+  .big .ln { display: block; white-space: nowrap; }
+  .logo { position: absolute; left: 50%; width: 360px; margin-left: -180px; opacity: 0; }
+  .logo.top { top: 120px; }
+  .logo.bottom { top: 1560px; }
+  .handle { position: absolute; left: 0; right: 0; top: 1640px; text-align: center; font-size: 34px; letter-spacing: .08em; color: rgba(255, 255, 255, .7); opacity: 0; }
+</style>
+</head>
+<body>
+  <div class="head"><span class="chip" id="chip">STEP 1</span><span class="title" id="title">構成</span></div>
+  <div class="bars"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+
+  <div class="phone">
+    <div class="screen">
+      <div class="notch"></div>
+      <iframe id="finalA" title="final"></iframe>
+      <iframe id="step1" title="step1"></iframe>
+      <iframe id="step2" title="step2"></iframe>
+      <iframe id="finalB" title="step3"></iframe>
+    </div>
+  </div>
+
+  <div class="notice" id="notice"></div>
+
+  <div class="scrim" id="scrim"></div>
+  <img class="logo top" id="logoTop" src="../../brand/logo.svg" alt="">
+  <div class="big" id="hook"></div>
+  <div class="big closing" id="closing"></div>
+  <img class="logo bottom" id="logoBottom" src="../../brand/logo.svg" alt="">
+  <div class="handle" id="handle"></div>
+
+<script>
+/* ===== stage controller ===== */
+const $ = (id) => document.getElementById(id);
+let C = null;           // config(render.mjs から渡される)
+const frames = {};      // id -> iframe
+
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = (x) => 0.5 - Math.cos(Math.PI * clamp(x)) / 2;           // easeInOutSine
+const fade = (t, a, b, d = 0.3) => clamp((t - a) / d) * clamp((b - t) / d); // a〜b の区間で0.3秒フェード
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const accent = (s, words) => words.reduce((h, w) => w ? h.split(esc(w)).join(`<em>${esc(w)}</em>`) : h, esc(s));
+
+function loadFrame(id, src) {
+  return new Promise((resolve) => {
+    const f = $(id);
+    f.onload = async () => {
+      const d = f.contentDocument;
+      const st = d.createElement('style');
+      st.textContent = 'html{scroll-behavior:auto!important;scrollbar-width:none}::-webkit-scrollbar{display:none}';
+      d.head.appendChild(st);
+      try { await d.fonts.ready; } catch (e) {}
+      f._anims = new Map();
+      resolve();
+    };
+    f.src = src;
+    frames[id] = f;
+  });
+}
+
+// 1行が横幅(936px)に収まるよう文字サイズを自動で縮める
+window.fitText = (el, max) => {
+  el.innerHTML = el.innerHTML.split('\n').map((l) => `<span class="ln">${l}</span>`).join('');
+  let size = max;
+  el.style.fontSize = size + 'px';
+  const width = el.clientWidth;
+  while (size > 32 && [...el.querySelectorAll('.ln')].some((l) => l.scrollWidth > width)) { size -= 2; el.style.fontSize = size + 'px'; }
+};
+
+window.setup = async (config) => {
+  C = config;
+  $('hook').innerHTML = accent(C.hook, [`${C.minutes}分`]);
+  fitText($('hook'), 80);
+    $('notice').textContent = C.urlNotice;
+  $('handle').textContent = C.handle;
+  await Promise.all([
+    loadFrame('finalA', C.pages.final),
+    loadFrame('step1', C.pages.step1),
+    loadFrame('step2', C.pages.step2),
+    document.fonts.ready,
+  ]);
+};
+
+// iframe 内の CSS アニメーション/トランジションを「動画の時刻」に合わせる
+function syncAnimations(f, ms) {
+  const d = f.contentDocument;
+  if (!d) return;
+  for (const a of d.getAnimations()) {
+    if (!f._anims.has(a)) { a.pause(); f._anims.set(a, ms); }
+    a.currentTime = ms - f._anims.get(a);
+  }
+}
+
+function scrollTo(f, ratio) {
+  const w = f.contentWindow;
+  const max = w.document.documentElement.scrollHeight - w.innerHeight;
+  w.scrollTo({ top: Math.round(max * ratio), behavior: 'instant' });
+}
+
+function segScroll(t, [a, b], [from, to]) {
+  // 区間の最初と最後に0.8秒ずつ静止してからスクロール
+  const hold = 0.8;
+  return from + (to - from) * ease((t - a - hold) / (b - a - hold * 2));
+}
+
+let finalBLoaded = false;
+window.renderFrame = async (t) => {
+  const T = C.timeline;
+  const ms = t * 1000;
+
+  // STEP 3 は動きを見せるため、区間開始時に新しく読み込む
+  if (!finalBLoaded && t >= T.step3[0] - 0.5) { finalBLoaded = true; await loadFrame('finalB', C.pages.final); }
+
+  // どの画面を見せるか
+  const show = { finalA: 0, step1: 0, step2: 0, finalB: 0 };
+  const xf = 0.35;
+  const mix = (prev, next, at) => { const k = clamp((t - at) / xf); show[prev] = Math.max(show[prev], 1 - k); show[next] = Math.max(show[next], k); };
+  if (t < T.step1[0]) show.finalA = 1;
+  else if (t < T.step2[0]) mix('finalA', 'step1', T.step1[0]);
+  else if (t < T.step3[0]) mix('step1', 'step2', T.step2[0]);
+  else if (t < T.complete[0]) mix('step2', 'finalB', T.step3[0]);
+  else mix('finalB', 'finalA', T.complete[0]);
+  for (const id in show) if (frames[id]) frames[id].style.opacity = show[id];
+
+  // スクロール
+  if (t < T.step1[0]) scrollTo(frames.finalA, t < T.intro[0] ? 0 : segScroll(t, T.intro, C.scroll.intro));
+  if (t >= T.step1[0] - 0.1 && t < T.step2[0] + xf) scrollTo(frames.step1, segScroll(t, T.step1, C.scroll.step));
+  if (t >= T.step2[0] - 0.1 && t < T.step3[0] + xf) scrollTo(frames.step2, segScroll(t, T.step2, C.scroll.step));
+  if (frames.finalB && t >= T.step3[0] - 0.5 && t < T.complete[0] + xf) scrollTo(frames.finalB, segScroll(t, T.step3, C.scroll.step));
+  if (t >= T.complete[0]) scrollTo(frames.finalA, segScroll(t, [T.complete[0], T.closing[0]], C.scroll.complete));
+
+  for (const id in frames) syncAnimations(frames[id], ms);
+
+  // ヘッダー
+  let chip = '', title = '';
+  if (t >= T.intro[0] && t < T.step1[0]) { chip = 'COMPLETE'; title = '完成'; }
+  C.steps.forEach((s) => { if (t >= T[s.id][0] && t < T[s.id][1]) { chip = s.label; title = s.title; } });
+  if (t >= T.complete[0] && t < T.closing[0]) { chip = 'COMPLETE'; title = '完成'; }
+  $('chip').textContent = chip; $('title').textContent = title;
+  const headOn = chip ? fade(t, T.intro[0], T.closing[0]) : 0;
+  document.querySelector('.head').style.opacity = headOn;
+
+  // STEP 進捗バー
+  const barsOn = fade(t, T.step1[0], T.step3[1]);
+  document.querySelector('.bars').style.opacity = barsOn;
+  document.querySelectorAll('.bars b').forEach((b, i) => {
+    const seg = T[C.steps[i].id];
+    b.style.transform = `scaleX(${clamp((t - seg[0]) / (seg[1] - seg[0]))})`;
+  });
+
+  // URL 予告(右下)
+  $('notice').style.opacity = fade(t, T.urlNotice[0], T.urlNotice[1]);
+
+  // フック
+  const hookOn = t < T.hook[1] ? clamp((T.hook[1] - t) / 0.3) : 0;
+  // 締め
+  const closeOn = clamp((t - T.closing[0]) / 0.4);
+  $('scrim').style.opacity = Math.max(hookOn, closeOn);
+  $('hook').style.opacity = hookOn;
+  $('logoTop').style.opacity = hookOn;
+  $('closing').style.opacity = closeOn;
+  $('logoBottom').style.opacity = closeOn;
+  $('handle').style.opacity = closeOn;
+};
+</script>
+</body>
+</html>

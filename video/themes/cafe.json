@@ -1,0 +1,6 @@
+{
+  "_comment": "作品ごとの設定。次の作品ではこのファイルをコピーして slug / theme / keyword を書き換えるだけ。",
+  "slug": "cafe",
+  "theme": "カフェ",
+  "keyword": "カフェ"
+}

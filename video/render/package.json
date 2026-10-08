@@ -1,0 +1,13 @@
+{
+  "name": "kakuu-video-render",
+  "private": true,
+  "type": "module",
+  "description": "KAKUU STUDIO — 制作過程ショート動画のレンダラー(Playwright + ffmpeg、すべてローカル・無料)",
+  "scripts": {
+    "render": "node render.mjs",
+    "preview": "node render.mjs --preview"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  }
+}

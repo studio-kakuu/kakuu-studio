@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STEP 1 構成 — YUGE 湯気と珈琲</title>
+<meta name="robots" content="noindex">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: #f4f4f4;
+    color: #777;
+    font: 12px/1.5 ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  .wrap { width: min(100% - 32px, 960px); margin-inline: auto; }
+  .box {
+    background: #dcdcdc;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: #8a8a8a;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    min-height: 16px;
+  }
+  .line { height: 10px; background: #e2e2e2; border-radius: 99px; margin: 8px 0; }
+  .line.s { width: 40%; } .line.m { width: 70%; } .line.l { width: 100%; }
+  .label {
+    display: inline-block; margin-bottom: 14px; padding: 2px 8px;
+    border: 1px dashed #bbb; border-radius: 99px; font-size: 10px;
+  }
+  section { padding: 56px 0; border-bottom: 1px dashed #d0d0d0; }
+
+  header { position: sticky; top: 0; z-index: 5; background: #f4f4f4; border-bottom: 1px dashed #d0d0d0; }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; height: 56px; }
+  header .logo { width: 96px; height: 20px; }
+  header .menu { width: 28px; height: 16px; }
+
+  .hero { padding-top: 32px; }
+  .hero .visual { height: 300px; margin-bottom: 24px; }
+  .hero .title { height: 64px; width: 70%; margin-bottom: 14px; }
+  .hero .btn { height: 44px; width: 160px; margin-top: 20px; border-radius: 99px; }
+
+  .marquee .box { height: 36px; }
+
+  .grid2 { display: grid; gap: 20px; }
+  .menu-list { display: grid; gap: 14px; }
+  .menu-item { display: grid; grid-template-columns: 64px 1fr 48px; gap: 14px; align-items: center; }
+  .menu-item .icon { height: 64px; }
+  .menu-item .price { height: 16px; }
+
+  .steps { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
+  .steps .box { height: 140px; }
+
+  .space { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+  .space .box:first-child { grid-column: 1 / -1; height: 220px; }
+  .space .box { height: 150px; }
+
+  .info .map { height: 240px; }
+  .info .row { display: grid; grid-template-columns: 80px 1fr; gap: 12px; margin: 10px 0; }
+
+  footer { padding: 40px 0 64px; }
+  footer .box { height: 40px; width: 140px; margin-bottom: 16px; }
+
+  @media (min-width: 800px) {
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+    .hero .visual { height: 460px; order: 2; margin: 0; }
+    .grid2 { grid-template-columns: 1fr 1fr; gap: 48px; }
+    .steps { grid-template-columns: repeat(4, 1fr); }
+    .space { grid-template-columns: 2fr 1fr 1fr; }
+    .space .box:first-child { grid-column: auto; grid-row: span 2; height: auto; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap"><div class="box logo">logo</div><div class="box menu"></div></div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="box visual">hero visual (cup + steam)</div>
+      <div>
+        <span class="label">01 hero</span>
+        <div class="box title">brand name</div>
+        <div class="line l"></div><div class="line m"></div>
+        <div class="box btn">button</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="marquee"><div class="wrap"><div class="box">marquee text</div></div></section>
+
+  <section>
+    <div class="wrap grid2">
+      <div><span class="label">02 concept</span><div class="box" style="height:48px;width:80%">heading</div></div>
+      <div><div class="line l"></div><div class="line l"></div><div class="line m"></div><div class="line l"></div><div class="line s"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <span class="label">03 menu</span>
+      <div class="box" style="height:40px;width:50%;margin-bottom:28px">heading</div>
+      <div class="grid2">
+        <div class="menu-list">
+          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
+          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
+          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
+        </div>
+        <div class="menu-list">
+          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
+          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
+          <div class="menu-item"><div class="box icon">icon</div><div><div class="line m"></div><div class="line s"></div></div><div class="box price"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <span class="label">04 process</span>
+      <div class="box" style="height:40px;width:60%;margin-bottom:28px">heading</div>
+      <div class="steps"><div class="box">step</div><div class="box">step</div><div class="box">step</div><div class="box">step</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <span class="label">05 space</span>
+      <div class="box" style="height:40px;width:40%;margin-bottom:28px">heading</div>
+      <div class="space"><div class="box">scene</div><div class="box">scene</div><div class="box">scene</div><div class="box">scene</div><div class="box">scene</div></div>
+    </div>
+  </section>
+
+  <section class="info">
+    <div class="wrap grid2">
+      <div>
+        <span class="label">06 hours &amp; access</span>
+        <div class="row"><div class="box">label</div><div class="line l"></div></div>
+        <div class="row"><div class="box">label</div><div class="line m"></div></div>
+        <div class="row"><div class="box">label</div><div class="line l"></div></div>
+        <div class="row"><div class="box">label</div><div class="line s"></div></div>
+      </div>
+      <div class="box map">map</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap"><div class="box">logo</div><div class="line m"></div><div class="line s"></div></div>
+  </footer>
+</body>
+</html>

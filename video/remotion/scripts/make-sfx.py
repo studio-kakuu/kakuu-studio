@@ -332,9 +332,20 @@ def s_ehon_tap():  # タップ:やわらかい「ぽん」
     return reverb(w * 0.8, 0.6, 0.15, 0.3)
 
 
+def s_ehon_gust():  # 強い風:「びゅうっ」と左から右へ抜ける(そよ風より速く、音の高さが上がって下がる)
+    d = 1.3
+    t = t_(d)
+    shape = np.sin(np.pi * np.clip(t / d, 0, 1) ** 0.7) ** 1.3
+    cut = 450 + 1300 * np.sin(np.pi * np.clip(t / d, 0, 1) ** 0.8)
+    w = lp(hp(noise(d), 220), cut, 2) * shape * 1.8
+    whistle = bandpass(noise(d), 700 + 500 * np.sin(np.pi * np.clip(t / d, 0, 1)), 0.25) * shape * 0.9
+    return reverb(w + whistle, 1.0, 0.22, 0.6)
+
+
 SOUNDS.update({
     "ehon_wind": s_ehon_wind, "ehon_page": s_ehon_page, "ehon_sparkle": s_ehon_sparkle, "ehon_title": s_ehon_title,
     "ehon_soft": s_ehon_soft, "ehon_burst": s_ehon_burst, "ehon_rain": s_ehon_rain, "ehon_bloom": s_ehon_bloom, "ehon_tap": s_ehon_tap,
+    "ehon_gust": s_ehon_gust,  # 最後に足す(乱数の順番が変わって、ほかの音が変わらないように)
 })
 
 

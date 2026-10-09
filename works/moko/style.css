@@ -151,9 +151,12 @@ button { font: inherit; color: inherit; }
 .burst p { margin: 0; text-align: center; font-weight: 900; font-size: clamp(42px, 15vmin, 150px); line-height: 1.35; letter-spacing: .06em; color: var(--white);
   -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; text-shadow: 0 0 34px rgba(246, 198, 91, .9); }
 .burst .ch { display: inline-block; }
+.burst .ln, .owari .ln { display: block; }
+.owari .ch { display: inline-block; }
 
 .title { position: absolute; z-index: 13; left: 0; right: 0; top: 46vh; margin: 0; text-align: center; font-weight: 900; line-height: 1.1; pointer-events: none; }
 .title span { display: block; }
+.title .t0 { font-size: clamp(14px, 4.2vmin, 30px); letter-spacing: .14em; color: var(--ink); margin-bottom: 1.4vh; padding: .35em 1em; justify-self: center; display: inline-block !important; border-radius: 999px; background: rgba(255, 246, 230, .85); box-shadow: 0 0 0 2px rgba(106, 86, 76, .16); }
 .title .t1 { font-size: clamp(30px, 9vmin, 80px); letter-spacing: .3em; color: var(--ink); }
 .title .t2 { font-size: clamp(76px, 26vmin, 230px); letter-spacing: .12em; color: var(--white); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 rgba(106, 86, 76, .18), 0 0 40px rgba(246, 198, 91, .8); }
 .title .ch { display: inline-block; }
@@ -165,6 +168,15 @@ button { font: inherit; color: inherit; }
 .credit { margin: 0; font-size: clamp(11px, 2.6vmin, 15px); color: var(--ink-soft); line-height: 1.8; }
 .credit a { color: var(--ink); }
 
+/* 強い風の線(かぜに とばされる) */
+.gusts { position: absolute; inset: 0; z-index: 9; pointer-events: none; overflow: hidden; }
+.gusts i { position: absolute; left: 0; height: 5px; border-radius: 5px; opacity: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .95) 40%, rgba(255, 255, 255, 0)); box-shadow: 0 0 0 1.5px rgba(106, 86, 76, .12); }
+
+/* もこの「ちいさく なった」想像(うすい影) */
+.ghost { position: absolute; pointer-events: none; opacity: 0; }
+.ghost svg { display: block; width: 100%; overflow: visible; }
+
 .flood { position: absolute; inset: 0; z-index: 20; pointer-events: none; overflow: hidden; }
 .flood i { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255, 250, 235, 1) 0%, rgba(255, 236, 190, .95) 45%, rgba(255, 214, 160, 0) 72%); transform: scale(0); }
 .taps { position: absolute; inset: 0; z-index: 25; pointer-events: none; }
@@ -174,6 +186,15 @@ button { font: inherit; color: inherit; }
 .dots { display: flex; gap: 7px; }
 .dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(106, 86, 76, .25); transition: background .4s, transform .4s; }
 .dots i.on { background: var(--ink); transform: scale(1.25); }
+.btns { display: flex; gap: 8px; }
+.read { pointer-events: auto; display: inline-flex; align-items: center; gap: .3em; padding: .35em .9em .35em .7em; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--gold); font-weight: 900; font-size: 14px; letter-spacing: .08em; cursor: pointer; }
+.read svg { width: 1.25em; height: 1.25em; fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.read svg path:first-child { fill: var(--ink); }
+.read .wave { opacity: .35; }
+.read.playing { background: var(--pink); }
+.read.playing .w1 { animation: wave 1s ease-in-out infinite; }
+.read.playing .w2 { animation: wave 1s ease-in-out .25s infinite; }
+@keyframes wave { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
 .next { pointer-events: auto; padding: .35em 1em; border: 2.5px solid var(--ink); border-radius: 999px; background: rgba(255, 246, 230, .9); font-weight: 900; font-size: 14px; letter-spacing: .1em; cursor: pointer; }
 .demo .ui { opacity: 0; }
 
@@ -190,3 +211,15 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .motes { display: none; }
 }
+
+/* ---------- 動画の撮影用(?demo=video):SNS のボタン・説明文に文字が隠れない配置 ----------
+   1080×1920 で 上 220px・下 420px・右 160px をあける(撮影は 540×960 なので半分の値) */
+.video { --moko-y: 29%; --flower-bottom: 18vh; }
+.video .story { top: 122px; bottom: auto; left: 22px; right: 86px; min-height: 0; align-items: flex-start; }
+.video .text { font-size: 19.5px; letter-spacing: .07em; }
+.video .title { right: 80px; }
+.video .burst { right: 80px; width: auto; }
+.video .burst p { font-size: 60px; }
+.video .ending { right: 80px; }
+.video .owari { font-size: 84px; }
+.video .again, .video .credit { display: none; }

@@ -117,7 +117,7 @@ export const StepCard: React.FC<{ at: number; label: string; title: string }> = 
 };
 
 // 「完成サイトのURLは最後に」:右下固定、全作品で同じ位置・フォント・色
-export const UrlNotice: React.FC<{ text?: string; at?: readonly [number, number]; backing?: boolean }> = ({ text = COMMON.urlNotice, at = TL.urlNotice, backing }) => {
+export const UrlNotice: React.FC<{ text?: string; at?: readonly [number, number]; backing?: boolean; safe?: boolean }> = ({ text = COMMON.urlNotice, at = TL.urlNotice, backing, safe }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -126,7 +126,9 @@ export const UrlNotice: React.FC<{ text?: string; at?: readonly [number, number]
   if (o <= 0) return null;
   return (
     <div style={{ position: "absolute", right: 56, bottom: 56, fontFamily: FONT_JA, fontWeight: 700, fontSize: 34, lineHeight: 1, letterSpacing: "0.04em", color: ACCENT, opacity: o,
-      ...(backing ? { background: "rgba(14,14,14,.78)", padding: "14px 20px", borderRadius: 999, right: 40, bottom: 44 } : {}) }}>
+      ...(backing ? { background: "rgba(14,14,14,.78)", padding: "14px 20px", borderRadius: 999, right: 40, bottom: 44 } : {}),
+      // SNS のボタン・説明文に隠れない位置(右 160px・下 420px より内側)
+      ...(safe ? { right: 172, bottom: 436 } : {}) }}>
       {text}
     </div>
   );
@@ -162,24 +164,26 @@ export const Hook: React.FC<{ text: string; accent: string; endSec?: number }> =
 };
 
 // 締め(媒体別)
-export const Closing: React.FC<{ text: string; keyword: string; handle: string; sub?: string }> = ({ text, keyword, handle, sub }) => {
+export const Closing: React.FC<{ text: string; keyword: string; handle: string; sub?: string; safe?: boolean }> = ({ text, keyword, handle, sub, safe }) => {
   const frame = useCurrentFrame();
   // Sequence の中なので frame は締めの開始からの相対コマ数
   const f0 = Math.round(useVideoConfig().fps / 3);
   const ls = lines(text);
-  const size = fitSize(ls, 72);
+  // safe:SNS のボタン・説明文に隠れないよう、左右 160px・下 420px をあけて上へ寄せる
+  const L = safe ? { side: 160, area: 740, text: 800, sub: 1110, logo: 1200, handle: 1290 } : { side: 80, area: 900, text: 1010, sub: 1330, logo: 1560, handle: 1650 };
+  const size = fitSize(ls, 72, L.area);
   const kw = `『${keyword}』`;
   const fade = interpolate(frame, [f0 + 20, f0 + 34], [0, 1], { ...clamp, easing: OUT });
   return (
     <AbsoluteFill>
-      <div style={{ position: "absolute", left: 80, right: 80, top: 1010, fontFamily: FONT, fontWeight: 700, fontSize: size, lineHeight: 1.55, letterSpacing: "0.03em", color: WHITE, textAlign: "center" }}>
+      <div style={{ position: "absolute", left: L.side, right: L.side, top: L.text, fontFamily: FONT, fontWeight: 700, fontSize: size, lineHeight: 1.55, letterSpacing: "0.03em", color: WHITE, textAlign: "center" }}>
         {ls.map((l, i) => (
           <div key={i}><Rhythm text={l} start={f0 + i * 8} step={1} accent={l.includes(kw) ? kw : undefined} /></div>
         ))}
       </div>
-      {sub && <div style={{ position: "absolute", left: 0, right: 0, top: 1330, textAlign: "center", fontFamily: FONT_EN, fontWeight: 500, fontSize: 32, letterSpacing: "0.22em", color: ACCENT, opacity: fade }}>{sub}</div>}
-      <Img src={staticFile("brand/logo.svg")} style={{ position: "absolute", top: 1560, left: "50%", width: 360, marginLeft: -180, opacity: fade }} />
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1650, textAlign: "center", fontFamily: FONT_EN, fontWeight: 500, fontSize: 34, letterSpacing: "0.08em", color: white(0.7), opacity: fade }}>{handle}</div>
+      {sub && <div style={{ position: "absolute", left: 0, right: 0, top: L.sub, textAlign: "center", fontFamily: FONT_EN, fontWeight: 500, fontSize: 32, letterSpacing: "0.22em", color: ACCENT, opacity: fade }}>{sub}</div>}
+      <Img src={staticFile("brand/logo.svg")} style={{ position: "absolute", top: L.logo, left: "50%", width: 360, marginLeft: -180, opacity: fade }} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: L.handle, textAlign: "center", fontFamily: FONT_EN, fontWeight: 500, fontSize: 34, letterSpacing: "0.08em", color: white(0.7), opacity: fade }}>{handle}</div>
     </AbsoluteFill>
   );
 };

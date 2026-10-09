@@ -117,7 +117,7 @@ export const StepCard: React.FC<{ at: number; label: string; title: string }> = 
 };
 
 // 「完成サイトのURLは最後に」:右下固定、全作品で同じ位置・フォント・色
-export const UrlNotice: React.FC<{ text?: string; at?: readonly [number, number] }> = ({ text = COMMON.urlNotice, at = TL.urlNotice }) => {
+export const UrlNotice: React.FC<{ text?: string; at?: readonly [number, number]; backing?: boolean }> = ({ text = COMMON.urlNotice, at = TL.urlNotice, backing }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -125,7 +125,8 @@ export const UrlNotice: React.FC<{ text?: string; at?: readonly [number, number]
   const o = Math.min(interpolate(t, [a, a + 0.3], [0, 1], clamp), interpolate(t, [b - 0.3, b], [1, 0], clamp));
   if (o <= 0) return null;
   return (
-    <div style={{ position: "absolute", right: 56, bottom: 56, fontFamily: FONT_JA, fontWeight: 700, fontSize: 34, lineHeight: 1, letterSpacing: "0.04em", color: ACCENT, opacity: o }}>
+    <div style={{ position: "absolute", right: 56, bottom: 56, fontFamily: FONT_JA, fontWeight: 700, fontSize: 34, lineHeight: 1, letterSpacing: "0.04em", color: ACCENT, opacity: o,
+      ...(backing ? { background: "rgba(14,14,14,.78)", padding: "14px 20px", borderRadius: 999, right: 40, bottom: 44 } : {}) }}>
       {text}
     </div>
   );

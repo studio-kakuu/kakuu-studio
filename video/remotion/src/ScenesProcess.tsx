@@ -5,6 +5,7 @@ import { Audio } from "@remotion/media";
 import { ACCENT, BLACK, FONT, FONT_EN, FONT_JA, WHITE, white } from "./brand";
 import { COMMON, fill, type ProcessProps } from "./config";
 import { Phone, type Clip } from "./scenes/Phone";
+import { FullScreen, type FullClip } from "./scenes/FullScreen";
 import { scenePose, type SceneSpec } from "./scenes/camera";
 import { Closing, Hook, Rhythm, UrlNotice } from "./scenes/Overlays";
 
@@ -16,12 +17,15 @@ const OUT = Easing.bezier(0.16, 1, 0.3, 1);
 const VOLUME: Record<string, number> = {
   panel: 0.4, key: 0.3, send: 0.55, pulse: 0.8, tick: 0.4, done: 0.45, alert: 0.6, approve: 0.65,
   whoosh: 0.5, hit: 0.85, hook: 0.6, close: 0.55,
+  // 絵本(くものこ もこ)
+  ehon_wind: 0.45, ehon_page: 0.4, ehon_sparkle: 0.42, ehon_title: 0.5, ehon_soft: 0.45, ehon_burst: 0.55,
+  ehon_rain: 0.5, ehon_bloom: 0.55, ehon_tap: 0.5,
 };
 
 type Scene = { from: number; to: number; chip: string; title: string; camera: SceneSpec["camera"] };
 
 // 左上のラベル(場面ごとに切り替わる)
-const SceneHeader: React.FC<{ scenes: Scene[] }> = ({ scenes }) => {
+const SceneHeader: React.FC<{ scenes: Scene[]; soft?: boolean }> = ({ scenes, soft }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -32,7 +36,7 @@ const SceneHeader: React.FC<{ scenes: Scene[] }> = ({ scenes }) => {
   return (
     <>
     {/* スマホに寄ったときも読めるよう、ラベルの後ろを暗くする */}
-    <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 300, background: `linear-gradient(${BLACK} 0%, rgba(14,14,14,.85) 45%, rgba(14,14,14,0) 100%)`, opacity: o }} />
+    <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: soft ? 240 : 300, background: soft ? "linear-gradient(rgba(14,14,14,.55) 0%, rgba(14,14,14,.3) 50%, rgba(14,14,14,0) 100%)" : `linear-gradient(${BLACK} 0%, rgba(14,14,14,.85) 45%, rgba(14,14,14,0) 100%)`, opacity: o }} />
     <div style={{ position: "absolute", left: 80, top: 100, display: "flex", alignItems: "center", gap: 24, opacity: o }}>
       <span style={{ background: ACCENT, color: BLACK, fontFamily: FONT_EN, fontWeight: 700, fontSize: 34, letterSpacing: "0.06em", lineHeight: 1, padding: "11px 22px", borderRadius: 999, translate: `${interpolate(frame, [f0, f0 + 10], [-30, 0], { ...clamp, easing: OUT })}px 0px` }}>{sc.chip}</span>
       <Rhythm key={sc.from} text={sc.title} start={f0 + 3} step={2} style={{ fontFamily: FONT_JA, fontWeight: 700, fontSize: 58, letterSpacing: "0.06em", color: WHITE, lineHeight: 1 }} />
@@ -118,8 +122,10 @@ export const ScenesProcess: React.FC<ProcessProps> = (props) => {
   return (
     <AbsoluteFill style={{ fontFamily: FONT }}>
       <Backdrop />
-      <Phone slug={props.slug} clips={props.clips as Clip[]} pose={pose} hidden={(t) => !!fin && t >= fin.from + 0.1 && t < fin.to - 0.4} />
-      <SceneHeader scenes={scenes} />
+      {props.frame === "full"
+        ? <FullScreen slug={props.slug} clips={props.clips as FullClip[]} pose={pose} />
+        : <Phone slug={props.slug} clips={props.clips as Clip[]} pose={pose} hidden={(t) => !!fin && t >= fin.from + 0.1 && t < fin.to - 0.4} />}
+      <SceneHeader scenes={scenes} soft={props.frame === "full"} />
       {props.badges && <Badges items={props.badges} />}
       {props.notes && <Notes items={props.notes} />}
       {fin && <Finale {...fin} />}
@@ -129,7 +135,7 @@ export const ScenesProcess: React.FC<ProcessProps> = (props) => {
       <Sequence name="Closing" from={Math.round(closingStart * fps)} durationInFrames={durationInFrames - Math.round(closingStart * fps)} layout="none">
         <Closing text={fill(closingTpl, props)} keyword={props.keyword} handle={COMMON.handle} sub={props.closingSub} />
       </Sequence>
-      {props.urlNotice && <UrlNotice text={props.urlNotice} at={props.urlNoticeAt as unknown as readonly [number, number] | undefined} />}
+      {props.urlNotice && <UrlNotice text={props.urlNotice} at={props.urlNoticeAt as unknown as readonly [number, number] | undefined} backing={props.frame === "full"} />}
       {(props.sfx ?? []).map((s, i) => (
         <Sequence key={i} name={`sfx:${s.type}`} from={Math.max(0, Math.round(s.at * fps))} durationInFrames={Math.round(3 * fps)} layout="none">
           <Audio src={staticFile(`sfx/${s.type}.wav`)} volume={VOLUME[s.type] ?? 0.5} />

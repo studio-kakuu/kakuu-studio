@@ -1,0 +1,82 @@
+{
+ "request": {
+  "text": "くものこ、モコ。",
+  "model_id": "eleven_v4",
+  "seed": 20261009,
+  "voice_settings": {
+   "stability": 0.9,
+   "similarity_boost": 0.75,
+   "style": 0.2,
+   "speed": 0.9
+  },
+  "next_text": "ちいさな くもの こ、モコわ、きょうも、そらを ふわふわ。"
+ },
+ "voice_id": "WQz3clzUdMqvBf0jswZQ",
+ "alignment": {
+  "characters": [
+   "く",
+   "も",
+   "の",
+   "こ",
+   "、",
+   "モ",
+   "コ",
+   "。"
+  ],
+  "character_start_times_seconds": [
+   0.0,
+   0.24,
+   0.4,
+   0.56,
+   1.12,
+   1.2,
+   1.36,
+   1.6
+  ],
+  "character_end_times_seconds": [
+   0.24,
+   0.4,
+   0.56,
+   1.12,
+   1.2,
+   1.36,
+   1.6,
+   1.84
+  ]
+ },
+ "normalized_alignment": {
+  "characters": [
+   "く",
+   "も",
+   "の",
+   "こ",
+   "、",
+   "モ",
+   "コ",
+   "。"
+  ],
+  "character_start_times_seconds": [
+   0.0,
+   0.24,
+   0.4,
+   0.56,
+   1.12,
+   1.2,
+   1.36,
+   1.6
+  ],
+  "character_end_times_seconds": [
+   0.24,
+   0.4,
+   0.56,
+   1.12,
+   1.2,
+   1.36,
+   1.6,
+   1.84
+  ]
+ },
+ "credits_used": 0,
+ "request_id": "O0xruBqZD0USjatwipRD",
+ "character_cost_header": "1"
+}

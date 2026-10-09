@@ -177,7 +177,7 @@ def main():
         "capture": {
             "viewport": [540, 960],
             "deviceScaleFactor": 2,
-            "clips": [{"id": "book", "url": "/works/moko/?demo=video", "seconds": duration, "holdStart": 0, "holdEnd": 0, "scroll": [0, 0]}],
+            "clips": [{"id": "book", "url": "/works/moko/?demo=video", "seconds": duration, "holdStart": 0, "holdEnd": 0, "scroll": [0, 0], "waitFor": "window.__mokoReady === true"}],
         },
         "clips": [{"id": "book", "from": 0, "seconds": duration}],
         "scenes": [

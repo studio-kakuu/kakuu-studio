@@ -82,7 +82,7 @@ v2 からは **Remotion 版(`video/remotion/`)が正式** です。旧版(`video
 | **scenes 方式** | 決まった型に当てはまらない作品。例:`kakuu-os`(ダッシュボードのデモ) | 上の3つ+ `hook` / `urlNotice` / `urlNoticeAt` / `closing` / `finale` / `capture.clips` / `clips` / `scenes` / `sfxExtra` |
 
 scenes 方式の書き方(`video/themes/kakuu-os.json` が見本):
-- `capture.clips`:撮影する画面。`url`(例 `/works/kakuu-os/?demo=1`)、`seconds`、スクロール、`sfx: true` でページの効果音イベントも記録
+- `capture.clips`:撮影する画面。`url`(例 `/works/kakuu-os/?demo=1`)、`seconds`、スクロール、`sfx: true` でページの効果音イベントも記録、`waitFor`(撮り始める前に待つ条件。例 `window.__mokoReady === true` — 字体の読みこみ後に始まるページ)
 - `clips`:スマホ画面に流す素材の並び(`from` 秒から `seconds` 秒、`trimBefore` で素材の途中から)
 - `scenes`:場面ごとの左上ラベル(`chip` / `title`)とカメラ。`camera.to` = `[傾きX, 傾きY, 回転, 倍率, 上下位置, 暗さ]`、`move` 秒で移動、`drift` で残り時間にゆっくり流す
 - `finale`:全面の黒幕に大きな文字(例「DAY 1 / COMPLETE」)
@@ -234,5 +234,5 @@ ffprobe -v error -show_entries format=duration,size:stream=codec_name,codec_type
 | `Executable doesn't exist` | `npx playwright install chromium` |
 | 書き出しでブラウザのダウンロードに失敗 | `CHROMIUM_PATH` に手元の Chromium / Chrome のパスを指定 |
 | 開幕演出が撮れていない・速すぎる | capture.mjs の `pauseAt` が効いているか確認 |
-| 50MB を超える | `node scripts/render.mjs --theme <slug> --crf 23` |
+| 50MB を超える | `node scripts/render.mjs --theme <slug> --crf 23`(合成済みの `out/<slug>_<platform>.mp4` が残っていれば `--reuse` を付けると圧縮だけやり直す) |
 | 尺を変えたい | `_common.json` の `timeline`(各区間)と `capture.clips[].seconds` を一緒に変える。`closing[1]` は 61〜75 |

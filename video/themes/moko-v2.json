@@ -35,7 +35,8 @@
     "scroll": [
      0,
      0
-    ]
+    ],
+    "waitFor": "window.__mokoReady === true"
    }
   ]
  },

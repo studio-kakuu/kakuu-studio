@@ -107,16 +107,26 @@
 
   // ---------- 背景いっぱいの擬音 ----------
   // 動画のときは SNS のボタンに重ならない範囲(右と下をあける)にだけ置く
+  // 動画では、もこ(画面の上〜まん中)と上の文章に重ならないよう、もこの下だけに置く
   const SPOTS = video
-    ? [[6, 30], [44, 26], [14, 46], [50, 44], [4, 62], [40, 64], [22, 74], [48, 76]]
+    ? [[4, 48], [48, 52], [8, 60], [44, 64], [2, 70]]
     : [[8, 12], [56, 8], [22, 38], [68, 34], [4, 62], [52, 60], [30, 84], [74, 82]];
+  // 雨・花の場面は もこや花に寄るので、もこの下〜花の左右に小さめに置く
+  const SPOTS_RAIN = video
+    ? { spots: [[3, 53], [50, 57], [4, 66], [52, 70]], cls: 'small' }
+    : { spots: [[4, 56], [56, 60], [8, 72], [60, 80], [30, 88]], cls: 'small' };
+  const SPOTS_FLOWER = video
+    ? { spots: [[1, 50], [60, 54], [2, 64], [60, 70]], cls: 'small' }
+    : { spots: [[4, 50], [62, 46], [6, 70], [64, 66], [30, 88]], cls: 'small' };
   let wordsTl = null;
   const showWords = (word) => {
     wordsTl?.kill(); wordsEl.innerHTML = '';
     if (!word) return;
-    const spans = SPOTS.map(([x, y]) => {
+    const set = word === 'ポツポツ' ? SPOTS_RAIN : word === 'キラキラ' ? SPOTS_FLOWER : { spots: SPOTS, cls: '' };
+    const spans = set.spots.map(([x, y]) => {
       const s = document.createElement('span');
       s.textContent = word;
+      if (set.cls) s.className = set.cls;
       s.style.left = `${x}%`; s.style.top = `${y}%`;
       wordsEl.appendChild(s); return s;
     });
@@ -182,6 +192,8 @@
 
   // ---------- カメラ(world を動かす):el を画面の (fx, fy) の位置に、倍率 s で ----------
   const cam = (el, s, d, fx = 0.5, fy = 0.5, ease = 'power2.inOut') => {
+    // 横向きは文章が左にあるので、寄る先を画面の右寄りにする
+    if (!video && matchMedia('(orientation: landscape)').matches) fx = 0.72 + (fx - 0.5) * 0.5;
     const ws = gsap.getProperty(world, 'scale'), wr = world.getBoundingClientRect(), r = el.getBoundingClientRect();
     const cx = (r.left - wr.left + r.width / 2) / ws, cy = (r.top - wr.top + r.height / 2) / ws;
     return gsap.to(world, { scale: s, x: innerWidth * fx - s * cx, y: innerHeight * fy - s * cy, duration: d, ease });
@@ -193,7 +205,9 @@
   const SKY = { blue: ['#8ED0EA', '#BFE5F4', '#FFF6E6'], dry: ['#F3DFA8', '#F8ECC8', '#FFF6E6'], rain: ['#9FC3D9', '#C6DCE8', '#F3EEE2'] };
   const setSky = (k) => gsap.set(sky, { '--s1': SKY[k][0], '--s2': SKY[k][1], '--s3': SKY[k][2] });
   setSky('blue');
-  sky.style.background = 'linear-gradient(180deg, var(--s1) 0%, var(--s2) 45%, var(--s3) 82%)';
+  // 空は画面の外まで広げてあるので(.sky.wide)、色の位置は画面の高さ(vh)で決める
+  sky.classList.add('wide');
+  sky.style.background = 'linear-gradient(180deg, var(--s1) 60vh, var(--s2) 105vh, var(--s3) 142vh)';
   const BROWS = { sad: 'M80 73 l12 -3 M124 73 l-12 -3', firm: 'M80 70 l12 3 M124 70 l-12 3' };
   const MOUTH = { smile: 'M95 96 q7 6 14 0', o: 'M98 98 q4 -5 8 0 q-4 5 -8 0', firm: 'M96 98 q6 -3 12 0', worry: 'M96 99 q6 -4 12 0' };
 
@@ -242,7 +256,7 @@
         gsap.set(world, { scale: 1.08, x: -innerWidth * 0.04, y: -innerHeight * 0.03 });
         return gsap.timeline()
           .add(camHome(info.dur, 'sine.out'), 0)
-          .fromTo(titleEl.querySelector('.t2'), { textShadow: '0 6px 0 rgba(106,86,76,.18), 0 0 20px rgba(246,198,91,.5)' }, { textShadow: '0 6px 0 rgba(106,86,76,.18), 0 0 46px rgba(246,198,91,.95)', duration: 1.2, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 0);
+          .fromTo(titleEl.querySelector('.t2'), { textShadow: '0 0.05em 0 rgba(106,86,76,.3), 0 0 0px rgba(246,198,91,0)' }, { textShadow: '0 0.05em 0 rgba(106,86,76,.3), 0 0 34px rgba(246,198,91,.75)', duration: 1.2, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 0);
       },
     },
     { // 1 そらを おさんぽ
@@ -364,7 +378,7 @@
         settled(); setSky('rain');
         gsap.set(flower, { opacity: 1 }); gsap.set(head, { rotation: 96 }); gsap.set(petals, { fill: C.wilt });
         gsap.set('#dry', { opacity: 0.4 }); gsap.set('#buds g', { scale: 0 });
-        gsap.set(moko, { x: '-14vw', y: '-6vh', scale: 0.72 });
+        gsap.set(moko, { x: '-14vw', y: video ? '4vh' : '-6vh', scale: 0.72, opacity: video ? 0 : 1 });
         motes.petals = 1;
         cam(flower, 1.3, 0, 0.5, 0.55).progress(1);
         return gsap.timeline()
@@ -375,6 +389,7 @@
           .fromTo(petals, { scale: 0.7, transformOrigin: '50% 100%' }, { scale: 1.12, duration: 0.8, ease: 'back.out(2.2)', stagger: 0.06 }, 0.5)
           .to('.eye-sad', { opacity: 0, duration: 0.2 }, 0.9).to(['.eye-happy', '.mouth-happy'], { opacity: 1, duration: 0.3 }, 0.9)
           .add(camHome(4.2), 1.2)
+          .to(moko, { opacity: 1, duration: 1.2, ease: 'sine.out' }, 3.8)
           .to('#buds g', { scale: 1, duration: 0.7, ease: 'back.out(2.4)', stagger: { each: (info.dur - 3) / 5 } }, 1.6)
           .to(head, { rotation: 6, duration: 1.2, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 2.2)
           .add(say(info), 0);
@@ -384,7 +399,7 @@
       enter(info) {
         settled();
         gsap.set(flower, { opacity: 1 }); gsap.set(['.eye-happy', '.mouth-happy'], { opacity: 1 }); gsap.set('.eye-sad', { opacity: 0 });
-        gsap.set(moko, { x: '-14vw', y: '-6vh', scale: 0.72 });
+        gsap.set(moko, { x: '-14vw', y: video ? '10vh' : '-6vh', scale: 0.72 });
         motes.petals = 1;
         const back = when(info, 'もどった');
         gsap.set(world, { scale: 1.16, x: -innerWidth * 0.08, y: -innerHeight * 0.2 });   // 地面のあたりから
@@ -488,11 +503,18 @@
   }
 
   const start = () => {
+    window.__mokoReady = true;   // 撮影(capture.mjs の waitFor)は、字体を読みこみ終えて始まるまで待つ
     apply(Math.min(startPage, PAGES.length - 1));
     if (video) {
       // 動画の撮影用:場面の切り替え(前の声の終わりと次の声の始まりの中間)で光があふれて覆うように
       VT.pages.forEach((t, i) => { if (i > 0) gsap.delayedCall(t - FLOOD_MID, () => goTo(i)); });
     }
   };
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
+  // 丸ゴシック(Zen Maru Gothic)は文字ごとに分けて配信されるので、えほんで使う文字を先に全部読みこんでから始める
+  // (あとから出る文字が、一瞬ちがう字体で出ないように)
+  const ALL = [...new Set([...document.body.innerText, ...Object.values(N.lines).map((l) => l.screen).join(''), 'ポツポツふわふわびゅうっキラキラ'])].join('');
+  const fontsReady = document.fonts
+    ? Promise.race([Promise.all(['500', '700', '900'].map((w) => document.fonts.load(`${w} 1em "Zen Maru Gothic"`, ALL))), new Promise((r) => setTimeout(r, 3000))]).then(() => document.fonts.ready)
+    : Promise.resolve();
+  fontsReady.then(start, start);
 })();

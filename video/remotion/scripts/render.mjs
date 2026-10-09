@@ -14,6 +14,7 @@ const slug = opt('theme', 'cafe');
 const platforms = opt('platform', 'instagram,tiktok,x').split(',');
 const crf = opt('crf', '20');   // 最終の画質(大きいほど軽い)
 const frames = opt('frames', null); // 確認用:指定したコマだけ PNG で書き出す(例 --frames 0,300,900)
+const reuse = args.includes('--reuse'); // 50MB を超えたとき:合成済みの out/<slug>_<platform>.mp4 から圧縮だけやり直す(例 --reuse --crf 22)
 
 const theme = JSON.parse(readFileSync(join(ROOT, `video/themes/${slug}.json`), 'utf8'));
 // 制作時間(フックに {minutes} を使うテーマだけ必須)
@@ -53,7 +54,7 @@ for (const { platform, file } of targets) {
     continue;
   }
   const tmp = join(PROJECT, 'out', `${slug}_${platform}.mp4`);
-  execFileSync('npx', ['remotion', 'render', 'src/index.ts', `Process-${platform}`, tmp,
+  if (!(reuse && existsSync(tmp))) execFileSync('npx', ['remotion', 'render', 'src/index.ts', `Process-${platform}`, tmp,
     `--props=${JSON.stringify(props)}`, '--codec=h264', '--crf=14', '--pixel-format=yuv420p', ...(hasAudio ? ['--audio-codec=aac'] : ['--muted']), ...browser],
     { cwd: PROJECT, stdio: 'inherit' });
   const out = join(outDir, file);

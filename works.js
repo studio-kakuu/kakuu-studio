@@ -16,6 +16,17 @@
 */
 window.KAKUU_WORKS = [
   {
+    no: "003",
+    slug: "moko",
+    genre: "ANIMATION",
+    name: "MOKO",
+    nameJa: "くものこ もこ",
+    theme: "さわれる絵本",
+    themeEn: "Interactive Picture Book",
+    date: "2026-10-09",
+    palette: ["#BFE5F4", "#6A564C", "#F6A6BA"]
+  },
+  {
     no: "002",
     slug: "kakuu-os",
     genre: "WEB",

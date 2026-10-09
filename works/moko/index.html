@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>くものこ もこ — KAKUU STUDIO のさわれる えほん</title>
+<meta name="description" content="ちいさな くもの こ「もこ」が、げんきの ない おはなの ために あめに なる おはなし。タップで めくれる えほん。※KAKUU STUDIO が AI と コードで つくった オリジナル作品です。">
+<meta name="theme-color" content="#FFF6E6">
+<link rel="icon" href="../../brand/logo-on-black.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/SplitText.min.js" defer></script>
+<script src="vendor/DrawSVGPlugin.min.js" defer></script>
+<script src="main.js" defer></script>
+</head>
+<body>
+
+<!-- クレヨン・紙の質感(輪郭のゆらぎと、塗りのざらつき) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="crayon" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="wob"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="8" result="g"/>
+      <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.05" result="speck"/>
+      <feComposite in="wob" in2="speck" operator="in" result="tex"/>
+      <feMerge><feMergeNode in="wob"/><feMergeNode in="tex"/></feMerge>
+    </filter>
+    <clipPath id="mokoClip"><path d="M42 112 C14 112 8 82 31 72 C27 44 60 34 76 52 C83 23 127 20 134 49 C153 34 186 49 175 76 C199 82 193 114 167 114 Z"/></clipPath>
+  </defs>
+</svg>
+
+<main class="book" id="book" aria-live="polite">
+  <div class="world" id="world">
+
+    <!-- 空 -->
+    <div class="sky" id="sky"></div>
+    <svg class="sun layer-sun" id="sun" viewBox="0 0 200 200" aria-hidden="true">
+      <g class="rays" stroke-linecap="round">
+        <path class="line" d="M100 8 V30 M100 170 V192 M8 100 H30 M170 100 H192 M35 35 L50 50 M150 150 L165 165 M165 35 L150 50 M50 150 L35 165"/>
+      </g>
+      <circle class="fill gold line" cx="100" cy="100" r="46"/>
+      <path class="line" d="M84 104 Q100 116 116 104" fill="none"/>
+      <circle class="fill ink" cx="86" cy="92" r="4"/><circle class="fill ink" cx="114" cy="92" r="4"/>
+    </svg>
+
+    <!-- 遠くの雲(いちばん奥) -->
+    <svg class="layer far" id="far" viewBox="0 0 2400 600" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+      <g class="tex">
+        <path class="fill cloud line" d="M180 210 c-40 0 -48 -46 -10 -52 c0 -40 52 -50 70 -22 c18 -36 78 -30 80 10 c40 -6 52 50 12 64 Z"/>
+        <path class="fill cloud line" d="M980 150 c-34 0 -40 -38 -8 -44 c0 -34 44 -42 60 -18 c16 -30 66 -26 68 8 c34 -6 44 42 10 54 Z"/>
+        <path class="fill cloud line" d="M1700 240 c-46 0 -54 -52 -12 -60 c0 -46 60 -58 80 -26 c20 -40 90 -34 92 12 c46 -6 60 58 14 74 Z"/>
+        <path class="fill cloud line" d="M2200 130 c-30 0 -36 -34 -8 -38 c0 -30 40 -38 54 -16 c14 -26 58 -22 60 8 c30 -4 40 38 10 46 Z"/>
+      </g>
+    </svg>
+
+    <!-- 丘と町(中くらい) -->
+    <svg class="layer hills" id="hills" viewBox="0 0 2400 600" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+      <g class="tex">
+        <path class="fill hill2 line" d="M0 300 C300 180 560 210 820 280 C1080 350 1260 200 1560 220 C1860 240 2100 330 2400 260 V600 H0 Z"/>
+        <g class="houses">
+          <path class="fill wall line" d="M1210 236 h44 v38 h-44 Z"/><path class="fill roof line" d="M1202 238 L1232 212 L1262 238 Z"/>
+          <path class="fill wall line" d="M1270 230 h36 v40 h-36 Z"/><path class="fill roof2 line" d="M1263 232 L1288 208 L1313 232 Z"/>
+          <path class="fill wall line" d="M640 262 h40 v34 h-40 Z"/><path class="fill roof2 line" d="M632 264 L660 240 L688 264 Z"/>
+          <path class="line" d="M1226 254 h12 v20 M1282 248 h10 v10 h-10 Z M654 278 h10 v18" fill="none"/>
+        </g>
+        <g class="trees">
+          <circle class="fill tree line" cx="900" cy="300" r="26"/><path class="line" d="M900 326 V350"/>
+          <circle class="fill tree line" cx="1640" cy="232" r="22"/><path class="line" d="M1640 254 V276"/>
+          <circle class="fill tree line" cx="420" cy="232" r="20"/><path class="line" d="M420 252 V272"/>
+        </g>
+      </g>
+    </svg>
+
+    <!-- 手前の野原(速く動く) -->
+    <svg class="layer field" id="field" viewBox="0 0 2400 600" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+      <g class="tex">
+        <path class="fill grass line" id="grass" d="M0 250 C400 200 760 230 1200 250 C1640 270 2000 220 2400 240 V600 H0 Z"/>
+        <path class="fill dry" id="dry" d="M0 250 C400 200 760 230 1200 250 C1640 270 2000 220 2400 240 V600 H0 Z"/>
+        <g class="tufts line" fill="none">
+          <path d="M200 300 q6 -18 12 0 q6 -14 12 0 M640 330 q6 -18 12 0 q6 -14 12 0 M1500 320 q6 -18 12 0 q6 -14 12 0 M2000 290 q6 -18 12 0 q6 -14 12 0 M980 380 q6 -18 12 0 q6 -14 12 0"/>
+        </g>
+        <g class="buds" id="buds">
+          <g transform="translate(520 300)"><circle class="fill pink line" r="12"/><circle class="fill gold" r="4"/></g>
+          <g transform="translate(860 360)"><circle class="fill peach line" r="10"/><circle class="fill gold" r="3.5"/></g>
+          <g transform="translate(1620 330)"><circle class="fill pink line" r="13"/><circle class="fill gold" r="4"/></g>
+          <g transform="translate(1900 300)"><circle class="fill peach line" r="10"/><circle class="fill gold" r="3.5"/></g>
+          <g transform="translate(1100 400)"><circle class="fill pink line" r="11"/><circle class="fill gold" r="4"/></g>
+        </g>
+      </g>
+    </svg>
+
+    <!-- 虹 -->
+    <svg class="rainbow" id="rainbow" viewBox="0 0 600 320" aria-hidden="true">
+      <g fill="none" stroke-linecap="round" class="arcs">
+        <path class="rb rb1" d="M40 300 A260 260 0 0 1 560 300"/>
+        <path class="rb rb2" d="M70 300 A230 230 0 0 1 530 300"/>
+        <path class="rb rb3" d="M100 300 A200 200 0 0 1 500 300"/>
+        <path class="rb rb4" d="M130 300 A170 170 0 0 1 470 300"/>
+      </g>
+    </svg>
+
+    <!-- 花(中景) -->
+    <svg class="flower" id="flower" viewBox="0 0 160 260" aria-hidden="true">
+      <g class="tex">
+        <path class="line stem" d="M80 258 C80 220 76 180 80 120" fill="none"/>
+        <path class="fill leaf line" d="M80 210 C50 200 40 176 46 170 C66 172 80 188 80 210 Z"/>
+        <path class="fill leaf line" d="M80 188 C108 178 120 156 114 150 C94 152 80 168 80 188 Z"/>
+        <g class="head" id="head">
+          <g class="petals" id="petals">
+            <ellipse class="fill petal line" cx="80" cy="84" rx="15" ry="26"/>
+            <ellipse class="fill petal line" cx="80" cy="84" rx="15" ry="26" transform="rotate(60 80 112)"/>
+            <ellipse class="fill petal line" cx="80" cy="84" rx="15" ry="26" transform="rotate(120 80 112)"/>
+            <ellipse class="fill petal line" cx="80" cy="84" rx="15" ry="26" transform="rotate(180 80 112)"/>
+            <ellipse class="fill petal line" cx="80" cy="84" rx="15" ry="26" transform="rotate(240 80 112)"/>
+            <ellipse class="fill petal line" cx="80" cy="84" rx="15" ry="26" transform="rotate(300 80 112)"/>
+          </g>
+          <circle class="fill gold line" cx="80" cy="112" r="17"/>
+          <g class="face">
+            <path class="line eye-sad" d="M72 112 q3 2 6 0 M84 112 q3 2 6 0" fill="none"/>
+            <path class="line eye-happy" d="M72 113 q3 -4 6 0 M84 113 q3 -4 6 0" fill="none"/>
+            <path class="line mouth-happy" d="M75 119 q5 5 10 0" fill="none"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+
+    <!-- もこ(主人公) -->
+    <div class="moko-wrap" id="mokoWrap">
+      <svg class="moko" id="moko" viewBox="0 0 200 140" aria-label="くもの こ もこ" role="img">
+        <g class="tex">
+          <path class="fill cloud" d="M42 112 C14 112 8 82 31 72 C27 44 60 34 76 52 C83 23 127 20 134 49 C153 34 186 49 175 76 C199 82 193 114 167 114 Z"/>
+          <ellipse class="fill cloud-shade" cx="100" cy="128" rx="90" ry="22" clip-path="url(#mokoClip)"/>
+          <path class="line outline" d="M42 112 C14 112 8 82 31 72 C27 44 60 34 76 52 C83 23 127 20 134 49 C153 34 186 49 175 76 C199 82 193 114 167 114 Z" fill="none"/>
+          <circle class="fill cheek" cx="74" cy="94" r="8"/><circle class="fill cheek" cx="130" cy="94" r="8"/>
+          <g class="eyes" id="mokoEyes">
+            <ellipse class="fill ink" cx="88" cy="82" rx="4.5" ry="6"/><ellipse class="fill ink" cx="116" cy="82" rx="4.5" ry="6"/>
+            <circle class="fill white" cx="89.5" cy="79.5" r="1.6"/><circle class="fill white" cx="117.5" cy="79.5" r="1.6"/>
+          </g>
+          <path class="line brows" id="mokoBrows" d="M80 70 l12 3 M124 70 l-12 3" fill="none"/>
+          <path class="line" id="mokoMouth" d="M95 96 q7 6 14 0" fill="none"/>
+        </g>
+      </svg>
+      <svg class="rain" id="rain" viewBox="0 0 200 300" aria-hidden="true"><g id="drops" class="line rain-line" fill="none"></g></svg>
+    </div>
+  </div>
+
+  <!-- 前景:光の粒・花びら -->
+  <canvas class="motes" id="motes" aria-hidden="true"></canvas>
+  <!-- 背景いっぱいの擬音 -->
+  <div class="words" id="words" aria-hidden="true"></div>
+
+  <!-- 文章 -->
+  <div class="story" id="story"><p class="text" id="text"></p></div>
+  <div class="burst" id="burst" aria-hidden="true"></div>
+  <h1 class="title" id="title"><span class="t1">くものこ</span><span class="t2">もこ</span></h1>
+  <div class="ending" id="ending">
+    <p class="owari">おしまい</p>
+    <button class="again" id="again" type="button">もういちど よむ</button>
+    <p class="credit">さく・え:KAKUU STUDIO(AI と コードで つくりました)<br><a href="../../">KAKUU STUDIO</a></p>
+  </div>
+
+  <!-- 場面転換の光 -->
+  <div class="flood" id="flood" aria-hidden="true"></div>
+  <div class="taps" id="taps" aria-hidden="true"></div>
+
+  <nav class="ui" aria-label="ページ">
+    <div class="dots" id="dots"></div>
+    <button class="next" id="next" type="button" aria-label="つぎの ページへ">つぎへ</button>
+  </nav>
+</main>
+
+<noscript><p style="padding:24px;font-family:sans-serif">この えほんを よむには JavaScript を オンに してください。</p></noscript>
+</body>
+</html>

@@ -31,13 +31,13 @@ for (const c of theme.clips ?? []) {
   const skip = new Set(c.sfxSkip ?? []);     // 早送りで重なる音・使い回しで二重になる音は間引く('*' で全部)
   for (const e of JSON.parse(readFileSync(f, 'utf8'))) {
     if (skip.has('*') || skip.has(e.type)) continue;
-    if (e.t >= tb && e.t < tb + c.seconds * rate) sfx.push({ type: e.type, at: +(c.from + (e.t - tb) / rate).toFixed(3) });
+    if (e.t >= tb && e.t < tb + c.seconds * rate) sfx.push({ type: (theme.sfxPrefix ?? '') + e.type, at: +(c.from + (e.t - tb) / rate).toFixed(3) });
   }
 }
 for (const e of theme.sfxExtra ?? []) sfx.push(e);
 sfx.sort((a, b) => a.at - b.at);
 const hasAudio = sfx.length > 0;
-const { _comment, capture, sfxExtra, output, ...themeProps } = theme;
+const { _comment, capture, sfxExtra, output, sfxPrefix, ...themeProps } = theme;
 // 締めが全媒体で同じテーマは1本だけ書き出す(output.single にファイル名)
 const targets = output?.single ? [{ platform: 'instagram', file: output.single }] : platforms.map((p) => ({ platform: p, file: `${p}.mp4` }));
 themeProps.clips = themeProps.clips?.map(({ sfxSkip, ...c }) => c);

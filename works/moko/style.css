@@ -1,0 +1,192 @@
+/* くものこ もこ — フラットな絵本風。はっきりした形、やさしい輪郭線、紙とクレヨンの質感。
+   画面の向き(縦・横)で、もこ・花・文章の置き場所を組み替える。 */
+:root {
+  --cream: #FFF6E6;
+  --cream-2: #FCEBD0;
+  --sky: #BFE5F4;
+  --sky-2: #8ED0EA;
+  --ink: #6A564C;          /* やさしい茶色の輪郭線 */
+  --ink-soft: rgba(106, 86, 76, .72);
+  --white: #FFFFFF;
+  --cloud-shade: #DCEFF8;
+  --gold: #F6C65B;
+  --pink: #F6A6BA;
+  --peach: #F8C8A0;
+  --grass: #BFE3A6;
+  --grass-2: #9FD08C;
+  --dry: #E8D4A2;
+  --hill: #D6EDC2;
+  --tree: #A9D795;
+  --wall: #FFF1DC;
+  --roof: #F3A9A0;
+  --roof2: #9FCFE6;
+
+  --line-w: 4.5;
+  --font: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+
+  /* 配置(縦向き) */
+  --moko-x: 50%;
+  --moko-y: 25%;
+  --moko-w: min(52vw, 30vh);
+  --flower-x: 50%;
+  --flower-h: 30vh;
+  --flower-bottom: 17vh;
+  --sun-x: 78%;
+  --sun-y: 9%;
+  --sun-w: min(24vw, 13vh);
+  --ground-h: 50vh;
+}
+@media (orientation: landscape) {
+  :root {
+    --moko-x: 62%;
+    --moko-y: 17%;
+    --moko-w: min(26vw, 40vh);
+    --flower-x: 70%;
+    --flower-h: 46vh;
+    --flower-bottom: 9vh;
+    --sun-x: 88%;
+    --sun-y: 8%;
+    --sun-w: min(12vw, 20vh);
+    --ground-h: 50vh;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--cream); color: var(--ink); overflow: hidden; }
+body { font-family: var(--font); -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+.book { position: fixed; inset: 0; overflow: hidden; cursor: pointer; user-select: none; touch-action: manipulation; }
+/* 紙の質感 */
+.book::after {
+  content: ""; position: absolute; inset: 0; z-index: 30; pointer-events: none;
+  opacity: .5; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .45  0 0 0 0 .32  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
+}
+
+/* ---------- world ---------- */
+.world { position: absolute; inset: 0; transform-origin: var(--moko-x) 40%; }
+.sky { position: absolute; inset: 0; background: linear-gradient(180deg, var(--sky-2) 0%, var(--sky) 45%, var(--cream) 82%); }
+
+.layer { position: absolute; left: -25vw; width: 150vw; }
+.far   { top: 3vh; height: 34vh; opacity: .7; }
+.hills { bottom: 0; height: var(--ground-h); }
+.field { bottom: 0; height: calc(var(--ground-h) * .62); }
+@media (orientation: landscape) {
+  .far { top: 2vh; height: 40vh; }
+  .hills { height: 52vh; }
+  .field { height: 34vh; }
+}
+
+.tex { filter: url(#crayon); }
+.line { stroke: var(--ink); stroke-width: var(--line-w); stroke-linecap: round; stroke-linejoin: round; }
+.fill.cloud { fill: var(--white); }
+.fill.cloud-shade { fill: var(--cloud-shade); }
+.fill.hill2 { fill: var(--hill); }
+.fill.grass { fill: var(--grass); }
+.fill.dry { fill: var(--dry); opacity: 0; }
+.fill.tree { fill: var(--tree); }
+.fill.wall { fill: var(--wall); }
+.fill.roof { fill: var(--roof); }
+.fill.roof2 { fill: var(--roof2); }
+.fill.gold { fill: var(--gold); }
+.fill.pink { fill: var(--pink); }
+.fill.peach { fill: var(--peach); }
+.fill.leaf { fill: var(--grass-2); }
+.fill.petal { fill: var(--pink); }
+.fill.ink { fill: var(--ink); }
+.fill.white { fill: var(--white); }
+.fill.cheek { fill: var(--pink); opacity: .75; }
+.far .line, .hills .line { stroke-width: 6; }
+.field .line { stroke-width: 5; }
+
+.sun { position: absolute; left: var(--sun-x); top: var(--sun-y); width: var(--sun-w); transform: translate(-50%, 0); opacity: 0; }
+.sun .rays { transform-origin: 100px 100px; }
+
+.flower { position: absolute; left: var(--flower-x); bottom: var(--flower-bottom); height: var(--flower-h); transform: translateX(-50%); overflow: visible; }
+.flower .head { transform-origin: 80px 120px; }
+.flower .eye-happy, .flower .mouth-happy { opacity: 0; }
+
+.rainbow { position: absolute; left: 50%; bottom: 26vh; width: min(120vw, 110vh); transform: translateX(-50%); opacity: 0; }
+.rb { stroke-width: 22; opacity: .9; }
+.rb1 { stroke: #F6A6BA; } .rb2 { stroke: #F8C8A0; } .rb3 { stroke: #F6DC8A; } .rb4 { stroke: #A8DCC8; }
+@media (orientation: landscape) { .rainbow { bottom: 18vh; width: min(70vw, 120vh); } }
+
+.moko-wrap { position: absolute; left: var(--moko-x); top: var(--moko-y); width: var(--moko-w); transform: translateX(-50%); }
+.moko { display: block; width: 100%; overflow: visible; }
+.moko .line { stroke-width: 5; }
+.moko .brows { opacity: 0; }
+.rain { position: absolute; left: 0; top: 70%; width: 100%; height: auto; overflow: visible; opacity: 0; }
+.rain-line { stroke: #7FC3E0; stroke-width: 5; }
+
+/* ---------- foreground ---------- */
+.motes { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
+.words { position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; }
+.words span {
+  position: absolute; font-weight: 900; color: var(--white); opacity: 0;
+  font-size: clamp(36px, 13vmin, 120px); letter-spacing: .04em; white-space: nowrap;
+  -webkit-text-stroke: 2px rgba(106, 86, 76, .28);
+}
+
+/* 文章(縦:下/横:左) */
+.story {
+  position: absolute; z-index: 12; left: 6vw; right: 6vw; bottom: 5.5vh;
+  min-height: 9.5em; display: flex; align-items: flex-end; justify-content: center; pointer-events: none;
+}
+.text {
+  margin: 0; padding: .7em 1em .75em; border-radius: 22px;
+  background: rgba(255, 246, 230, .9); box-shadow: 0 0 0 3px rgba(106, 86, 76, .14);
+  font-weight: 700; font-size: min(4.1vw, 34px); line-height: 1.75; letter-spacing: .08em; text-align: center;
+  opacity: 0;
+}
+.text .ch { display: inline-block; }
+.text .ln { display: block; white-space: nowrap; }
+@media (orientation: landscape) {
+  .story { left: 4vw; right: auto; top: 0; bottom: 0; width: 46vw; min-height: 0; align-items: center; justify-content: flex-start; }
+  .text { font-size: min(2.15vw, 5.4vh, 34px); text-align: left; }
+}
+
+.burst { position: absolute; inset: 0; z-index: 14; display: grid; place-items: center; pointer-events: none; }
+.burst p { margin: 0; text-align: center; font-weight: 900; font-size: clamp(42px, 15vmin, 150px); line-height: 1.35; letter-spacing: .06em; color: var(--white);
+  -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; text-shadow: 0 0 34px rgba(246, 198, 91, .9); }
+.burst .ch { display: inline-block; }
+
+.title { position: absolute; z-index: 13; left: 0; right: 0; top: 46vh; margin: 0; text-align: center; font-weight: 900; line-height: 1.1; pointer-events: none; }
+.title span { display: block; }
+.title .t1 { font-size: clamp(30px, 9vmin, 80px); letter-spacing: .3em; color: var(--ink); }
+.title .t2 { font-size: clamp(76px, 26vmin, 230px); letter-spacing: .12em; color: var(--white); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 rgba(106, 86, 76, .18), 0 0 40px rgba(246, 198, 91, .8); }
+.title .ch { display: inline-block; }
+@media (orientation: landscape) { .title { top: 34vh; left: 6vw; right: auto; width: 52vw; } }
+
+.ending { position: absolute; inset: 0; z-index: 15; display: grid; place-content: center; text-align: center; gap: 2.4vh; opacity: 0; visibility: hidden; }
+.owari { margin: 0; font-weight: 900; font-size: clamp(54px, 18vmin, 160px); letter-spacing: .2em; color: var(--white); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; text-shadow: 0 0 36px rgba(246, 198, 91, .85); }
+.again { justify-self: center; padding: .7em 1.6em; border: 3px solid var(--ink); border-radius: 999px; background: var(--gold); font-weight: 900; font-size: clamp(16px, 4.2vmin, 26px); letter-spacing: .1em; cursor: pointer; box-shadow: 0 5px 0 rgba(106, 86, 76, .35); }
+.credit { margin: 0; font-size: clamp(11px, 2.6vmin, 15px); color: var(--ink-soft); line-height: 1.8; }
+.credit a { color: var(--ink); }
+
+.flood { position: absolute; inset: 0; z-index: 20; pointer-events: none; overflow: hidden; }
+.flood i { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255, 250, 235, 1) 0%, rgba(255, 236, 190, .95) 45%, rgba(255, 214, 160, 0) 72%); transform: scale(0); }
+.taps { position: absolute; inset: 0; z-index: 25; pointer-events: none; }
+.taps i { position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 5px solid rgba(255, 255, 255, .95); box-shadow: 0 0 0 4px rgba(106, 86, 76, .25); }
+
+.ui { position: absolute; z-index: 22; left: 0; right: 0; top: max(14px, env(safe-area-inset-top)); display: flex; justify-content: space-between; align-items: center; padding: 0 5vw; pointer-events: none; }
+.dots { display: flex; gap: 7px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(106, 86, 76, .25); transition: background .4s, transform .4s; }
+.dots i.on { background: var(--ink); transform: scale(1.25); }
+.next { pointer-events: auto; padding: .35em 1em; border: 2.5px solid var(--ink); border-radius: 999px; background: rgba(255, 246, 230, .9); font-weight: 900; font-size: 14px; letter-spacing: .1em; cursor: pointer; }
+.demo .ui { opacity: 0; }
+
+/* 見比べ用(メイキング):線だけ/色だけ */
+.style-line .fill { fill: transparent !important; }
+.style-line .sky { background: var(--cream); }
+.style-line .tex { filter: none; }
+.style-line .book::after { opacity: .2; }
+.style-line .cloud-shade, .style-line .cheek { opacity: 0; }
+.style-line .rb { stroke: var(--ink); stroke-width: 3; opacity: .55; }
+.style-line .motes, .style-flat .motes, .style-line .words, .style-flat .words { display: none; }
+.style-line .ui, .style-flat .ui { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .motes { display: none; }
+}

@@ -1,0 +1,57 @@
+{
+  "_comment": "作品 003 くものこ もこ(さわれる絵本)。全画面モード・プレゼントあり。台本は video/storyboards/moko.md(承認済み)。秒はすべて動画の時刻。",
+  "slug": "moko",
+  "theme": "絵本",
+  "keyword": "もこ",
+  "frame": "full",
+  "duration": 62.0,
+  "hook": "えのぐも ふでも つかわずに、\nコードだけで えほんを かいた。",
+  "hookAccent": "コードだけ",
+  "hookEnd": 2.5,
+  "urlNotice": "この えほんの URL は さいごに",
+  "urlNoticeAt": [6.0, 8.8],
+  "closingStart": 55,
+  "closing": {
+    "instagram": "コメントで『{keyword}』と送ってね\nえほんの URL を お届けします",
+    "tiktok": "Instagram(@studio_kakuu)の投稿に\n『{keyword}』とコメントすると届きます",
+    "x": "URLは\nプロフィールのリンクから"
+  },
+  "sfxPrefix": "ehon_",
+  "capture": {
+    "viewport": [540, 960],
+    "deviceScaleFactor": 2,
+    "clips": [
+      { "id": "demo", "url": "/works/moko/?demo=1", "seconds": 46, "holdStart": 0, "holdEnd": 0, "scroll": [0, 0], "sfx": true },
+      { "id": "line", "url": "/works/moko/?style=line&page=5", "seconds": 4.5, "holdStart": 0, "holdEnd": 0, "scroll": [0, 0] },
+      { "id": "flat", "url": "/works/moko/?style=flat&page=5", "seconds": 4.5, "holdStart": 0, "holdEnd": 0, "scroll": [0, 0] },
+      { "id": "motion", "url": "/works/moko/?page=5&demo=page", "seconds": 4.5, "holdStart": 0, "holdEnd": 0, "scroll": [0, 0], "sfx": true },
+      { "id": "touch", "url": "/works/moko/?demo=touch", "seconds": 4.5, "holdStart": 0, "holdEnd": 0, "scroll": [0, 0], "sfx": true }
+    ]
+  },
+  "clips": [
+    { "id": "demo", "from": 0, "seconds": 2.5, "trimBefore": 30.5, "sfxSkip": ["*"] },
+    { "id": "demo", "from": 2.5, "seconds": 36.5 },
+    { "id": "line", "from": 39.0, "seconds": 4.0 },
+    { "id": "flat", "from": 43.0, "seconds": 4.0, "wipe": true },
+    { "id": "motion", "from": 47.0, "seconds": 4.0, "wipe": true },
+    { "id": "touch", "from": 51.0, "seconds": 4.0 },
+    { "id": "demo", "from": 55.0, "seconds": 7.0, "trimBefore": 36.5, "sfxSkip": ["*"] }
+  ],
+  "scenes": [
+    { "from": 0, "to": 2.5, "chip": "", "title": "", "camera": { "from": [0, 0, 0, 1.1, 0, 0.55], "to": [0, 0, 0, 1.02, 0, 0.55] } },
+    { "from": 2.5, "to": 39.0, "chip": "", "title": "", "camera": { "from": [0, 0, 0, 1, 0, 0], "to": [0, 0, 0, 1, 0, 0] } },
+    { "from": 39.0, "to": 43.0, "chip": "STEP 1", "title": "線", "camera": { "from": [0, 0, 0, 1, 0, 0.12], "to": [0, 0, 0, 1, 0, 0.12] } },
+    { "from": 43.0, "to": 47.0, "chip": "STEP 2", "title": "色", "camera": { "to": [0, 0, 0, 1, 0, 0.12] } },
+    { "from": 47.0, "to": 51.0, "chip": "STEP 3", "title": "動き", "camera": { "to": [0, 0, 0, 1, 0, 0.12] } },
+    { "from": 51.0, "to": 55.0, "chip": "TOUCH", "title": "さわって めくれる", "camera": { "to": [0, 0, 0, 1, 0, 0.12] } },
+    { "from": 55.0, "to": 62.0, "chip": "", "title": "", "camera": { "to": [0, 0, 0, 1.06, 0, 0.62], "move": 1.2 } }
+  ],
+  "sfxExtra": [
+    { "type": "ehon_wind", "at": 0.0 },
+    { "type": "ehon_page", "at": 38.95 },
+    { "type": "ehon_page", "at": 42.95 },
+    { "type": "ehon_page", "at": 46.95 },
+    { "type": "ehon_page", "at": 50.95 },
+    { "type": "close", "at": 55.3 }
+  ]
+}

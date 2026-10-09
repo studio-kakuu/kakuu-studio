@@ -243,6 +243,101 @@ SOUNDS = {
 }
 
 
+# ---------------- 絵本(くものこ もこ)用:やわらかく、あたたかい音 ----------------
+# 高く鋭い音は避け、鈴はオルゴールのように丸く(上は 4kHz 前後で削る)
+def bell(freq, dur=1.6, level=1.0):
+    """オルゴール風のやわらかい鈴:基音+少しずれた倍音がゆっくり消える"""
+    w = (tone(freq, dur) + 0.35 * tone(freq * 2.0, dur, 0.3) + 0.12 * tone(freq * 3.01, dur, 0.7))
+    return lp(w * adsr(n_(dur), 0.004, dur * 0.7, 0, 0.3, 4), 4200, 1) * level
+
+
+def s_ehon_wind():  # そよ風
+    d = 2.6
+    t = t_(d)
+    shape = np.sin(np.pi * np.clip(t / d, 0, 1)) ** 1.6
+    w = lp(hp(noise(d), 150), 500 + 500 * shape, 3) * shape * 1.6
+    return reverb(w, 1.0, 0.2, 0.6)
+
+
+def s_ehon_page():  # 紙をめくる
+    d = 0.5
+    t = t_(d)
+    sw = lp(hp(noise(d), 500), 1300 + 700 * np.sin(np.pi * t / d), 3) * np.sin(np.pi * np.clip(t / d, 0, 1)) ** 2
+    flap = lp(noise(0.06), 900, 2) * adsr(n_(0.06), 0.002, 0.03, 0, 0.02, 4) * 0.8
+    return reverb(place(d, (0, sw), (0.32, flap)), 0.7, 0.15, 0.3)
+
+
+def s_ehon_sparkle():  # 光の粒があふれる(場面転換)
+    d = 1.8
+    notes = [(0.00, 1046.5), (0.07, 1318.5), (0.14, 1568.0), (0.21, 1760.0), (0.30, 2093.0)]
+    w = place(d, *[(st, bell(f, 1.2, 0.5 - i * 0.05)) for i, (st, f) in enumerate(notes)])
+    air = lp(noise(d), 1500, 2) * adsr(n_(d), 0.3, 0.8, 0, 0.4, 3) * 0.25
+    return reverb(w + air, 1.1, 0.3, 1.0)
+
+
+def s_ehon_title():  # タイトル・おしまい:鈴の小さなメロディ
+    d = 2.8
+    notes = [(0.0, 784.0), (0.22, 987.8), (0.44, 1174.7), (0.7, 1568.0)]
+    w = place(d, *[(st, bell(f, 2.0, 0.6)) for st, f in notes])
+    w += place(d, (0, soft_tone(196.0, 2.4) * adsr(n_(2.4), 0.05, 1.6, 0, 0.5, 3) * 0.3))
+    return reverb(w, 1.2, 0.3, 1.2)
+
+
+def s_ehon_soft():  # 気づき:少しさみしい、やわらかい2音
+    d = 2.0
+    w = place(d, (0, bell(659.25, 1.6, 0.5)), (0.35, bell(587.33, 1.6, 0.45)))
+    w += soft_tone(146.83, d) * adsr(n_(d), 0.2, 1.2, 0, 0.4, 3) * 0.25
+    return reverb(w, 1.1, 0.3, 1.0)
+
+
+def s_ehon_burst():  # 展開:光がふわっと弾ける
+    d = 2.2
+    t = t_(d)
+    swell = lp(noise(d), 300 + 2500 * np.exp(-3 * t), 2) * adsr(n_(d), 0.02, 0.9, 0, 0.3, 3) * 0.6
+    chord = place(d, *[(0.02 + i * 0.03, bell(f, 1.8, 0.4)) for i, f in enumerate((523.25, 659.25, 783.99, 1046.5))])
+    thump = tone(lambda t: 90 * np.exp(-4 * t) + 50, 0.5) * adsr(n_(0.5), 0.005, 0.3, 0, 0.1, 3) * 0.6
+    return reverb(place(d, (0, swell), (0, chord), (0, thump)), 1.3, 0.3, 1.2)
+
+
+def s_ehon_rain():  # 雨:ぽつぽつ → さあっと(合成した粒の集まり)
+    d = 6.0
+    out = np.zeros(n_(d))
+    k = 0
+    tt = 0.15
+    while tt < d - 0.2:
+        f = 900 + rng.random() * 900
+        drop = tone(lambda t: f * (1 + 0.6 * np.exp(-60 * t)), 0.05) * adsr(n_(0.05), 0.001, 0.025, 0, 0.01, 5)
+        amp = 0.25 + 0.35 * min(1, tt / 3)
+        i = n_(tt)
+        out[i:i + len(drop)] += drop[: len(out) - i] * amp
+        tt += 0.22 * np.exp(-tt / 2.2) + 0.03 + rng.random() * 0.05
+        k += 1
+    hiss = lp(hp(noise(d), 400), 2200, 2) * np.clip(t_(d) / 3, 0, 1) * 0.18
+    w = lp(out, 3500, 1) + hiss
+    fade = np.clip((d - t_(d)) / 0.8, 0, 1)
+    return reverb(w * fade, 1.0, 0.25, 0.8)
+
+
+def s_ehon_bloom():  # 結末:花がひらく、あたたかい和音
+    d = 3.2
+    notes = [(0.00, 392.0), (0.08, 493.9), (0.16, 587.3), (0.24, 784.0), (0.40, 987.8), (0.55, 1174.7)]
+    w = place(d, *[(st, bell(f, 2.4, 0.42)) for st, f in notes])
+    w += place(d, (0, soft_tone(196.0, 2.8) * adsr(n_(2.8), 0.15, 1.8, 0, 0.5, 3) * 0.35))
+    return reverb(w, 1.4, 0.32, 1.4)
+
+
+def s_ehon_tap():  # タップ:やわらかい「ぽん」
+    d = 0.35
+    w = soft_tone(lambda t: 520 * np.exp(-8 * t) + 330, d) * adsr(n_(d), 0.003, 0.12, 0, 0.05, 4)
+    return reverb(w * 0.8, 0.6, 0.15, 0.3)
+
+
+SOUNDS.update({
+    "ehon_wind": s_ehon_wind, "ehon_page": s_ehon_page, "ehon_sparkle": s_ehon_sparkle, "ehon_title": s_ehon_title,
+    "ehon_soft": s_ehon_soft, "ehon_burst": s_ehon_burst, "ehon_rain": s_ehon_rain, "ehon_bloom": s_ehon_bloom, "ehon_tap": s_ehon_tap,
+})
+
+
 def write(name, x):
     x = np.asarray(x, dtype=float)
     x = x - np.mean(x)

@@ -19,7 +19,9 @@ const only = opt('clip', null);
 const common = JSON.parse(readFileSync(join(ROOT, 'video/themes/_common.json'), 'utf8'));
 const theme = JSON.parse(readFileSync(join(ROOT, `video/themes/${slug}.json`), 'utf8'));
 // テーマに capture.clips があればそれを使う(scenes 方式)。なければ共通の STEP 1〜3 構成
-const { viewport, deviceScaleFactor } = common.capture;
+// テーマに capture.viewport / deviceScaleFactor があればそちら(全画面モードは 540x960 × 2 = 1080x1920)
+const viewport = theme.capture?.viewport ?? common.capture.viewport;
+const deviceScaleFactor = theme.capture?.deviceScaleFactor ?? common.capture.deviceScaleFactor;
 const clips = theme.capture?.clips ?? common.capture.clips;
 const fps = common.fps;
 const pages = { final: `/works/${slug}/?capture`, step1: `/works/${slug}/step1/`, step2: `/works/${slug}/step2/` };

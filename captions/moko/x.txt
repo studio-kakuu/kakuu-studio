@@ -1,0 +1,22 @@
+# X は日本語版を本投稿、英語版をそのリプライとして投稿する(各ブロックは単体で280字以内。日本語は1字=2で計算)。ハッシュタグは各2〜3個。
+# 動画は videos/moko/x.mp4
+
+【日本語】(本投稿)
+えのぐも ふでも つかわずに、
+コードだけで えほんを かいた。
+
+「くものこ もこ」
+ちいさな くもが、おはなの ために あめに なる。
+さわって めくれる えほんです(AIで制作)
+
+URLはプロフィールのリンクから。
+
+#KAKUUSTUDIO #KAKUU絵本 #絵本
+
+【English】(リプライ)
+No paints, no brushes — a picture book drawn only in code.
+"Moko the Little Cloud": a tiny cloud becomes rain to help a flower bloom. Tap to turn the pages. Made with AI.
+
+URL via the link in our profile.
+
+#KAKUUSTUDIO #picturebook #creativecoding

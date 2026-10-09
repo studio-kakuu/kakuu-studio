@@ -30,7 +30,7 @@ const pages = { final: `/works/${slug}/?capture`, step1: `/works/${slug}/step1/`
 mkdirSync(join(PROJECT, 'public/brand'), { recursive: true });
 copyFileSync(join(ROOT, 'brand/logo.svg'), join(PROJECT, 'public/brand/logo.svg'));
 
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.mp3': 'audio/mpeg' };
 const server = createServer((req, res) => {
   let f = join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
   if (!f.startsWith(ROOT)) { res.writeHead(403).end(); return; }

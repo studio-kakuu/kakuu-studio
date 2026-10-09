@@ -58,6 +58,7 @@ for (const clip of clips) {
   await page.clock.pauseAt(1000);   // 時間を止める(以後は runFor で手動で進める)
   await page.goto(base + (clip.url ?? pages[clip.page]), { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
+  if (clip.waitFor) await page.waitForFunction(clip.waitFor, null, { timeout: 30000 });   // ページの準備(字体の読みこみなど)が終わるまで待つ
   await page.addStyleTag({ content: 'html{scrollbar-width:none}::-webkit-scrollbar{display:none}' });
   const max = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
   const total = Math.round(clip.seconds * fps);

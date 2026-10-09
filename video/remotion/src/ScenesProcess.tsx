@@ -19,8 +19,11 @@ const VOLUME: Record<string, number> = {
   whoosh: 0.5, hit: 0.85, hook: 0.6, close: 0.55,
   // 絵本(くものこ もこ)
   ehon_wind: 0.45, ehon_page: 0.4, ehon_sparkle: 0.42, ehon_title: 0.5, ehon_soft: 0.45, ehon_burst: 0.55,
-  ehon_rain: 0.5, ehon_bloom: 0.55, ehon_tap: 0.5,
+  ehon_rain: 0.5, ehon_bloom: 0.55, ehon_tap: 0.5, ehon_gust: 0.6,
 };
+// ナレーションが鳴っている間の効果音(約 -10dB)
+const DUCK = 0.32;
+const VOICE = 1.0;
 
 type Scene = { from: number; to: number; chip: string; title: string; camera: SceneSpec["camera"] };
 
@@ -129,18 +132,35 @@ export const ScenesProcess: React.FC<ProcessProps> = (props) => {
       {props.badges && <Badges items={props.badges} />}
       {props.notes && <Notes items={props.notes} />}
       {fin && <Finale {...fin} />}
-      <Sequence name="Hook" durationInFrames={Math.round(((props.hookEnd ?? 2) + 0.5) * fps)} premountFor={fps}>
-        <Hook text={fill(props.hook ?? COMMON.hookTemplate, props)} accent={props.hookAccent ?? `${props.minutes}分`} endSec={props.hookEnd ?? 2} />
-      </Sequence>
+      {props.hook !== "" && (
+        <Sequence name="Hook" durationInFrames={Math.round(((props.hookEnd ?? 2) + 0.5) * fps)} premountFor={fps}>
+          <Hook text={fill(props.hook ?? COMMON.hookTemplate, props)} accent={props.hookAccent ?? `${props.minutes}分`} endSec={props.hookEnd ?? 2} />
+        </Sequence>
+      )}
       <Sequence name="Closing" from={Math.round(closingStart * fps)} durationInFrames={durationInFrames - Math.round(closingStart * fps)} layout="none">
-        <Closing text={fill(closingTpl, props)} keyword={props.keyword} handle={COMMON.handle} sub={props.closingSub} />
+        <Closing text={fill(closingTpl, props)} keyword={props.keyword} handle={COMMON.handle} sub={props.closingSub} safe={props.safeArea} />
       </Sequence>
-      {props.urlNotice && <UrlNotice text={props.urlNotice} at={props.urlNoticeAt as unknown as readonly [number, number] | undefined} backing={props.frame === "full"} />}
-      {(props.sfx ?? []).map((s, i) => (
-        <Sequence key={i} name={`sfx:${s.type}`} from={Math.max(0, Math.round(s.at * fps))} durationInFrames={Math.round(3 * fps)} layout="none">
-          <Audio src={staticFile(`sfx/${s.type}.wav`)} volume={VOLUME[s.type] ?? 0.5} />
+      {props.urlNotice && <UrlNotice text={props.urlNotice} at={props.urlNoticeAt as unknown as readonly [number, number] | undefined} backing={props.frame === "full"} safe={props.safeArea} />}
+      {(props.narration ?? []).map((n, i) => (
+        <Sequence key={`v${i}`} name={`voice:${n.file}`} from={Math.round(n.at * fps)} durationInFrames={Math.round((n.len + 1.5) * fps)} layout="none">
+          <Audio src={staticFile(n.file)} volume={VOICE} />
         </Sequence>
       ))}
+      {(props.sfx ?? []).map((s, i) => {
+        const from = Math.max(0, Math.round(s.at * fps));
+        const base = s.volume ?? VOLUME[s.type] ?? 0.5;
+        // 声と重なる間だけ下げる(前後 0.15 秒でなめらかに)
+        const duck = (f: number) => {
+          const t = (from + f) / fps;
+          const d = Math.max(0, ...(props.narration ?? []).map((n) => Math.min(interpolate(t, [n.at - 0.15, n.at], [0, 1], clamp), interpolate(t, [n.at + n.len, n.at + n.len + 0.15], [1, 0], clamp))));
+          return base * (1 - (1 - DUCK) * d);
+        };
+        return (
+          <Sequence key={i} name={`sfx:${s.type}`} from={from} durationInFrames={Math.round(3 * fps)} layout="none">
+            <Audio src={staticFile(`sfx/${s.type}.wav`)} volume={props.narration ? duck : base} />
+          </Sequence>
+        );
+      })}
     </AbsoluteFill>
   );
 };

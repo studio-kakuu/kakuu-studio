@@ -30,9 +30,15 @@ export const processSchema = z.object({
   badges: z.array(z.object({ from: z.number(), to: z.number(), text: z.string() })).optional(),
   notes: z.array(z.object({ from: z.number(), to: z.number(), text: z.string(), size: z.enum(["small", "caption"]).optional() })).optional(),
   closingSub: z.string().optional(),
-  duration: z.number().min(61).max(75).optional(),
+  duration: z.number().min(61).max(90).optional(),   // 61〜75 秒(絵本など読み聞かせの作品は 90 秒まで)
   scenes: z.array(z.object({ from: z.number(), to: z.number(), chip: z.string(), title: z.string(), camera: z.any() })).optional(),
-  sfx: z.array(z.object({ type: z.string(), at: z.number() })).optional(),
+  sfx: z.array(z.object({ type: z.string(), at: z.number(), volume: z.number().optional() })).optional(),
+  // ナレーション(文ごとのファイル。at 秒から流す)。声が鳴っている間は効果音を下げる
+  narration: z.array(z.object({ file: z.string(), at: z.number(), len: z.number() })).optional(),
+  // SNS のボタン・説明文に隠れない配置(上 220px・下 420px・右 160px をあける)
+  safeArea: z.boolean().optional(),
+  // 書き出しの音量(LUFS)。render.mjs が最後にそろえる
+  loudness: z.number().optional(),
 });
 export type ProcessProps = z.infer<typeof processSchema>;
 

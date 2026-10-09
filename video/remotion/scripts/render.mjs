@@ -3,7 +3,7 @@
 import { readFileSync, mkdirSync, statSync, existsSync } from 'node:fs';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJECT = resolve(HERE, '..');
@@ -14,12 +14,13 @@ const slug = opt('theme', 'cafe');
 const platforms = opt('platform', 'instagram,tiktok,x').split(',');
 const crf = opt('crf', '20');   // 最終の画質(大きいほど軽い)
 const frames = opt('frames', null); // 確認用:指定したコマだけ PNG で書き出す(例 --frames 0,300,900)
+const reuse = args.includes('--reuse'); // 50MB を超えたとき:合成済みの out/<slug>_<platform>.mp4 から圧縮だけやり直す(例 --reuse --crf 22)
 
 const theme = JSON.parse(readFileSync(join(ROOT, `video/themes/${slug}.json`), 'utf8'));
 // 制作時間(フックに {minutes} を使うテーマだけ必須)
 const timeFile = join(ROOT, `works/${slug}/measured_time.txt`);
 const m = existsSync(timeFile) ? readFileSync(timeFile, 'utf8').match(/^hook_minutes:\s*(\d+)/m) : null;
-if (!m && !theme.hook) throw new Error('measured_time.txt に hook_minutes がありません');
+if (!m && theme.hook === undefined) throw new Error('measured_time.txt に hook_minutes がありません');
 
 // 効果音:撮影時に記録したページのイベント(public/<slug>/<clip>.sfx.json)を動画の時刻へ並べ、sfxExtra を足す
 const sfx = [];
@@ -37,7 +38,7 @@ for (const c of theme.clips ?? []) {
 for (const e of theme.sfxExtra ?? []) sfx.push(e);
 sfx.sort((a, b) => a.at - b.at);
 const hasAudio = sfx.length > 0;
-const { _comment, capture, sfxExtra, output, sfxPrefix, ...themeProps } = theme;
+const { _comment, capture, sfxExtra, output, sfxPrefix, loudness, ...themeProps } = theme;
 // 締めが全媒体で同じテーマは1本だけ書き出す(output.single にファイル名)
 const targets = output?.single ? [{ platform: 'instagram', file: output.single }] : platforms.map((p) => ({ platform: p, file: `${p}.mp4` }));
 themeProps.clips = themeProps.clips?.map(({ sfxSkip, ...c }) => c);
@@ -53,14 +54,22 @@ for (const { platform, file } of targets) {
     continue;
   }
   const tmp = join(PROJECT, 'out', `${slug}_${platform}.mp4`);
-  execFileSync('npx', ['remotion', 'render', 'src/index.ts', `Process-${platform}`, tmp,
+  if (!(reuse && existsSync(tmp))) execFileSync('npx', ['remotion', 'render', 'src/index.ts', `Process-${platform}`, tmp,
     `--props=${JSON.stringify(props)}`, '--codec=h264', '--crf=14', '--pixel-format=yuv420p', ...(hasAudio ? ['--audio-codec=aac'] : ['--muted']), ...browser],
     { cwd: PROJECT, stdio: 'inherit' });
   const out = join(outDir, file);
+  // 音量をそろえる(loudness があるテーマだけ):いったん測ってから、その差だけ上げ下げする(ピークは -1.5dBFS で止める)
+  let af = [];
+  if (hasAudio && loudness) {
+    const log = spawnSync('ffmpeg', ['-hide_banner', '-i', tmp, '-af', 'ebur128', '-f', 'null', '-'], { encoding: 'utf8' }).stderr;   // 測った値は stderr に出る
+    const I = Number([...log.matchAll(/I:\s+(-?[\d.]+) LUFS/g)].pop()[1]);
+    af = ['-af', `volume=${(loudness - I).toFixed(2)}dB,alimiter=limit=0.84:level=false`];
+    console.log(`  loudness ${I} LUFS -> ${loudness} LUFS`);
+  }
   // Remotion の出力はフルレンジ(yuvj420p)になることがあるため、iPhone 等で確実に再生できる標準の yuv420p に変換し直す
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', tmp, '-vf', 'scale=in_range=full:out_range=tv,format=yuv420p',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', crf, '-profile:v', 'high', '-level', '4.2', '-color_range', 'tv',
-    '-r', '30', ...(hasAudio ? ['-c:a', 'aac', '-b:a', '192k', '-ar', '48000'] : ['-an']), '-movflags', '+faststart', out]);
+    '-r', '30', ...af, ...(hasAudio ? ['-c:a', 'aac', '-b:a', '192k', '-ar', '48000'] : ['-an']), '-movflags', '+faststart', out]);
   const mb = statSync(out).size / 1024 / 1024;
   console.log(`  -> videos/${slug}/${file}  ${mb.toFixed(1)}MB`);
   if (mb > 50) console.warn('  !! 50MB を超えています。--crf を上げて書き出し直してください(例: --crf 23)');

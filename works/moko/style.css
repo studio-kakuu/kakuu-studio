@@ -68,8 +68,10 @@ button { font: inherit; color: inherit; }
 /* ---------- world ---------- */
 .world { position: absolute; inset: 0; transform-origin: var(--moko-x) 40%; }
 .sky { position: absolute; inset: 0; background: linear-gradient(180deg, var(--sky-2) 0%, var(--sky) 45%, var(--cream) 82%); }
+/* カメラが寄って world を大きく動かしても空の端が見えないよう、空は画面の外まで広げる(色の位置は画面の高さで指定) */
+.sky.wide { inset: -60vh -60vw; }
 
-.layer { position: absolute; left: -25vw; width: 150vw; }
+.layer { position: absolute; left: -25vw; width: 150vw; overflow: visible; }   /* 地面は下の外まで描いてある(カメラが寄っても切れ目が出ない) */
 .far   { top: 3vh; height: 34vh; opacity: .7; }
 .hills { bottom: 0; height: var(--ground-h); }
 .field { bottom: 0; height: calc(var(--ground-h) * .62); }
@@ -128,6 +130,7 @@ button { font: inherit; color: inherit; }
   font-size: clamp(36px, 13vmin, 120px); letter-spacing: .04em; white-space: nowrap;
   -webkit-text-stroke: 2px rgba(106, 86, 76, .28);
 }
+.words span.small { font-size: clamp(30px, 8.5vmin, 80px); }
 
 /* 文章(縦:下/横:左) */
 .story {
@@ -151,11 +154,19 @@ button { font: inherit; color: inherit; }
 .burst p { margin: 0; text-align: center; font-weight: 900; font-size: clamp(42px, 15vmin, 150px); line-height: 1.35; letter-spacing: .06em; color: var(--white);
   -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; text-shadow: 0 0 34px rgba(246, 198, 91, .9); }
 .burst .ch { display: inline-block; }
+.burst .ln, .owari .ln { display: block; }
+.owari .ch { display: inline-block; }
 
 .title { position: absolute; z-index: 13; left: 0; right: 0; top: 46vh; margin: 0; text-align: center; font-weight: 900; line-height: 1.1; pointer-events: none; }
 .title span { display: block; }
-.title .t1 { font-size: clamp(30px, 9vmin, 80px); letter-spacing: .3em; color: var(--ink); }
-.title .t2 { font-size: clamp(76px, 26vmin, 230px); letter-spacing: .12em; color: var(--white); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 rgba(106, 86, 76, .18), 0 0 40px rgba(246, 198, 91, .8); }
+.title .t0 { font-size: clamp(14px, 4.2vmin, 30px); letter-spacing: .14em; color: var(--ink); margin-bottom: 1.4vh; padding: .35em 1em; justify-self: center; display: inline-block !important; border-radius: 999px; background: rgba(255, 246, 230, .85); box-shadow: 0 0 0 2px rgba(106, 86, 76, .16); }
+.title .t1 { font-size: clamp(30px, 9vmin, 80px); letter-spacing: .3em; padding-left: .3em; color: var(--ink); }
+/* 題字「もこ」:太い茶色の縁取りの外に、クリーム色のふちをもう1本(背景の丘や家に埋もれないように)。
+   縁取りは paint-order で塗りの下に敷くので、字の内側は細らない */
+.title .t2 { position: relative; font-size: clamp(76px, 26vmin, 230px); letter-spacing: .12em; padding-left: .12em; color: var(--white);
+  -webkit-text-stroke: .085em var(--ink); paint-order: stroke fill; text-shadow: 0 .05em 0 rgba(106, 86, 76, .3); }
+.title .t2::before { content: attr(data-text); position: absolute; inset: 0; padding-left: inherit; z-index: -1; color: var(--cream);
+  -webkit-text-stroke: .2em var(--cream); paint-order: stroke fill; filter: drop-shadow(0 0 .12em rgba(246, 198, 91, .9)); }
 .title .ch { display: inline-block; }
 @media (orientation: landscape) { .title { top: 34vh; left: 6vw; right: auto; width: 52vw; } }
 
@@ -164,6 +175,15 @@ button { font: inherit; color: inherit; }
 .again { justify-self: center; padding: .7em 1.6em; border: 3px solid var(--ink); border-radius: 999px; background: var(--gold); font-weight: 900; font-size: clamp(16px, 4.2vmin, 26px); letter-spacing: .1em; cursor: pointer; box-shadow: 0 5px 0 rgba(106, 86, 76, .35); }
 .credit { margin: 0; font-size: clamp(11px, 2.6vmin, 15px); color: var(--ink-soft); line-height: 1.8; }
 .credit a { color: var(--ink); }
+
+/* 強い風の線(かぜに とばされる) */
+.gusts { position: absolute; inset: 0; z-index: 9; pointer-events: none; overflow: hidden; }
+.gusts i { position: absolute; left: 0; height: 5px; border-radius: 5px; opacity: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .95) 40%, rgba(255, 255, 255, 0)); box-shadow: 0 0 0 1.5px rgba(106, 86, 76, .12); }
+
+/* もこの「ちいさく なった」想像(うすい影) */
+.ghost { position: absolute; pointer-events: none; opacity: 0; }
+.ghost svg { display: block; width: 100%; overflow: visible; }
 
 .flood { position: absolute; inset: 0; z-index: 20; pointer-events: none; overflow: hidden; }
 .flood i { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255, 250, 235, 1) 0%, rgba(255, 236, 190, .95) 45%, rgba(255, 214, 160, 0) 72%); transform: scale(0); }
@@ -174,6 +194,17 @@ button { font: inherit; color: inherit; }
 .dots { display: flex; gap: 7px; }
 .dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(106, 86, 76, .25); transition: background .4s, transform .4s; }
 .dots i.on { background: var(--ink); transform: scale(1.25); }
+.btns { display: flex; gap: 8px; }
+.read, .next { white-space: nowrap; }
+@media (max-width: 430px) { .ui { padding: 0 3.5vw; } .dots { gap: 4px; } .dots i { width: 7px; height: 7px; } .read, .next { font-size: 13px; letter-spacing: .04em; } }
+.read { pointer-events: auto; display: inline-flex; align-items: center; gap: .3em; padding: .35em .9em .35em .7em; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--gold); font-weight: 900; font-size: 14px; letter-spacing: .08em; cursor: pointer; }
+.read svg { width: 1.25em; height: 1.25em; fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.read svg path:first-child { fill: var(--ink); }
+.read .wave { opacity: .35; }
+.read.playing { background: var(--pink); }
+.read.playing .w1 { animation: wave 1s ease-in-out infinite; }
+.read.playing .w2 { animation: wave 1s ease-in-out .25s infinite; }
+@keyframes wave { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
 .next { pointer-events: auto; padding: .35em 1em; border: 2.5px solid var(--ink); border-radius: 999px; background: rgba(255, 246, 230, .9); font-weight: 900; font-size: 14px; letter-spacing: .1em; cursor: pointer; }
 .demo .ui { opacity: 0; }
 
@@ -190,3 +221,15 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .motes { display: none; }
 }
+
+/* ---------- 動画の撮影用(?demo=video):SNS のボタン・説明文に文字が隠れない配置 ----------
+   1080×1920 で 上 220px・下 420px・右 160px をあける(撮影は 540×960 なので半分の値) */
+.video { --moko-y: 29%; --flower-bottom: 18vh; }
+.video .story { top: 122px; bottom: auto; left: 22px; right: 86px; min-height: 0; align-items: flex-start; }
+.video .text { font-size: 19.5px; letter-spacing: .07em; }
+.video .title { right: 80px; }
+.video .burst { right: 80px; width: auto; }
+.video .burst p { font-size: 60px; }
+.video .ending { right: 80px; }
+.video .owari { font-size: 84px; }
+.video .again, .video .credit { display: none; }

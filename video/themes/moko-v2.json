@@ -1,0 +1,221 @@
+{
+ "_comment": "自動生成:works/moko/audio/build-narration.py。作品 003 くものこ もこ v2(ナレーション付きの えほん)。台本は video/storyboards/moko-v2.md(承認済み)。",
+ "slug": "moko-v2",
+ "theme": "絵本",
+ "keyword": "もこ",
+ "frame": "full",
+ "duration": 85.07,
+ "hook": "",
+ "urlNotice": "この えほんの URL は さいごに",
+ "urlNoticeAt": [
+  4.0,
+  6.8
+ ],
+ "safeArea": true,
+ "closingStart": 79.068,
+ "closing": {
+  "instagram": "コメントで『{keyword}』と おくってね\nえほんの URL を おとどけします",
+  "tiktok": "Instagram(@studio_kakuu)の とうこうに\n『{keyword}』と コメントすると とどきます",
+  "x": "URLは\nプロフィールの リンクから"
+ },
+ "loudness": -16,
+ "capture": {
+  "viewport": [
+   540,
+   960
+  ],
+  "deviceScaleFactor": 2,
+  "clips": [
+   {
+    "id": "book",
+    "url": "/works/moko/?demo=video",
+    "seconds": 85.07,
+    "holdStart": 0,
+    "holdEnd": 0,
+    "scroll": [
+     0,
+     0
+    ],
+    "waitFor": "window.__mokoReady === true"
+   }
+  ]
+ },
+ "clips": [
+  {
+   "id": "book",
+   "from": 0,
+   "seconds": 85.07
+  }
+ ],
+ "scenes": [
+  {
+   "from": 0,
+   "to": 79.068,
+   "chip": "",
+   "title": "",
+   "camera": {
+    "from": [
+     0,
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    "to": [
+     0,
+     0,
+     0,
+     1,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "from": 79.068,
+   "to": 85.07,
+   "chip": "",
+   "title": "",
+   "camera": {
+    "to": [
+     0,
+     0,
+     0,
+     1.06,
+     0,
+     0.62
+    ],
+    "move": 1.2
+   }
+  }
+ ],
+ "narration": [
+  {
+   "file": "moko-v2/voice/01.mp3",
+   "at": 1.0,
+   "len": 1.962
+  },
+  {
+   "file": "moko-v2/voice/02.mp3",
+   "at": 4.462,
+   "len": 6.478
+  },
+  {
+   "file": "moko-v2/voice/03.mp3",
+   "at": 12.44,
+   "len": 7.198
+  },
+  {
+   "file": "moko-v2/voice/04.mp3",
+   "at": 22.638,
+   "len": 7.93
+  },
+  {
+   "file": "moko-v2/voice/05.mp3",
+   "at": 32.068,
+   "len": 8.545
+  },
+  {
+   "file": "moko-v2/voice/06.mp3",
+   "at": 42.113,
+   "len": 3.622
+  },
+  {
+   "file": "moko-v2/voice/07a.mp3",
+   "at": 47.235,
+   "len": 1.892
+  },
+  {
+   "file": "moko-v2/voice/07b.mp3",
+   "at": 50.327,
+   "len": 3.158
+  },
+  {
+   "file": "moko-v2/voice/08.mp3",
+   "at": 56.985,
+   "len": 5.503
+  },
+  {
+   "file": "moko-v2/voice/09.mp3",
+   "at": 65.488,
+   "len": 7.837
+  },
+  {
+   "file": "moko-v2/voice/10.mp3",
+   "at": 76.825,
+   "len": 0.743
+  }
+ ],
+ "sfxExtra": [
+  {
+   "type": "ehon_title",
+   "at": 0.0
+  },
+  {
+   "type": "ehon_wind",
+   "at": 3.712
+  },
+  {
+   "type": "ehon_gust",
+   "at": 11.84
+  },
+  {
+   "type": "ehon_tap",
+   "at": 20.238
+  },
+  {
+   "type": "ehon_sparkle",
+   "at": 20.538
+  },
+  {
+   "type": "ehon_soft",
+   "at": 21.338
+  },
+  {
+   "type": "ehon_wind",
+   "at": 31.518,
+   "volume": 0.25
+  },
+  {
+   "type": "ehon_burst",
+   "at": 43.464
+  },
+  {
+   "type": "ehon_rain",
+   "at": 46.635
+  },
+  {
+   "type": "ehon_rain",
+   "at": 51.127
+  },
+  {
+   "type": "ehon_sparkle",
+   "at": 54.635
+  },
+  {
+   "type": "ehon_bloom",
+   "at": 55.385
+  },
+  {
+   "type": "ehon_sparkle",
+   "at": 63.388
+  },
+  {
+   "type": "ehon_wind",
+   "at": 64.388
+  },
+  {
+   "type": "ehon_sparkle",
+   "at": 74.475
+  },
+  {
+   "type": "ehon_title",
+   "at": 75.125
+  },
+  {
+   "type": "close",
+   "at": 79.368
+  }
+ ]
+}

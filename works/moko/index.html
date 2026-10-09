@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>くものこ もこ — KAKUU STUDIO のさわれる えほん</title>
-<meta name="description" content="ちいさな くもの こ「もこ」が、げんきの ない おはなの ために あめに なる おはなし。タップで めくれる えほん。※KAKUU STUDIO が AI と コードで つくった オリジナル作品です。">
+<meta name="description" content="ちいさな くもの こ「もこ」が、まよいながらも、げんきの ない おはなの ために あめに なる おはなし。タップで めくれて、ページごとの「よみきかせ」ボタンで こえも きける えほん。※KAKUU STUDIO が AI と コードで つくった オリジナル作品です(こえは AI)。">
 <meta name="theme-color" content="#FFF6E6">
 <link rel="icon" href="../../brand/logo-on-black.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +14,7 @@
 <script src="vendor/gsap.min.js" defer></script>
 <script src="vendor/SplitText.min.js" defer></script>
 <script src="vendor/DrawSVGPlugin.min.js" defer></script>
+<script src="narration.js" defer></script>
 <script src="main.js" defer></script>
 </head>
 <body>
@@ -60,7 +61,7 @@
     <!-- 丘と町(中くらい) -->
     <svg class="layer hills" id="hills" viewBox="0 0 2400 600" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
       <g class="tex">
-        <path class="fill hill2 line" d="M0 300 C300 180 560 210 820 280 C1080 350 1260 200 1560 220 C1860 240 2100 330 2400 260 V600 H0 Z"/>
+        <path class="fill hill2 line" d="M0 300 C300 180 560 210 820 280 C1080 350 1260 200 1560 220 C1860 240 2100 330 2400 260 V1600 H0 Z"/>
         <g class="houses">
           <path class="fill wall line" d="M1210 236 h44 v38 h-44 Z"/><path class="fill roof line" d="M1202 238 L1232 212 L1262 238 Z"/>
           <path class="fill wall line" d="M1270 230 h36 v40 h-36 Z"/><path class="fill roof2 line" d="M1263 232 L1288 208 L1313 232 Z"/>
@@ -78,8 +79,8 @@
     <!-- 手前の野原(速く動く) -->
     <svg class="layer field" id="field" viewBox="0 0 2400 600" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
       <g class="tex">
-        <path class="fill grass line" id="grass" d="M0 250 C400 200 760 230 1200 250 C1640 270 2000 220 2400 240 V600 H0 Z"/>
-        <path class="fill dry" id="dry" d="M0 250 C400 200 760 230 1200 250 C1640 270 2000 220 2400 240 V600 H0 Z"/>
+        <path class="fill grass line" id="grass" d="M0 250 C400 200 760 230 1200 250 C1640 270 2000 220 2400 240 V1600 H0 Z"/>
+        <path class="fill dry" id="dry" d="M0 250 C400 200 760 230 1200 250 C1640 270 2000 220 2400 240 V1600 H0 Z"/>
         <g class="tufts line" fill="none">
           <path d="M200 300 q6 -18 12 0 q6 -14 12 0 M640 330 q6 -18 12 0 q6 -14 12 0 M1500 320 q6 -18 12 0 q6 -14 12 0 M2000 290 q6 -18 12 0 q6 -14 12 0 M980 380 q6 -18 12 0 q6 -14 12 0"/>
         </g>
@@ -148,6 +149,9 @@
     </div>
   </div>
 
+  <!-- 強い風の線 -->
+  <div class="gusts" id="gusts" aria-hidden="true"></div>
+
   <!-- 前景:光の粒・花びら -->
   <canvas class="motes" id="motes" aria-hidden="true"></canvas>
   <!-- 背景いっぱいの擬音 -->
@@ -156,7 +160,7 @@
   <!-- 文章 -->
   <div class="story" id="story"><p class="text" id="text"></p></div>
   <div class="burst" id="burst" aria-hidden="true"></div>
-  <h1 class="title" id="title"><span class="t1">くものこ</span><span class="t2">もこ</span></h1>
+  <h1 class="title" id="title"><span class="t0">AI と コードで つくった えほん</span><span class="t1">くものこ</span><span class="t2" data-text="もこ">もこ</span></h1>
   <div class="ending" id="ending">
     <p class="owari">おしまい</p>
     <button class="again" id="again" type="button">もういちど よむ</button>
@@ -169,7 +173,10 @@
 
   <nav class="ui" aria-label="ページ">
     <div class="dots" id="dots"></div>
-    <button class="next" id="next" type="button" aria-label="つぎの ページへ">つぎへ</button>
+    <div class="btns">
+      <button class="read" id="read" type="button" aria-pressed="false" aria-label="この ページを よみきかせ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="wave w1" d="M15 9.5a3.5 3.5 0 0 1 0 5"/><path class="wave w2" d="M17.5 7a7 7 0 0 1 0 10"/></svg>よみきかせ</button>
+      <button class="next" id="next" type="button" aria-label="つぎの ページへ">つぎへ</button>
+    </div>
   </nav>
 </main>
 

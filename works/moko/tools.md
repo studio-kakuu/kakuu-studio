@@ -30,6 +30,6 @@
 
 ## ナレーション(v2・ElevenLabs)
 - 声:**Shizuka - Natural and Soft**(Voice ID `WQz3clzUdMqvBf0jswZQ`)。試し録り3候補(Orange / Shizuka / Takumi)から選定
-- モデル `eleven_multilingual_v2`/speed 0.9/stability 0.9/similarity 0.75/style 0.2/**seed 20261009**/`with-timestamps`
-- 全10文を1回で生成(2026-10-09)。送った文字数 263(読ませる文は `video/storyboards/moko-v2.md` 12章)。決まりは `toolbox/narration-rules.md`
+- モデル `eleven_multilingual_v2`/speed 0.8/stability 0.9/similarity 0.75/style 0.2/**seed 20261009**/`with-timestamps`
+- 全10文を1回で生成(2026-10-09)。1回目 speed 0.9(速くて聞き取りにくい)→ 2回目 speed 0.8 で録り直し(上書き)。ただし 2回目も長さは 41.6 → 41.7 秒でほぼ変わらず、speed の設定が効いていない様子。送った文字数 263(読ませる文は `video/storyboards/moko-v2.md` 12章)。決まりは `toolbox/narration-rules.md`
 - ファイル:`audio/narration.mp3`(41.6秒)/`audio/narration.timestamps.json`(文字ごとの時刻と、送った設定)。同じ内容で再生成しない

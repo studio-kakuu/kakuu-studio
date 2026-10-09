@@ -27,3 +27,9 @@
 - すべて自作:`video/remotion/scripts/make-sfx.py` に絵本用の音を追加して合成(外部の音源なし)
 - ehon_wind(そよ風)/ehon_page(紙をめくる)/ehon_sparkle(光の粒の場面転換)/ehon_title(タイトル・おしまいの鈴)/ehon_soft(気づきのさみしい2音)/ehon_burst(光が弾ける)/ehon_rain(合成した雨粒の集まり)/ehon_bloom(花がひらく和音)/ehon_tap(タップの「ぽん」)+締めは共通の close
 - 鈴はオルゴールのように丸く(高い成分は 4kHz 前後で削る)。BGM なし
+
+## ナレーション(v2・ElevenLabs)
+- 声:**Shizuka - Natural and Soft**(Voice ID `WQz3clzUdMqvBf0jswZQ`)。試し録り3候補(Orange / Shizuka / Takumi)から選定
+- モデル `eleven_multilingual_v2`/speed 0.9/stability 0.9/similarity 0.75/style 0.2/**seed 20261009**/`with-timestamps`
+- 全10文を1回で生成(2026-10-09)。送った文字数 263(読ませる文は `video/storyboards/moko-v2.md` 12章)。決まりは `toolbox/narration-rules.md`
+- ファイル:`audio/narration.mp3`(41.6秒)/`audio/narration.timestamps.json`(文字ごとの時刻と、送った設定)。同じ内容で再生成しない

@@ -41,12 +41,12 @@
 | 63.5–69.5 | 締め(中央下) | 下の「締めの文字」(媒体別) |
 | 63.5–69.5 | 締めの下 | 文字ロゴ+ @studio_kakuu |
 
-### 締めの文字(前回と同じ・媒体別)
+### 締めの文字(媒体別・画面の文字なので ひらがなに そろえる。2026-10-09 変更)
 | 媒体 | 文字(改行位置も固定) |
 |---|---|
-| instagram | コメントで『もこ』と送ってね/えほんの URL を お届けします(『もこ』はアクセント色) |
-| tiktok | Instagram(@studio_kakuu)の投稿に/『もこ』とコメントすると届きます |
-| x | URLは/プロフィールのリンクから |
+| instagram | コメントで『もこ』と おくってね/えほんの URL を おとどけします(『もこ』はアクセント色) |
+| tiktok | Instagram(@studio_kakuu)の とうこうに/『もこ』と コメントすると とどきます |
+| x | URLは/プロフィールの リンクから |
 
 ### ナレーション原稿だけを並べたもの(本番で読む全文・この順)
 1. くものこ もこ。
@@ -149,28 +149,32 @@
 ## 11. 投稿文案と Threads のつぶやき案(ゲート1の追加分)
 
 ### Instagram(`captions/moko-v2/instagram.txt` に入れる予定)
+前の版は投稿していないので、新しい えほんとして紹介する(2026-10-09 書き直し)。
 ```
 【日本語】
-まえに コードで かいた えほん「くものこ もこ」に、よみきかせの こえと、あたらしい 場面を たしました。
+えのぐも ふでも つかわずに、コードだけで かいた えほんです。
+よみきかせの こえは、AI で つくりました。
 
+「くものこ もこ」
 ちいさな くもの こ・もこが、かぜに とばされた さきで、げんきのない おはなに であい、じぶんが ちいさく なるのを まよいながらも、あめに なる おはなし。
 
-Web の えほんでは、ページごとの「よみきかせ」ボタンで、動画と おなじ こえが きけます。
+Web の えほんでは、ゆびで ページを めくれて、ページごとの「よみきかせ」ボタンで 動画と おなじ こえが きけます。
 
-※実在しない、KAKUU STUDIO の オリジナルの おはなしです。絵と動きは コードで、こえは AI で つくりました。
+※実在しない、KAKUU STUDIO の オリジナルの おはなしです。AIで制作しています。
 
 この えほんを よんでみたい方は、コメントで『もこ』と送ってね、URLをお届けします。
 
 ―――
 
 【English】
-I added a narrated reading and new scenes to "Moko the Little Cloud," the picture book I drew in code.
+A picture book drawn only in code — no paints, no brushes — read aloud by an AI voice.
 
+"Moko the Little Cloud"
 Blown far away by the wind, a tiny cloud named Moko finds a wilting flower. Becoming rain means getting smaller — Moko hesitates, then decides to become the rain anyway.
 
-In the web version, each page has a "Read aloud" button with the same voice as the video.
+In the web version, you can turn the pages with your finger, and each page has a "Read aloud" button with the same voice as the video.
 
-*An original story by KAKUU STUDIO. Art and motion are made with code; the voice is made with AI.
+*An original story by KAKUU STUDIO, made with AI.
 
 Want to read it? Comment "もこ" (moko) and I'll send you the URL.
 
@@ -182,17 +186,17 @@ Want to read it? Comment "もこ" (moko) and I'll send you the URL.
 ### TikTok(`captions/moko-v2/tiktok.txt` に入れる予定)
 ```
 【日本語】
-コードで かいた えほんに、よみきかせの こえを つけた。
+えのぐも ふでも つかわずに、コードだけで かいた えほん。よみきかせの こえは AI です。
 
 「くものこ もこ」― ちいさな くもの こが、まよいながらも、おはなの ために あめに なる おはなし。
-Web の えほんは、ページごとの「よみきかせ」ボタンで おなじ こえが きけます。
-※KAKUU STUDIO の オリジナル作品です。こえは AI で つくりました。
+Web の えほんは、ゆびで めくれて、ページごとの「よみきかせ」ボタンで おなじ こえが きけます。
+※KAKUU STUDIO の オリジナル作品です。AIで制作しています。
 
 えほんは、Instagram(@studio_kakuu)の投稿に『もこ』とコメントすると届きます。
 
 【English】
-A picture book drawn in code, now with a read-aloud voice.
-"Moko the Little Cloud": a tiny cloud hesitates, then turns into rain to help a flower. The web version has a "Read aloud" button on every page. Voice made with AI.
+A picture book drawn only in code, read aloud by an AI voice.
+"Moko the Little Cloud": a tiny cloud hesitates, then turns into rain to help a flower. In the web version, tap to turn the pages and press "Read aloud" on any page.
 
 Comment "もこ" (moko) on our Instagram post (@studio_kakuu) and we'll send you the book.
 
@@ -202,21 +206,21 @@ Comment "もこ" (moko) on our Instagram post (@studio_kakuu) and we'll send you
 ### X(`captions/moko-v2/x.txt` に入れる予定。日本語を本投稿、英語をそのリプライ)
 ```
 【日本語】(本投稿)
-コードで かいた えほんに、
-よみきかせの こえを つけました。
+えのぐも ふでも つかわずに、
+コードだけで かいた えほん。
+よみきかせの こえは AI です。
 
 「くものこ もこ」
 ちいさな くもが、まよいながらも、
 おはなの ために あめに なる。
-こえは AI で つくりました。
 
 URLはプロフィールのリンクから。
 
 #KAKUUSTUDIO #KAKUU絵本 #読み聞かせ
 
 【English】(リプライ)
-A picture book drawn in code, now with a read-aloud voice.
-"Moko the Little Cloud": a tiny cloud hesitates, then becomes rain to help a flower. Voice made with AI.
+A picture book drawn only in code, read aloud by an AI voice.
+"Moko the Little Cloud": a tiny cloud hesitates, then becomes rain to help a flower.
 
 URL via the link in our profile.
 
@@ -314,3 +318,12 @@ Stories, too, seem to need a pause.
 2. **文字の出方**:「1文字ずつにじみ出る」を、**ナレーションのタイムスタンプに合わせて、読まれるのと同時に1文字ずつ出す** に変える(画面の文字はひらがな・読ませる文は漢字まじりなので、1文ごとに読み始め〜読み終わりの時間に画面の文字を均等に割り当てる)
 3. **場面の秒数**:2章の表の秒数(仮)は、生成後のタイムスタンプで決め直す。切り替えは前の声の終わりと次の声の始まりの中間。尺は 61〜75 秒の中に収め、決め直した表をもう一度見せる
 - 文字の置き場所:絵本の文字・テロップは SNS のボタンや説明文に隠れない範囲(1080×1920 で 上 220px・下 420px・右 160px をあける)に置く。右下の「この えほんの URL は さいごに」は、この範囲の内側へ少し上げる(位置は全作品共通のルールとの兼ね合いがあるので、ゲート3の静止画で確認してもらう)
+
+## 14. ゲート3の最終確認チェックリスト(作品ごとの項目)
+- [ ] **画面に出る文字(絵本の本文・表紙・テロップ・締め)に漢字が残っていない**(英字の Instagram / URL / @studio_kakuu と記号は可)。画面に出る全文字列を書き出して、漢字が0字であることを機械的に確かめる
+- [ ] 1文字ずつ出る演出は「画面の文字」(2章の表)で行っている。**「読ませる文」(12章)は画面に一度も出ていない**
+- [ ] 画面の文字・テロップ・締めの文字が、承認版と一字一句同じ
+- [ ] 表紙の題字と「AI と コードで つくった えほん」が 0 コマ目から見える
+- [ ] 場面の切り替えが、前の声の終わりと次の声の始まりの中間にある(読み終わる前に切り替わっていない)
+- [ ] 文字が SNS のボタン・説明文の範囲(上 220px・下 420px・右 160px)に入っていない
+- [ ] Web の「よみきかせ」ボタンの音声が、1本のナレーションから切り出したもので、ページの文と合っている。自動では鳴らない

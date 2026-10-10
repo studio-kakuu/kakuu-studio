@@ -1,0 +1,948 @@
+{
+ "rows": [
+  {
+   "sec": "Intro",
+   "t": 5.701,
+   "en": "Fade In",
+   "jp": "フェードイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 6.05,
+   "en": "Slide In",
+   "jp": "スライドイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 6.399,
+   "en": "Pop In",
+   "jp": "ポップイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 7.271,
+   "en": "Bounce",
+   "jp": "バウンス",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 7.794,
+   "en": "3",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 8.142,
+   "en": "2",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 8.84,
+   "en": "2",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 9.189,
+   "en": "1",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Intro",
+   "t": 9.537,
+   "en": "Animation Overdrive",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 10.932,
+   "en": "Fade In",
+   "jp": "フェードイン",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 11.978,
+   "en": "Slide Up",
+   "jp": "スライドアップ",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 12.676,
+   "en": "Slide Down",
+   "jp": "スライドダウン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 13.024,
+   "en": "Left",
+   "jp": "スライドレフト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 13.373,
+   "en": "Right",
+   "jp": "スライドライト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 13.722,
+   "en": "Fade In",
+   "jp": "フェードイン",
+   "tech": true,
+   "nth": 3,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 14.768,
+   "en": "Slide Up",
+   "jp": "スライドアップ",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 15.465,
+   "en": "Slide Down",
+   "jp": "スライドダウン",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 16.163,
+   "en": "Left",
+   "jp": "スライドレフト",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 16.512,
+   "en": "Right",
+   "jp": "スライドライト",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 16.86,
+   "en": "Pop In",
+   "jp": "ポップイン",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 17.558,
+   "en": "Bounce",
+   "jp": "バウンス",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 17.732,
+   "en": "Zoom In",
+   "jp": "ズームイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 18.255,
+   "en": "Blur In",
+   "jp": "ブラーイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 18.953,
+   "en": "Typewriter",
+   "jp": "タイプライター",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 19.824,
+   "en": "Pop In",
+   "jp": "ポップイン",
+   "tech": true,
+   "nth": 3,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 20.347,
+   "en": "Bounce",
+   "jp": "バウンス",
+   "tech": true,
+   "nth": 3,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 20.522,
+   "en": "Zoom In",
+   "jp": "ズームイン",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 21.045,
+   "en": "Blur In",
+   "jp": "ブラーイン",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 21.568,
+   "en": "Typewriter",
+   "jp": "タイプライター",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 22.265,
+   "en": "Text Reveal",
+   "jp": "テキストリビール",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 23.66,
+   "en": "Mask Reveal",
+   "jp": "マスクリビール",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 24.532,
+   "en": "Stagger In",
+   "jp": "スタッガーイン(時差出現)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 25.055,
+   "en": "Count Up",
+   "jp": "カウントアップ",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 25.404,
+   "en": "Flip X",
+   "jp": "フリップイン X",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 26.101,
+   "en": "Flip Y",
+   "jp": "フリップイン Y",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 26.624,
+   "en": "Split Reveal",
+   "jp": "スプリットリビール",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 27.496,
+   "en": "Drop In",
+   "jp": "ドロップイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 27.845,
+   "en": "Spin In",
+   "jp": "スピンイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 28.194,
+   "en": "Ink Splash",
+   "jp": "インクスプラッシュ",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 28.891,
+   "en": "Glitch In",
+   "jp": "グリッチイン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 29.24,
+   "en": "Line Drawing",
+   "jp": "ラインドロー",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 30.111,
+   "en": "Curtain Reveal",
+   "jp": "カーテンリビール",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 30.983,
+   "en": "Ink Splash",
+   "jp": "インクスプラッシュ",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 31.681,
+   "en": "Glitch In",
+   "jp": "グリッチイン",
+   "tech": true,
+   "nth": 2,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 32.029,
+   "en": "Line Drawing",
+   "jp": "ラインドロー",
+   "tech": true,
+   "nth": 2,
+   "conf": "中"
+  },
+  {
+   "sec": "Verse 1",
+   "t": 32.727,
+   "en": "Curtain Reveal",
+   "jp": "カーテンリビール",
+   "tech": true,
+   "nth": 2,
+   "conf": "中"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 34.122,
+   "en": "Fade Out",
+   "jp": "フェードアウト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 34.47,
+   "en": "Slide Out",
+   "jp": "スライドアウト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 34.993,
+   "en": "Shrink Out",
+   "jp": "シュリンクアウト(縮小消滅)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 36.214,
+   "en": "Zoom Out",
+   "jp": "ズームアウト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 39.527,
+   "en": "Blur Out",
+   "jp": "ブラーアウト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 40.399,
+   "en": "Flip Out",
+   "jp": "フリップアウト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 40.747,
+   "en": "Drop Out",
+   "jp": "ドロップアウト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 41.793,
+   "en": "Spin Out",
+   "jp": "スピンアウト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 44.932,
+   "en": "Cross Dissolve",
+   "jp": "クロスディゾルブ",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 45.629,
+   "en": "Push",
+   "jp": "プッシュ",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 46.675,
+   "en": "Zoom Pan",
+   "jp": "ズームパン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 47.373,
+   "en": "Whip Pan",
+   "jp": "ホイップパン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 48.07,
+   "en": "Morphing",
+   "jp": "モーフィング",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 48.768,
+   "en": "Parallax",
+   "jp": "パララックス(視差効果)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Pre-Chorus",
+   "t": 49.465,
+   "en": "Seamless Zoom",
+   "jp": "シームレスズーム",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 53.475,
+   "en": "Pulse",
+   "jp": "パルス(脈動)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 53.65,
+   "en": "Shake",
+   "jp": "シェイク(揺れ)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 53.998,
+   "en": "Loop Bounce",
+   "jp": "ループバウンス",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 55.045,
+   "en": "Hover Scale",
+   "jp": "ホバー拡大",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 58.532,
+   "en": "Shine",
+   "jp": "シャイン(光の走り)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 59.229,
+   "en": "Ripple",
+   "jp": "リップル(波紋)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 59.927,
+   "en": "Floating",
+   "jp": "フローティング",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 61.496,
+   "en": "Swing",
+   "jp": "スウィング",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 64.111,
+   "en": "Blink",
+   "jp": "ブリンク(点滅)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 64.809,
+   "en": "Heartbeat",
+   "jp": "ハートビート",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 65.506,
+   "en": "Glitch Loop",
+   "jp": "グリッチループ",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 66.901,
+   "en": "Spin",
+   "jp": "スピン",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 67.598,
+   "en": "Gradient Shift",
+   "jp": "グラデーションシフト",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 68.645,
+   "en": "Neon Glow",
+   "jp": "ネオングロウ",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 70.388,
+   "en": "Wave",
+   "jp": "ウェーブ(波打ち)",
+   "tech": true,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 72.132,
+   "en": "Bring the motion,",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 73.527,
+   "en": "bring the noise,",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Chorus",
+   "t": 74.747,
+   "en": "SYNC & LIVE!",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "高"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 79.803,
+   "en": "Paper Tear",
+   "jp": "ペーパーティア(紙破り)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 81.198,
+   "en": "Film Roll",
+   "jp": "フィルムロール",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 81.547,
+   "en": "RGB Split",
+   "jp": "RGBスプリット(色ズレ)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 83.988,
+   "en": "Mosaic",
+   "jp": "モザイク",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 85.034,
+   "en": "Page Turn",
+   "jp": "ページターン(ページめくり)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 86.429,
+   "en": "Shatter",
+   "jp": "シャッター(ガラス割れ)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 87.126,
+   "en": "Accordion",
+   "jp": "アコーディオン",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 88.521,
+   "en": "Lens Flash",
+   "jp": "レンズフラッシュ",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 89.567,
+   "en": "Distortion Wave",
+   "jp": "ディストーションウェーブ(歪み波)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 90.962,
+   "en": "3D Cube",
+   "jp": "3Dキューブ",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 91.66,
+   "en": "Split Slide",
+   "jp": "スプリットスライド",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 92.008,
+   "en": "Match Cut",
+   "jp": "マッチカット",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 92.357,
+   "en": "Progress Line",
+   "jp": "プログレスライン",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 94.449,
+   "en": "Circular Progress",
+   "jp": "サーキュラープログレス(円ゲージ)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 97.239,
+   "en": "3D Tilt",
+   "jp": "3Dチルト(傾き)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Verse 2",
+   "t": 97.937,
+   "en": "Magnet",
+   "jp": "マグネット",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 100.203,
+   "en": "Countdown",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 100.552,
+   "en": "3",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 101.075,
+   "en": "2",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 102.819,
+   "en": "1",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 102.993,
+   "en": "Bubble Pop",
+   "jp": "バブルポップ",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 103.865,
+   "en": "Smoke Diffusion",
+   "jp": "スモーキーディフュージョン(拡散)",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 105.26,
+   "en": "Tooltip Pop",
+   "jp": "ツールチップポップ",
+   "tech": true,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 105.957,
+   "en": "Error",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "低"
+  },
+  {
+   "sec": "Outro",
+   "t": 107.178,
+   "en": "Shutdown",
+   "jp": "",
+   "tech": false,
+   "nth": 1,
+   "conf": "低"
+  }
+ ],
+ "sections": {
+  "Intro": 5.701,
+  "Verse 1": 10.932,
+  "Pre-Chorus": 34.122,
+  "Chorus": 53.475,
+  "Verse 2": 79.803,
+  "Outro": 100.203
+ }
+}

@@ -1,4 +1,4 @@
-"""1競技ぶんのモーションを、120BPM の拍に合わせてつなぎ、Remotion 用の JSON に書き出す。
+"""1競技ぶんのモーションを、テーマ曲の拍(130BPM)に合わせてつなぎ、Remotion 用の JSON に書き出す。
 
 - 骨格は 124_05 の人の骨の長さに統一(どのクリップも同じコマの体で動かす)
 - クリップごとに「出力の秒 → 元データの秒」のキーで速さを合わせる(ドリブルの手の一番低い所=拍、シュートの頂点=小節の1拍目)
@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from bvh import load, _rot
 
 HERE = Path(__file__).parent
-FPS, BPM = 30, 120
+FPS = 30
 H_KOMA = 1.62          # 足〜頭の骨の高さ(m)。モニターの頭はこの上に乗る
 
 # ── 回転の道具 ──
@@ -110,29 +110,47 @@ def smooth(x, w):
     return np.stack([np.convolve(pad[:, c], k, 'valid') for c in range(x.shape[1])], 1) if x.ndim > 1 else np.convolve(pad, k, 'valid')
 
 # ── 競技ごとの設計 ──
+# テーマ曲「strike_at_the_summit」は 130BPM(1拍 0.4615 秒・1小節 1.846 秒)。設計は「拍」で書き、秒に直す
+SONG = json.load(open(HERE / 'song_analysis.json'))
+BEAT = 60 / SONG['bpm']
+HOLD = 0.1                      # 止め(3コマ)
+b_ = lambda n: n * BEAT
+def K(*pairs):
+    """(拍, 元の秒) の並び。'H' を挟むと、直前のキーで3コマ止める"""
+    out = []
+    for p in pairs:
+        if p == 'H': out.append((out[-1][0] + HOLD, out[-1][1]))
+        else: out.append((b_(p[0]), p[1]))
+    return out
+
 EVENTS = {
     'basketball': dict(
-        dur=18.0,
+        bars=10,
         segs=[
-            dict(clip='06_02', a=0.0, b=4.45, yaw=20, ref=2.5, keys=[(1.0, 1.91), (2.0, 2.78), (3.0, 3.65), (4.0, 4.53)]),
-            dict(clip='124_05', a=4.1, b=8.0, yaw=35, ref=3.42, keys=[(4.5, 2.45), (6.0, 3.42), (6.1, 3.42), (7.9, 4.7)]),
-            dict(clip='06_02', a=7.6, b=9.95, yaw=-15, ref=2.5, keys=[(8.0, 1.91), (9.0, 2.78), (10.0, 3.65)]),
-            dict(clip='06_14', a=9.6, b=13.9, yaw=-30, ref=2.42, keys=[(10.0, 0.38), (10.5, 0.92), (11.0, 1.42), (12.0, 2.42), (12.1, 2.42), (13.8, 3.6)]),
-            dict(clip='124_06', a=13.5, b=18.5, yaw=25, ref=3.43, keys=[(14.0, 1.9), (14.5, 2.35), (16.0, 3.43), (16.1, 3.43), (18.0, 4.5)]),
+            dict(clip='06_02', a=b_(0), b=b_(8.9), yaw=20, ref=2.5, keys=K((2, 1.91), (4, 2.78), (6, 3.65), (8, 4.53))),
+            dict(clip='124_05', a=b_(8.2), b=b_(16), yaw=35, ref=3.42, keys=K((9, 2.45), (12, 3.42), 'H', (15.8, 4.7))),
+            dict(clip='06_02', a=b_(15.2), b=b_(19.9), yaw=-15, ref=2.5, keys=K((16, 1.91), (18, 2.78), (20, 3.65))),
+            dict(clip='06_14', a=b_(19.2), b=b_(27.8), yaw=-30, ref=2.42, keys=K((20, 0.38), (21, 0.92), (22, 1.42), (24, 2.42), 'H', (27.6, 3.6))),
+            dict(clip='06_02', a=b_(26.8), b=b_(32.8), yaw=-10, ref=2.5, keys=K((28, 1.91), (30, 2.78), (32, 3.65))),
+            dict(clip='124_06', a=b_(32.2), b=b_(41), yaw=25, ref=3.43, keys=K((32.5, 2.1), (33, 2.35), (36, 3.43), 'H', (40, 4.5))),
         ],
-        # ボール:ドリブル(手の一番低い所で手に触れる)/持つ/放つ/粒から組み上がる
+        # ボール:ドリブル(手の一番低い所で手に触れる)/持つ/放つ/粒から組み上がる(すべて拍)
         ball=dict(
-            dribble=[(0.0, 'R'), (1.0, 'R'), (2.0, 'R'), (3.0, 'R'), (4.0, 'R'), (4.5, 'R'),
-                     (8.0, 'R'), (9.0, 'R'), (10.0, 'R'), (10.5, 'L'), (11.0, 'R'),
-                     (14.0, 'R'), (14.5, 'R')],
-            hold=[(4.5, 6.0), (11.0, 12.0), (14.5, 16.0)],
-            form=[(7.55, 8.0), (13.55, 14.0)],
+            dribble=[(0, 'R'), (2, 'R'), (4, 'R'), (6, 'R'), (8, 'R'), (9, 'R'),
+                     (16, 'R'), (18, 'R'), (20, 'R'), (21, 'L'), (22, 'R'),
+                     (28, 'R'), (30, 'R'), (32, 'R'), (33, 'R')],
+            hold=[(9, 12), (22, 24), (33, 36)],
+            form=[(15.1, 16), (27.1, 28)],
         ),
-        releases=[dict(t=6.0, power=0.75, name='JUMP SHOT', jp='ジャンプシュート'),
-                  dict(t=12.0, power=0.85, name='CROSSOVER SHOT', jp='クロスオーバーからシュート'),
-                  dict(t=16.0, power=1.0, name='LAY-UP', jp='レイアップ')],
+        releases=[dict(beat=12, power=0.75, name='JUMP SHOT', jp='ジャンプシュート'),
+                  dict(beat=24, power=0.85, name='CROSSOVER SHOT', jp='クロスオーバーからシュート'),
+                  dict(beat=36, power=1.0, name='LAY-UP', jp='レイアップ')],
     ),
 }
+for E in EVENTS.values():
+    E['dur'] = E['bars'] * 4 * BEAT
+    E['ball'] = {k: [((b_(x[0]),) + tuple(x[1:])) if k == 'dribble' else (b_(x[0]), b_(x[1])) for x in v] for k, v in E['ball'].items()}
+    for r in E['releases']: r['t'] = round(b_(r['beat']), 4)
 
 def build(ev_name):
     E = EVENTS[ev_name]; segs = E['segs']
@@ -232,7 +250,7 @@ def build(ev_name):
     cam = smooth(hips[:, [0, 2]], 14)
     rest_s = {n: ((rest[n] - [0, foot_y, 0]) * SCALE).round(4).tolist() for n in names}
     R4 = lambda a: np.round(a, 4).tolist()
-    out = dict(fps=FPS, bpm=BPM, dur=E['dur'], joints=J, parents=[next(((j.parent.name if j.parent else None) for j in CANON if j.name == n), None) for n in J],
+    out = dict(fps=FPS, bpm=SONG['bpm'], beat=BEAT, dur=E['dur'], joints=J, parents=[next(((j.parent.name if j.parent else None) for j in CANON if j.name == n), None) for n in J],
                rest=rest_s, pos=R4(out_pos.reshape(N, -1)), quat=R4(out_q.reshape(N, -1)),
                ball=R4(ball), ballVis=vis.tolist(), ballForm=R4(form), cam=R4(cam), hipsY=R4(hips[:, 1]),
                releases=E['releases'], ballR=r)

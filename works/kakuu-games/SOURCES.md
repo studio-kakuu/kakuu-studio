@@ -21,11 +21,14 @@
 | 124_05.bvh | Basketball Jump Shot | バスケ 4.1〜8.0 秒 |
 | 124_06.bvh | Basketball Lay Up | バスケ 13.5〜18.0 秒 |
 
+## 曲
+- テーマ曲「strike_at_the_summit」:ユーザーが音楽生成AI(Gemini)で作成(103.7 秒・130BPM)
+
 ## フォント
 - Anton(英語)・Zen Kaku Gothic New Black(日本語):Google Fonts(SIL Open Font License)。`video/remotion/public/fonts/` に同梱
 
 ## キャラクター「コマ」
-- KAKUU STUDIO のオリジナル。設定画は画像生成AI(Gemini アプリ・ユーザーが作成、`works/motion-zukan/art/chara.jpg`)。3Dのモデルは、その設定画をもとにコードで作った(`video/remotion/src/kakuu-games/koma.ts`)
+- KAKUU STUDIO のオリジナル。設定画は画像生成AI(Gemini アプリ・ユーザーが作成、`works/motion-zukan/art/chara.jpg`)。3Dのモデルは、その設定画をもとにコードで作った(`video/remotion/src/kakuu-games/koma3d.ts`)。見た目の目安に、ユーザーが Gemini で作ったバスケのコマの参考画を使った(リポジトリには入れていない)
 
 ## 使っていないもの
 - 参考動画(リポジトリに入れていない)・写真素材・実在の大会・団体・選手・ブランドのロゴや名前

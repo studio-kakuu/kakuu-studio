@@ -1,180 +1,111 @@
-/* くものこ もこ — よみきかせ付きの えほん(GSAP + SplitText + DrawSVG)
-   タップ/クリック/→キー/左スワイプで ページを めくる。各ページの「よみきかせ」ボタンで そのページの こえが ながれる(自動では鳴らさない)。
-   こえ と 1文字ずつの時刻は narration.js(audio/build-narration.py が作る)。
-   ?demo=video 動画の撮影用:ナレーションの時刻表どおりに自動でめくり、文字を読まれるのと同時に出す(音は鳴らさない)
+/* くものこ もこ v3 — うごく えほんスライド(GSAP)
+   絵(art/*.jpg)を ゆっくり寄る・引く・横に流すカメラで動かし、ひらがなの文字を 読まれる速さで1文字ずつ出す。
+   ページごとの「よみきかせ」ボタンで、1回通しで録った声をページごとに切り出したもの(voice/pages)が流れる(自動では鳴らさない)。
+   時刻・文字・カットは book.js(voice/build.py が作る)。
+   ?demo=video 動画の撮影用:動画の時刻表どおりに自動でめくる(音は鳴らさない)
    ?page=N     N ページ目から始める */
 (() => {
-  if (!window.gsap) return;
-  gsap.registerPlugin(SplitText, DrawSVGPlugin);
-  const N = window.MOKO_NARRATION;
+  if (!window.gsap || !window.MOKO) return;
+  const M = window.MOKO;
   const q = new URLSearchParams(location.search);
-  const demo = q.get('demo');
-  const video = demo === 'video';
-  const startPage = Math.max(0, Number(q.get('page') || 0));
+  const video = q.get('demo') === 'video';
   const reduce = !video && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (demo) document.body.classList.add('demo');
-  if (video) document.body.classList.add('video');
+  if (video) document.documentElement.classList.add('video');
 
   const $ = (id) => document.getElementById(id);
-  const C = { ink: '#6A564C', gold: '#F6C65B', pink: '#F6A6BA', wilt: '#E3C9CC' };
-
-  const book = $('book'), world = $('world'), sky = $('sky');
-  const moko = $('mokoWrap'), mokoSvg = $('moko'), flower = $('flower'), head = $('head');
-  const petals = gsap.utils.toArray('#petals ellipse');
-  const textEl = $('text'), burstEl = $('burst'), titleEl = $('title'), ending = $('ending');
-  const wordsEl = $('words'), floodEl = $('flood'), tapsEl = $('taps'), dotsEl = $('dots'), gustsEl = $('gusts');
-  const readBtn = $('read');
+  const book = $('book'), frame = $('frame'), backdrop = $('backdrop');
+  const shots = [$('shotA'), $('shotB')].map((el) => ({ el, cam: el.querySelector('.cam'), img: el.querySelector('img') }));
+  const story = $('story'), burst = $('burst'), owari = $('owari'), title = $('title'), wordsEl = $('words');
+  const floodEl = $('flood'), dotsEl = $('dots'), readBtn = $('read'), nextBtn = $('next'), credit = $('credit');
+  const PAGES = M.pages;
+  const src = (id) => `art/${id}.jpg`;
 
   // 決まった乱数(撮影のたびに同じ絵になるように)
-  let seed = 7;
+  let seed = 11;
   const rand = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
 
-  // ---------- 時刻表(ナレーションから) ----------
-  // 各ページ:入る時刻(場面転換の中間)、長さ、そのページで読む文(声の始まりはページに入ってからの秒)
-  const VT = N.video;
-  const pageInfo = N.pages.map((p, i) => {
-    const t0 = VT.pages[i];
-    const t1 = i + 1 < VT.pages.length ? VT.pages[i + 1] : VT.duration;
-    const lines = p.lines.map((id) => {
-      const v = VT.voice.find((x) => x.id === id);
-      return { id, ...N.lines[id], at: v.at - t0, end: v.at - t0 + v.len };
-    });
-    return { id: p.id, dur: t1 - t0, lines, vStart: lines[0].at, vEnd: lines[lines.length - 1].end };
-  });
-
-  // ---------- 雨粒 ----------
-  const drops = $('drops');
-  for (let i = 0; i < 26; i++) {
-    const x = 24 + rand() * 152, y = rand() * 260, len = 14 + rand() * 12;
-    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    p.setAttribute('d', `M${x.toFixed(1)} ${y.toFixed(1)} l-3 ${len.toFixed(1)}`);
-    drops.appendChild(p);
-  }
-
-  // ---------- 強い風の線 ----------
-  const gusts = Array.from({ length: 9 }, (_, i) => {
-    const g = document.createElement('i');
-    g.style.top = `${14 + i * 8.6 + rand() * 4}%`;
-    g.style.width = `${30 + rand() * 30}vw`;
-    gustsEl.appendChild(g); return g;
-  });
-  const blowGusts = (dur) => {
-    const tl = gsap.timeline();
-    gusts.forEach((g, i) => {
-      tl.fromTo(g, { x: '-60vw', opacity: 0 }, { x: '130vw', opacity: 0.95, duration: 0.75 + rand() * 0.35, ease: 'power1.in', repeat: Math.max(0, Math.floor(dur / 1.1) - 1), repeatDelay: 0.25 + rand() * 0.3 }, rand() * 0.6);
-    });
-    return tl;
+  // ---------- カメラ(カットごと)。s=倍率、x/y=ずらす量(%)、o=寄る中心 ----------
+  const CAM = {
+    p00: { s: [1.10, 1.0], ease: 'sine.out' },
+    p01: { s: [1.12, 1.12], x: [4.2, -4.2], ease: 'sine.inOut' },
+    p02a: { s: [1.12, 1.12], x: [4.5, -4.5], gust: 'びゅうっ' },   // 「びゅうっ」で右へ すばやく流す
+    p02b: { s: [1.0, 1.06], o: '50% 48%', ease: 'power2.out' },
+    p03: { s: [1.0, 1.12], o: '52% 62%' },
+    p04: { s: [1.0, 1.15], o: '42% 45%' },
+    p05a: { s: [1.12, 1.14], y: [5, 5] },                         // もこを少し下げて、上の大きな文字に重ねない
+    p05b: { s: [1.16, 1.2], y: [7.5, 7.5], pop: 'あめ' },            // 「あめに なる!」で少し寄って止まる
+    p06a: { s: [1.12, 1.12], y: [4.5, 0.5], ease: 'sine.in' },     // 上から下へ
+    p06b: { s: [1.06, 1.06], y: [3, 0.5], ease: 'sine.out' },      // もこが文字の箱の裏に入らないよう、振りは小さく
+    p07a: { s: [1.14, 1.0], o: '50% 50%' },
+    p07b: { s: [1.08, 1.0], o: '50% 55%' },
+    p08: { s: [1.12, 1.12], y: [-4.5, 4.5] },                      // 下から上へ
+    owari: { s: [1.12, 1.0], o: '50% 42%' },
   };
+  // 光の粒(motes)と雨(rain)の量。ページごと・カットごと
+  const FX = { cover: [0.7, 0], sanpo: [0.35, 0], kaze: [0, 0], karakara: [0, 0], mayou: [0, 0], kimeta: [0, 0], ame: [0, 0.45], warau: [0.5, 0], modoru: [0.85, 0], owari: [0.6, 0] };
+  // 背景いっぱいの擬音(3か所だけ)。[左%, 上%]。もこ・花・文字の箱に重ねない
+  const WORDS = { kaze: { cut: 0, spots: [[5, 63], [55, 68]] }, ame: { cut: 0, spots: [[2, 65], [63, 64]] }, warau: { cut: 1, spots: [[60, 36], [3, 60]] } };
 
-  // ---------- もこの「ちいさく なった」想像(うすい影) ----------
-  const ghost = document.createElement('div');
-  ghost.className = 'ghost';
-  ghost.appendChild(mokoSvg.cloneNode(true)).removeAttribute('id');
-  ghost.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
-  world.appendChild(ghost);
-
-  // ---------- 光の粒・花びら(前景) ----------
-  const cv = $('motes'), ctx = cv.getContext('2d');
-  const motes = { density: 0.6, petals: 0, speed: 1 };
+  // ---------- 光の粒・雨(キャンバス) ----------
+  const cv = $('fx'), ctx = cv.getContext('2d');
+  const fx = { motes: 0, rain: 0, speed: 1 };
   let W = 0, H = 0;
-  const resize = () => { const d = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
+  const resize = () => { const d = Math.min(devicePixelRatio || 1, 2); W = frame.clientWidth; H = frame.clientHeight; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
   resize(); addEventListener('resize', resize);
-  const parts = Array.from({ length: 70 }, (_, i) => ({ x: rand(), y: rand(), r: 2 + rand() * 4, s: 0.2 + rand() * 0.6, ph: rand() * 6.28, c: i % 3 === 0 ? C.pink : C.gold, petal: i % 4 === 0 }));
-  let moteT = 0;
+  const motes = Array.from({ length: 60 }, (_, i) => ({ x: rand(), y: rand(), r: 1.6 + rand() * 3.2, s: 0.3 + rand() * 0.7, ph: rand() * 6.28, c: i % 3 ? '#F6C65B' : '#F6A6BA' }));
+  const drops = Array.from({ length: 90 }, () => ({ x: rand(), y: rand(), l: 0.018 + rand() * 0.016, s: 0.55 + rand() * 0.35 }));
+  let ft = 0;
   gsap.ticker.add((time, dt) => {
-    moteT += (dt / 1000) * motes.speed;
+    const k = Math.min(dt, 50) / 1000;
+    ft += k * fx.speed;
     ctx.clearRect(0, 0, W, H);
     if (reduce) return;
-    const n = Math.round(parts.length * Math.min(1, motes.density));
-    for (let i = 0; i < n; i++) {
-      const p = parts[i];
-      const y = ((p.y - moteT * 0.018 * p.s) % 1 + 1) % 1;
-      const x = p.x + Math.sin(time * 0.6 + p.ph) * 0.02;
-      if (motes.petals && p.petal) {
-        ctx.save(); ctx.translate(x * W, (1 - y) * H); ctx.rotate(time + p.ph);
-        ctx.globalAlpha = 0.85 * motes.petals; ctx.fillStyle = C.pink;
-        ctx.beginPath(); ctx.ellipse(0, 0, p.r * 2.2, p.r * 1.2, 0, 0, 6.283); ctx.fill(); ctx.restore();
-        continue;
-      }
-      const tw = 0.5 + 0.5 * Math.sin(time * 2 + p.ph * 3);
-      const g = ctx.createRadialGradient(x * W, y * H, 0, x * W, y * H, p.r * 3);
+    const nm = Math.round(motes.length * fx.motes);
+    for (let i = 0; i < nm; i++) {
+      const p = motes[i];
+      const y = ((p.y - ft * 0.02 * p.s) % 1 + 1) % 1, x = p.x + Math.sin(time * 0.5 + p.ph) * 0.015;
+      const tw = 0.5 + 0.5 * Math.sin(time * 1.6 + p.ph * 3);
+      const r = p.r * (W / 540);
+      const g = ctx.createRadialGradient(x * W, y * H, 0, x * W, y * H, r * 3);
       g.addColorStop(0, p.c); g.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.globalAlpha = 0.35 + 0.5 * tw; ctx.fillStyle = g;
-      ctx.beginPath(); ctx.arc(x * W, y * H, p.r * 3, 0, 6.283); ctx.fill();
+      ctx.globalAlpha = 0.3 + 0.45 * tw; ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x * W, y * H, r * 3, 0, 6.283); ctx.fill();
+    }
+    const nd = Math.round(drops.length * fx.rain);
+    if (nd) {
+      ctx.globalAlpha = 0.55; ctx.strokeStyle = '#8EC8E2'; ctx.lineWidth = Math.max(1.5, W / 300); ctx.lineCap = 'round';
+      ctx.beginPath();
+      for (let i = 0; i < nd; i++) {
+        const d = drops[i];
+        const y = 0.3 + ((d.y + ft * d.s) % 1) * 0.62;   // 上の文字の帯(〜3割)には降らせない
+        ctx.moveTo(d.x * W, y * H); ctx.lineTo(d.x * W - W * 0.006, (y + d.l) * H);
+      }
+      ctx.stroke();
     }
     ctx.globalAlpha = 1;
   });
 
-  // ---------- 背景いっぱいの擬音 ----------
-  // 動画のときは SNS のボタンに重ならない範囲(右と下をあける)にだけ置く
-  // 動画では、もこ(画面の上〜まん中)と上の文章に重ならないよう、もこの下だけに置く
-  const SPOTS = video
-    ? [[4, 48], [48, 52], [8, 60], [44, 64], [2, 70]]
-    : [[8, 12], [56, 8], [22, 38], [68, 34], [4, 62], [52, 60], [30, 84], [74, 82]];
-  // 雨・花の場面は もこや花に寄るので、もこの下〜花の左右に小さめに置く
-  const SPOTS_RAIN = video
-    ? { spots: [[3, 53], [50, 57], [4, 66], [52, 70]], cls: 'small' }
-    : { spots: [[4, 56], [56, 60], [8, 72], [60, 80], [30, 88]], cls: 'small' };
-  const SPOTS_FLOWER = video
-    ? { spots: [[1, 50], [60, 54], [2, 64], [60, 70]], cls: 'small' }
-    : { spots: [[4, 50], [62, 46], [6, 70], [64, 66], [30, 88]], cls: 'small' };
-  let wordsTl = null;
-  const showWords = (word) => {
-    wordsTl?.kill(); wordsEl.innerHTML = '';
-    if (!word) return;
-    const set = word === 'ポツポツ' ? SPOTS_RAIN : word === 'キラキラ' ? SPOTS_FLOWER : { spots: SPOTS, cls: '' };
-    const spans = set.spots.map(([x, y]) => {
-      const s = document.createElement('span');
-      s.textContent = word;
-      if (set.cls) s.className = set.cls;
-      s.style.left = `${x}%`; s.style.top = `${y}%`;
-      wordsEl.appendChild(s); return s;
-    });
-    wordsTl = gsap.timeline({ repeat: -1 });
-    spans.forEach((s, i) => {
-      wordsTl.fromTo(s, { opacity: 0, scale: 0.6, rotation: (i % 2 ? -1 : 1) * 10 }, { opacity: 0.6, scale: 1, rotation: 0, duration: 0.9, ease: 'power2.out' }, i * 0.35)
-        .to(s, { opacity: 0, scale: 1.5, rotation: (i % 2 ? 1 : -1) * 14, duration: 1.4, ease: 'power1.in' }, i * 0.35 + 1.1);
-    });
-  };
-
-  // ---------- 文字を1文字ずつの <span> に(時刻と同じ並び) ----------
-  const spell = (el, text) => {
+  // ---------- 文字を1文字ずつの <span> に ----------
+  const spell = (el, text, rim) => {
     el.innerHTML = '';
     const out = [];
-    let line = document.createElement('span'); line.className = 'ln'; el.appendChild(line);
+    let line = null;
+    const newLine = () => { line = document.createElement('span'); line.className = 'ln'; el.appendChild(line); };
+    newLine();
     [...text].forEach((c) => {
-      if (c === '\n') { out.push(null); line = document.createElement('span'); line.className = 'ln'; el.appendChild(line); return; }
-      const s = document.createElement('span'); s.className = 'ch'; s.textContent = c === ' ' ? '\u00A0' : c;   // 空白は詰まらないように
+      if (c === '\n') { out.push(null); newLine(); return; }
+      const s = document.createElement('span'); s.className = 'ch'; s.textContent = c === ' ' ? ' ' : c;
       line.appendChild(s); out.push(s);
     });
-    return out;   // text の1文字ごと(改行は null)
+    if (rim) el.querySelectorAll('.ln').forEach((ln) => ln.dataset.t = ln.textContent);
+    return out;
   };
-  // 文字がインクのようににじみ出る。動画では読まれる時刻に、Web ではリズムよく順に
-  const inkIn = (tl, span, at, extra = {}) => tl.from(span, { opacity: 0, y: 6, filter: 'blur(7px)', color: C.gold, duration: 0.55, ease: 'power2.out', ...extra }, at);
-  const say = (info, at0 = 0.25) => {
-    const text = info.lines.map((l) => l.screen).join('');
-    const spans = spell(textEl, text);
-    const tl = gsap.timeline();
-    let k = 0, first = Infinity;
-    info.lines.forEach((l) => {
-      [...l.screen].forEach((c, i) => {
-        const s = spans[k++];
-        if (!s) return;
-        const at = video ? l.at + l.times[i] : at0 + 0.1 + k * 0.055;
-        first = Math.min(first, at);
-        inkIn(tl, s, at);
-      });
-    });
-    tl.to(textEl, { opacity: 1, duration: 0.3 }, Math.max(0, first - 0.3));
-    return tl;
-  };
-  const hideText = () => gsap.to(textEl, { opacity: 0, duration: 0.3 });
 
-  // ---------- 場面転換:光の粒があふれて画面を覆い、引くと次の場面 ----------
-  const FLOOD_MID = 0.6;   // めくり始めから、画面が覆われる(場面が入れ替わる)までの秒
-  const blobs = Array.from({ length: 28 }, () => {
+  // ---------- 場面転換:光の粒があふれて覆い、引くと次の場面 ----------
+  const FLOOD_MID = 0.6;
+  const blobs = Array.from({ length: 26 }, () => {
     const b = document.createElement('i');
-    const size = 38 + rand() * 46;
+    const size = 40 + rand() * 46;
     b.style.width = b.style.height = `${size}vmax`;
     b.style.left = `${rand() * 100 - size / 2}vw`; b.style.top = `${rand() * 100 - size / 2}vh`;
     floodEl.appendChild(b); return b;
@@ -185,336 +116,158 @@
     .call(onMid, null, FLOOD_MID)
     .to(blobs, { opacity: 0, scale: 1.2, duration: 0.42, ease: 'power1.out', stagger: { each: 0.004, from: 'random' } }, FLOOD_MID + 0.05);
 
-  // ---------- もこ:2〜3秒でふわふわ揺れる ----------
-  gsap.to(mokoSvg, { y: -10, rotation: 2, duration: 1.3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-  gsap.to('.sun .rays', { rotation: 360, duration: 40, repeat: -1, ease: 'none', svgOrigin: '100 100' });
-  const rainLoop = gsap.fromTo('#drops path', { y: -40, opacity: 0 }, { y: 120, opacity: 1, duration: 0.7, stagger: { each: 0.05, repeat: -1 }, ease: 'none', paused: true });
-
-  // ---------- カメラ(world を動かす):el を画面の (fx, fy) の位置に、倍率 s で ----------
-  const cam = (el, s, d, fx = 0.5, fy = 0.5, ease = 'power2.inOut') => {
-    // 横向きは文章が左にあるので、寄る先を画面の右寄りにする
-    if (!video && matchMedia('(orientation: landscape)').matches) fx = 0.72 + (fx - 0.5) * 0.5;
-    const ws = gsap.getProperty(world, 'scale'), wr = world.getBoundingClientRect(), r = el.getBoundingClientRect();
-    const cx = (r.left - wr.left + r.width / 2) / ws, cy = (r.top - wr.top + r.height / 2) / ws;
-    return gsap.to(world, { scale: s, x: innerWidth * fx - s * cx, y: innerHeight * fy - s * cy, duration: d, ease });
+  // ---------- 1ページ分の動き ----------
+  const camTl = (cam, key, d, info, t0 = 0) => {   // t0 = このカメラが始まる、ページの中の秒
+    const c = CAM[key];
+    const from = { scale: c.s[0], xPercent: c.x ? c.x[0] : 0, yPercent: c.y ? c.y[0] : 0, transformOrigin: c.o || '50% 50%' };
+    const to = { scale: c.s[1], xPercent: c.x ? c.x[1] : 0, yPercent: c.y ? c.y[1] : 0 };
+    const tl = gsap.timeline();
+    tl.set(cam, from);
+    if (c.gust) {
+      const g = info.when(c.gust) - t0;
+      tl.to(cam, { xPercent: -1.5, duration: 0.6, ease: 'power3.out' }, Math.max(0, g - 0.1))
+        .to(cam, { xPercent: to.xPercent, duration: Math.max(0.5, d - g - 0.5), ease: 'sine.out' }, g + 0.5);
+    } else if (c.pop) {
+      tl.to(cam, { scale: to.scale, duration: 0.5, ease: 'power3.out' }, Math.max(0, info.when(c.pop) - t0 - 0.05));
+    } else {
+      tl.to(cam, { ...to, duration: d, ease: c.ease || 'sine.inOut' }, 0);
+    }
+    return tl;
   };
-  const camHome = (d, ease = 'power2.inOut') => gsap.to(world, { scale: 1, x: 0, y: 0, duration: d, ease });
+  const inkIn = (tl, el, at) => tl.from(el, { opacity: 0, y: 6, filter: 'blur(6px)', duration: 0.5, ease: 'power2.out' }, at);
+  const popIn = (tl, el, at, big) => tl.from(el, { opacity: 0, scale: big ? 0.2 : 0.5, y: big ? 0 : 10, duration: big ? 1.0 : 0.7, ease: big ? 'expo.out' : 'back.out(1.8)' }, at);
 
-  // ---------- 各ページの状態 ----------
-  const skyTo = (s1, s2, s3, d = 1.2) => gsap.to(sky, { '--s1': s1, '--s2': s2, '--s3': s3, duration: d });
-  const SKY = { blue: ['#8ED0EA', '#BFE5F4', '#FFF6E6'], dry: ['#F3DFA8', '#F8ECC8', '#FFF6E6'], rain: ['#9FC3D9', '#C6DCE8', '#F3EEE2'] };
-  const setSky = (k) => gsap.set(sky, { '--s1': SKY[k][0], '--s2': SKY[k][1], '--s3': SKY[k][2] });
-  setSky('blue');
-  // 空は画面の外まで広げてあるので(.sky.wide)、色の位置は画面の高さ(vh)で決める
-  sky.classList.add('wide');
-  sky.style.background = 'linear-gradient(180deg, var(--s1) 60vh, var(--s2) 105vh, var(--s3) 142vh)';
-  const BROWS = { sad: 'M80 73 l12 -3 M124 73 l-12 -3', firm: 'M80 70 l12 3 M124 70 l-12 3' };
-  const MOUTH = { smile: 'M95 96 q7 6 14 0', o: 'M98 98 q4 -5 8 0 q-4 5 -8 0', firm: 'M96 98 q6 -3 12 0', worry: 'M96 99 q6 -4 12 0' };
+  let page = -1, pageTl = null, busy = false;
+  const apply = (n) => {
+    stopReading();
+    pageTl?.kill();
+    gsap.killTweensOf([story, burst, owari, title, wordsEl, ...shots.map((s) => s.el), ...shots.map((s) => s.cam)]);
+    page = n;
+    const P = PAGES[n];
+    const shift = video ? 0 : 1.0 - P.parts[0].v0;   // Web では、ページを開いて約1秒で文字が出はじめる
+    const T = (t) => t + shift;
+    const dur = T(P.video.dur) + 0.8;
+    const info = {
+      when: (w) => {   // 画面の文字のうち、ある言葉が出る時刻(ページの中の秒)
+        for (const part of P.parts) { const flat = part.screen; const i = flat.indexOf(w); if (i >= 0) return T(part.times[i]); }
+        return 0;
+      },
+    };
+    // 絵
+    const cutKey = (i) => (P.id === 'owari' ? 'owari' : P.cuts[i].img);
+    shots[0].img.src = src(P.cuts[0].img); shots[1].img.src = P.cuts[1] ? src(P.cuts[1].img) : '';
+    gsap.set(shots[0].el, { opacity: 1 }); gsap.set(shots[1].el, { opacity: 0 });
+    backdrop.style.backgroundImage = `url(${src(P.cuts[0].img)})`;
+    // 文字・題字・擬音を消す
+    gsap.set([story, burst, owari, wordsEl], { opacity: 0 }); story.innerHTML = ''; burst.innerHTML = ''; owari.innerHTML = ''; wordsEl.innerHTML = '';
+    gsap.set(title, { opacity: P.id === 'cover' ? 1 : 0 });
+    fx.motes = FX[P.id][0]; fx.rain = FX[P.id][1]; fx.speed = 1;
+    dots.forEach((d, i) => d.classList.toggle('on', i === n));
+    nextBtn.textContent = n === PAGES.length - 1 ? 'もういちど よむ' : 'つぎへ';
+    credit.classList.toggle('on', false);
 
-  const resetWorld = () => {
-    gsap.killTweensOf([world, '#far', '#hills', '#field', moko, flower, head, petals, '#dry', '#buds g', '#rain', '#sun', '#rainbow', '.rb', '#mokoBrows', '#mokoEyes', '#mokoMouth', ghost, gusts, sky, titleEl]);
-    gsap.set(world, { scale: 1, x: 0, y: 0, transformOrigin: '0 0' });
-    gsap.set(['#far', '#hills', '#field'], { xPercent: 0 });
-    gsap.set(moko, { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 });
-    gsap.set('#mokoBrows', { opacity: 0, attr: { d: BROWS.firm } }); gsap.set('#mokoEyes', { x: 0, y: 0 });
-    gsap.set('#mokoMouth', { attr: { d: MOUTH.smile } });
-    gsap.set('#rain', { opacity: 0 }); rainLoop.pause(); gsap.set(mokoSvg, { scaleX: 1, scaleY: 1 });
-    gsap.set('#sun', { opacity: 0, scale: 0.6 });
-    gsap.set('#rainbow', { opacity: 0 }); gsap.set('.rb', { drawSVG: '100%' });
-    gsap.set('#dry', { opacity: 0 });
-    gsap.set('#buds g', { scale: 1, transformOrigin: '50% 50%' });
-    gsap.set(flower, { opacity: 0 });
-    gsap.set(head, { rotation: 0, svgOrigin: '80 128' });
-    gsap.set(petals, { fill: C.pink, scale: 1 });
-    gsap.set('.eye-sad', { opacity: 1 }); gsap.set(['.eye-happy', '.mouth-happy'], { opacity: 0 });
-    gsap.set([burstEl, titleEl], { opacity: 0 }); burstEl.innerHTML = '';
-    gsap.set(ending, { autoAlpha: 0 });
-    gsap.set(gusts, { opacity: 0 }); gsap.set(ghost, { opacity: 0 });
-    setSky('blue');
-    motes.density = 0.6; motes.petals = 0; motes.speed = 1;
+    const tl = gsap.timeline();
+    const c1 = P.cuts[1] ? T(P.cuts[1].at) : null;
+    tl.add(camTl(shots[0].cam, cutKey(0), c1 ? c1 + 0.25 : dur, info), 0);
+    if (c1 !== null) {
+      tl.add(camTl(shots[1].cam, cutKey(1), dur - c1 + 0.25, info, c1 - 0.25), c1 - 0.25)
+        .to(shots[1].el, { opacity: 1, duration: 0.5, ease: 'sine.inOut' }, c1 - 0.25)
+        .call(() => { backdrop.style.backgroundImage = `url(${src(P.cuts[1].img)})`; }, null, c1);
+      if (P.id === 'ame') tl.call(() => { fx.rain = 1; }, null, c1);
+    }
+    // 文字
+    P.parts.forEach((part, k) => {
+      const times = part.times.map((t) => (t === null ? null : T(t)));
+      const first = Math.min(...times.filter((t) => t !== null));
+      if (part.kind === 'box') {
+        const spans = spell(story, part.screen);
+        tl.to(story, { opacity: 1, duration: 0.3 }, Math.max(0, first - 0.3));
+        spans.forEach((s, i) => s && inkIn(tl, s, times[i]));
+        if (P.parts[k + 1]) tl.to(story, { opacity: 0, duration: 0.4 }, T(part.v1) + 0.6);
+      } else if (part.kind === 'burst') {
+        const spans = spell(burst, part.screen);
+        const b = part.screen.indexOf('ぼ');
+        tl.set(burst, { opacity: 1 }, 0);
+        spans.forEach((s, i) => s && popIn(tl, s, times[i], i >= b));
+        const go = info.when('あめ');
+        tl.call(() => { fx.motes = 1; fx.speed = 5; }, null, go).call(() => { fx.speed = 1.4; fx.motes = 0.6; }, null, go + 1.4);
+      } else if (part.kind === 'end') {
+        const spans = spell(owari, part.screen);
+        tl.set(owari, { opacity: 1 }, Math.max(0, first - 0.1));
+        spans.forEach((s, i) => s && popIn(tl, s, times[i], false));
+        if (!video) tl.call(() => credit.classList.add('on'), null, first + 1.2);
+      }
+    });
+    // 背景いっぱいの擬音
+    const wd = WORDS[P.id];
+    if (wd && !reduce) {
+      const from = wd.cut ? c1 : T(P.parts[0].times.find((t) => t !== null));
+      const to = wd.cut ? dur : c1 - 0.2;
+      const spans = wd.spots.map(([x, y]) => { const s = document.createElement('span'); s.textContent = P.word; s.style.left = `${x}%`; s.style.top = `${y}%`; wordsEl.appendChild(s); return s; });
+      tl.set(wordsEl, { opacity: 1 }, from);
+      spans.forEach((s, i) => {
+        tl.fromTo(s, { opacity: 0, scale: 0.7, rotation: i % 2 ? -6 : 6 }, { opacity: 0.85, scale: 1, rotation: 0, duration: 0.8, ease: 'power2.out' }, from + i * 0.45)
+          .to(s, { opacity: 0, scale: 1.25, duration: 1.0, ease: 'power1.in' }, Math.max(from + i * 0.45 + 1.4, to - 1.0));
+      });
+    }
+    pageTl = tl;
+    if (reduce) tl.progress(1);
   };
-  const LAYERS = ['#far', '#hills', '#field'];
-  const settled = () => gsap.set(LAYERS, { xPercent: (i) => [-5, -10, -16][i] });
-  // からからの のはら(3〜6ページで共通)
-  const dryWorld = () => {
-    settled(); setSky('dry');
-    gsap.set(flower, { opacity: 1 }); gsap.set(head, { rotation: 112 }); gsap.set(petals, { fill: C.wilt });
-    gsap.set('#dry', { opacity: 1 }); gsap.set('#buds g', { scale: 0 }); gsap.set('#sun', { opacity: 1, scale: 1 });
-  };
-  // 画面の文字のうち、ある言葉が読まれる時刻(ページの中の秒)
-  const when = (info, word) => {
-    // Web では読む速さの見込み(声の長さを文字数でわる)で
-    for (const l of info.lines) { const i = l.screen.indexOf(word); if (i >= 0) return l.at + (video ? l.times[i] : (l.end - l.at) * i / l.screen.length); }
-    return info.vStart;
-  };
-
-  const PAGES = [
-    { // 0 表紙:題字と「AI と コードで つくった えほん」は最初のコマから見えている
-      enter(info) {
-        gsap.set(titleEl, { opacity: 1 });
-        motes.density = 1;
-        gsap.set(world, { scale: 1.08, x: -innerWidth * 0.04, y: -innerHeight * 0.03 });
-        return gsap.timeline()
-          .add(camHome(info.dur, 'sine.out'), 0)
-          .fromTo(titleEl.querySelector('.t2'), { textShadow: '0 0.05em 0 rgba(106,86,76,.3), 0 0 0px rgba(246,198,91,0)' }, { textShadow: '0 0.05em 0 rgba(106,86,76,.3), 0 0 34px rgba(246,198,91,.75)', duration: 1.2, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 0);
-      },
-    },
-    { // 1 そらを おさんぽ
-      word: 'ふわふわ',
-      enter(info) {
-        return gsap.timeline()
-          .fromTo(moko, { x: '-14vw' }, { x: '4vw', duration: info.dur, ease: 'sine.inOut' }, 0)
-          .to('#far', { xPercent: -5, duration: info.dur, ease: 'none' }, 0)
-          .to('#hills', { xPercent: -10, duration: info.dur, ease: 'none' }, 0)
-          .to('#field', { xPercent: -16, duration: info.dur, ease: 'none' }, 0)
-          .add(say(info), 0);
-      },
-    },
-    { // 2 かぜに とばされる:強い風で くるくる回りながら遠くへ。着いたところで ぽふっ
-      word: 'びゅうっ',
-      enter(info) {
-        const land = info.vEnd + 0.6;
-        gsap.set(LAYERS, { xPercent: (i) => [5, 10, 16][i] });
-        return gsap.timeline()
-          .add(blowGusts(land), 0)
-          .to('#mokoMouth', { attr: { d: MOUTH.o }, duration: 0.2 }, 0.3)
-          // 右へ飛ばされて消え、左から くるくる 回りながら戻ってくる
-          .to(moko, { x: '75vw', y: '-6vh', rotation: 540, duration: 2.2, ease: 'power2.in' }, 0.4)
-          .set(moko, { x: '-75vw', y: '4vh' }, 2.6)
-          .to(moko, { x: '-6vw', y: '0vh', rotation: 1080, duration: land - 2.8, ease: 'power3.out' }, 2.6)
-          .to(LAYERS, { xPercent: (i) => [-5, -10, -16][i], duration: land - 0.4, ease: 'power2.inOut' }, 0.4)
-          .to(mokoSvg, { scaleX: 1.14, scaleY: 0.84, transformOrigin: '50% 100%', duration: 0.16, yoyo: true, repeat: 1, ease: 'power2.out' }, land)
-          .to('#mokoMouth', { attr: { d: MOUTH.smile }, duration: 0.3 }, land + 0.2)
-          .add(say(info), 0);
-      },
-    },
-    { // 3 からからの のはら
-      enter(info) {
-        dryWorld(); setSky('blue');
-        gsap.set('#sun', { opacity: 0, scale: 0.6 }); gsap.set('#dry', { opacity: 0 }); gsap.set(petals, { fill: C.pink }); gsap.set(head, { rotation: 40 });
-        gsap.set(moko, { x: '-6vw' });
-        return gsap.timeline()
-          .add(skyTo(...SKY.dry, 1.6), 0)
-          .to('#dry', { opacity: 1, duration: 1.6 }, 0)
-          .to('#sun', { opacity: 1, scale: 1, duration: 1.2, ease: 'back.out(1.6)' }, 0.2)
-          .to(head, { rotation: 112, duration: 2.0, ease: 'power2.inOut' }, 0.3)
-          .to(petals, { fill: C.wilt, duration: 1.6 }, 0.3)
-          .to('#mokoEyes', { y: 3, duration: 0.6 }, 1.2)
-          .add(cam(flower, 1.14, 3.2, 0.5, 0.58), 0.6)
-          .to(head, { rotation: 118, duration: 1.6, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 2.4)
-          .add(say(info), 0);
-      },
-    },
-    { // 4 まよう:ちいさく なった じぶんを 想像して、すこし まよう
-      enter(info) {
-        dryWorld();
-        gsap.set(moko, { x: '-6vw' }); gsap.set('#mokoEyes', { y: 3 });
-        const small = when(info, 'ちいさく');
-        const mr = moko.getBoundingClientRect(), wr = world.getBoundingClientRect();
-        gsap.set(ghost, { left: mr.left - wr.left + mr.width * 0.62, top: mr.top - wr.top + mr.height * 0.42, width: mr.width * 0.5 });
-        return gsap.timeline()
-          .to('#mokoBrows', { opacity: 1, attr: { d: BROWS.sad }, duration: 0.4 }, 0.3)
-          .to('#mokoMouth', { attr: { d: MOUTH.worry }, duration: 0.4 }, 0.3)
-          .to('#mokoEyes', { x: 4, y: 4, duration: 0.6, ease: 'sine.inOut' }, 0.6)            // おはなを みる
-          .to('#mokoEyes', { x: -3, y: 1, duration: 0.6, ease: 'sine.inOut' }, small - 0.4)  // じぶんを みる
-          .fromTo(ghost, { opacity: 0, scale: 0.8 }, { opacity: 0.45, scale: 1, duration: 0.7, ease: 'power2.out' }, small)
-          .to(ghost, { y: -8, duration: 1.2, yoyo: true, repeat: 1, ease: 'sine.inOut' }, small + 0.7)
-          .to(ghost, { opacity: 0, duration: 0.9 }, small + 2.8)
-          .to('#mokoEyes', { x: 4, y: 4, duration: 0.6, ease: 'sine.inOut' }, small + 3.4)
-          .to(moko, { scale: 0.96, duration: 1.4, yoyo: true, repeat: 1, ease: 'sine.inOut' }, small + 3.6)
-          .add(cam(moko, 1.22, info.dur - 0.6, 0.5, 0.42, 'sine.inOut'), 0.4)
-          .add(say(info), 0);
-      },
-    },
-    { // 5 きめた:「でも……」のあと、文字が画面いっぱいに広がり、光が弾ける
-      enter(info) {
-        dryWorld();
-        gsap.set(moko, { x: '-6vw' }); gsap.set('#mokoBrows', { opacity: 1, attr: { d: BROWS.sad } }); gsap.set('#mokoMouth', { attr: { d: MOUTH.worry } });
-        const l = info.lines[0];
-        burstEl.innerHTML = '<p></p>';
-        const spans = spell(burstEl.querySelector('p'), l.screen);
-        gsap.set(burstEl, { opacity: 1 });
-        const go = video ? when(info, 'ぼ') : 1.4;
-        const tl = gsap.timeline();
-        [...l.screen].forEach((c, i) => {
-          const s = spans[i]; if (!s) return;
-          const at = video ? l.at + l.times[i] : (c === 'ぼ' || i > l.screen.indexOf('ぼ') ? go : 0.3 + i * 0.12);
-          if (i < l.screen.indexOf('ぼ')) inkIn(tl, s, at, { scale: 0.8 });
-          else tl.from(s, { opacity: 0, scale: 0.15, x: (rand() - 0.5) * 120, y: (rand() - 0.5) * 120, duration: 1.1, ease: 'expo.out' }, at);
-        });
-        return tl
-          .to('#mokoBrows', { attr: { d: BROWS.firm }, duration: 0.25 }, go - 0.2)
-          .to('#mokoMouth', { attr: { d: MOUTH.firm }, duration: 0.25 }, go - 0.2)
-          .to(moko, { scale: 1.15, duration: 0.35, yoyo: true, repeat: 1, ease: 'power2.out' }, go - 0.1)
-          .call(() => { motes.density = 1; motes.speed = 4; }, null, go)
-          .to(world, { scale: 1.08, x: -innerWidth * 0.04, y: -innerHeight * 0.03, duration: 0.5, ease: 'power3.out' }, go)
-          .to(burstEl.querySelectorAll('.ch'), { scale: 1.06, duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: 1 }, go + 1.1)
-          .call(() => { motes.speed = 1.4; }, null, go + 1.6);
-      },
-    },
-    { // 6 あめに なる:もこに寄り、雨と一緒に下の花へ降りる。声のあとも雨は降り続く
-      word: 'ポツポツ',
-      enter(info) {
-        dryWorld();
-        gsap.set(moko, { x: '-6vw' }); gsap.set('#mokoBrows', { opacity: 1, attr: { d: BROWS.firm } }); gsap.set('#mokoMouth', { attr: { d: MOUTH.firm } });
-        rainLoop.play(0);
-        const down = info.lines[1].at;
-        return gsap.timeline()
-          .add(skyTo(...SKY.rain, 1.2), 0)
-          .to('#sun', { opacity: 0, scale: 0.6, duration: 0.8 }, 0)
-          .to('#rain', { opacity: 1, duration: 0.5 }, 0.2)
-          .add(cam(moko, 1.36, 1.6, 0.5, 0.42), 0)
-          .to(mokoSvg, { scaleX: 1.08, scaleY: 0.86, transformOrigin: '50% 100%', duration: 0.5, yoyo: true, repeat: 7, ease: 'sine.inOut' }, 0.6)
-          .to(moko, { scale: 0.72, duration: info.dur - 1, ease: 'sine.inOut' }, 0.8)
-          .add(cam(flower, 1.18, 3.0, 0.5, 0.6, 'sine.inOut'), down)
-          .to('#dry', { opacity: 0.4, duration: info.dur - 1.5, ease: 'none' }, 1.2)
-          .to(head, { rotation: 96, duration: info.dur - 2, ease: 'sine.inOut' }, 2)
-          .add(say(info), 0);
-      },
-    },
-    { // 7 おはなが わらう:花が顔を上げ、つぼみが次々ひらく。花から引いて野原全体へ
-      word: 'キラキラ',
-      enter(info) {
-        settled(); setSky('rain');
-        gsap.set(flower, { opacity: 1 }); gsap.set(head, { rotation: 96 }); gsap.set(petals, { fill: C.wilt });
-        gsap.set('#dry', { opacity: 0.4 }); gsap.set('#buds g', { scale: 0 });
-        gsap.set(moko, { x: '-14vw', y: video ? '4vh' : '-6vh', scale: 0.72, opacity: video ? 0 : 1 });
-        motes.petals = 1;
-        cam(flower, 1.3, 0, 0.5, 0.55).progress(1);
-        return gsap.timeline()
-          .add(skyTo(...SKY.blue, 1.6), 0)
-          .to('#dry', { opacity: 0, duration: 1.6 }, 0)
-          .to(head, { rotation: 0, duration: 1.4, ease: 'back.out(1.4)' }, 0.2)
-          .to(petals, { fill: C.pink, duration: 1 }, 0.4)
-          .fromTo(petals, { scale: 0.7, transformOrigin: '50% 100%' }, { scale: 1.12, duration: 0.8, ease: 'back.out(2.2)', stagger: 0.06 }, 0.5)
-          .to('.eye-sad', { opacity: 0, duration: 0.2 }, 0.9).to(['.eye-happy', '.mouth-happy'], { opacity: 1, duration: 0.3 }, 0.9)
-          .add(camHome(4.2), 1.2)
-          .to(moko, { opacity: 1, duration: 1.2, ease: 'sine.out' }, 3.8)
-          .to('#buds g', { scale: 1, duration: 0.7, ease: 'back.out(2.4)', stagger: { each: (info.dur - 3) / 5 } }, 1.6)
-          .to(head, { rotation: 6, duration: 1.2, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 2.2)
-          .add(say(info), 0);
-      },
-    },
-    { // 8 もとの もこへ:おひさまが照らし、光の粒が空へのぼって、もこが ふわふわに戻る。虹がかかる
-      enter(info) {
-        settled();
-        gsap.set(flower, { opacity: 1 }); gsap.set(['.eye-happy', '.mouth-happy'], { opacity: 1 }); gsap.set('.eye-sad', { opacity: 0 });
-        gsap.set(moko, { x: '-14vw', y: video ? '10vh' : '-6vh', scale: 0.72 });
-        motes.petals = 1;
-        const back = when(info, 'もどった');
-        gsap.set(world, { scale: 1.16, x: -innerWidth * 0.08, y: -innerHeight * 0.2 });   // 地面のあたりから
-        return gsap.timeline()
-          .to('#sun', { opacity: 1, scale: 1, duration: 1.4, ease: 'back.out(1.6)' }, 0.2)
-          .call(() => { motes.density = 1; motes.speed = 3; }, null, 0.4)
-          .add(camHome(info.vEnd - 0.6, 'sine.inOut'), 0.3)                                      // 空へ、ゆっくり上へ
-          .to(moko, { scale: 1.04, x: '-4vw', y: '0vh', duration: 1.6, ease: 'elastic.out(1, 0.55)' }, back - 0.3)
-          .to(mokoSvg, { scaleX: 1.1, scaleY: 0.9, transformOrigin: '50% 100%', duration: 0.3, yoyo: true, repeat: 1 }, back + 0.2)
-          .to('#rainbow', { opacity: 1, duration: 0.3 }, info.vEnd - 0.4)
-          .fromTo('.rb', { drawSVG: '0%' }, { drawSVG: '100%', duration: 1.8, ease: 'power2.out', stagger: 0.14 }, info.vEnd - 0.4)
-          .call(() => { motes.speed = 1.2; }, null, info.vEnd + 1.6)
-          .add(say(info), 0);
-      },
-    },
-    { // 9 おしまい
-      enter(info) {
-        settled();
-        gsap.set(flower, { opacity: 1 }); gsap.set(['.eye-happy', '.mouth-happy'], { opacity: 1 }); gsap.set('.eye-sad', { opacity: 0 });
-        gsap.set('#rainbow', { opacity: 1 }); gsap.set('#sun', { opacity: 1, scale: 1 }); gsap.set(moko, { scale: 1.04, x: '-4vw' });
-        motes.petals = 1; motes.density = 1;
-        const l = info.lines[0];
-        const owari = ending.querySelector('.owari');
-        const spans = spell(owari, l.screen);
-        const tl = gsap.timeline().to(ending, { autoAlpha: 1, duration: 0.4 }, Math.max(0, (video ? l.at : 0.1) - 0.3));
-        spans.forEach((s, i) => s && tl.from(s, { opacity: 0, scale: 0.5, filter: 'blur(8px)', duration: 0.8, ease: 'back.out(1.8)' }, video ? l.at + l.times[i] : 0.1 + i * 0.12));
-        return tl.from(['.again', '.credit'], { opacity: 0, y: 10, duration: 0.6, stagger: 0.15 }, video ? l.end + 0.5 : 0.8)
-          .to(world, { scale: 1.04, duration: info.dur, ease: 'sine.inOut' }, 0);
-      },
-    },
-  ];
 
   // ---------- よみきかせ(ボタンを押したときだけ。ページをめくったら止める) ----------
-  const audios = {};
-  const audio = (id) => (audios[id] ||= Object.assign(new Audio(N.lines[id].file), { preload: 'none' }));
   let reading = null;
-  const stopReading = () => {
+  function stopReading() {
     if (!reading) return;
-    reading.cancelled = true;
-    reading.timer && clearTimeout(reading.timer);
-    Object.values(audios).forEach((a) => { a.pause(); a.currentTime = 0; });
-    reading = null;
+    reading.pause(); reading.currentTime = 0; reading = null;
     readBtn.classList.remove('playing'); readBtn.setAttribute('aria-pressed', 'false');
-  };
-  const readPage = (n) => {
+  }
+  const readPage = () => {
     if (reading) { stopReading(); return; }
-    const ids = N.pages[n].lines;
-    const job = (reading = { cancelled: false, timer: null });
+    const a = new Audio(PAGES[page].audio);
+    reading = a;
     readBtn.classList.add('playing'); readBtn.setAttribute('aria-pressed', 'true');
-    const play = (i) => {
-      if (job.cancelled) return;
-      if (i >= ids.length) { stopReading(); return; }
-      const a = audio(ids[i]);
-      a.currentTime = 0;
-      a.onended = () => { job.timer = setTimeout(() => play(i + 1), 1200); };   // 「ぽつ、ぽつ、ぽつ。」のあとは 1.2 秒あける
-      a.play().catch(() => stopReading());
-    };
-    play(0);
+    a.onended = () => { if (reading === a) stopReading(); };
+    a.play().catch(() => stopReading());
   };
 
   // ---------- ページ送り ----------
-  let page = -1, pageTl = null, busy = false;
   dotsEl.innerHTML = PAGES.map(() => '<i></i>').join('');
   const dots = [...dotsEl.children];
-  const apply = (n) => {
-    stopReading();
-    pageTl?.kill(); hideText();
-    resetWorld();
-    page = n;
-    dots.forEach((d, i) => d.classList.toggle('on', i === n));
-    showWords(reduce ? null : PAGES[n].word);
-    pageTl = PAGES[n].enter(pageInfo[n]);
-    if (reduce) pageTl.progress(1);
-  };
   const goTo = (n) => {
     if (busy || n === page) return;
     busy = true;
+    if (reduce) { apply(n); busy = false; return; }
     flood(() => apply(n)).call(() => { busy = false; });
   };
-  const next = () => { if (page < PAGES.length - 1) goTo(page + 1); };
+  const next = () => goTo(page < PAGES.length - 1 ? page + 1 : 0);
+  const prev = () => { if (page > 0) goTo(page - 1); };
 
-  const ripple = (x, y) => {
-    const r = document.createElement('i');
-    r.style.left = `${x}px`; r.style.top = `${y}px`;
-    tapsEl.appendChild(r);
-    gsap.fromTo(r, { scale: 0.3, opacity: 1 }, { scale: 1.4, opacity: 0, duration: 0.7, ease: 'power2.out', onComplete: () => r.remove() });
-  };
-
-  if (!demo) {
+  if (!video) {
     let sx = null;
     book.addEventListener('pointerdown', (e) => { sx = e.clientX; });
     book.addEventListener('pointerup', (e) => {
       if (e.target.closest('button, a')) return;
-      if (sx !== null && Math.abs(e.clientX - sx) > 40 && e.clientX > sx) return; // 右スワイプは無視
-      ripple(e.clientX, e.clientY); next();
+      if (sx !== null && e.clientX - sx > 40) { prev(); return; }   // 右へスワイプで まえのページ
+      next();
     });
-    addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') { if (e.target.closest?.('button')) return; e.preventDefault(); next(); } });
-    $('next').addEventListener('click', (e) => { e.stopPropagation(); next(); });
-    readBtn.addEventListener('click', (e) => { e.stopPropagation(); readPage(page); });
-    $('again').addEventListener('click', (e) => { e.stopPropagation(); goTo(0); });
+    addEventListener('keydown', (e) => {
+      if (e.target.closest?.('button, a')) return;
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+    });
+    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); next(); });
+    readBtn.addEventListener('click', (e) => { e.stopPropagation(); readPage(); });
   }
 
   const start = () => {
-    window.__mokoReady = true;   // 撮影(capture.mjs の waitFor)は、字体を読みこみ終えて始まるまで待つ
-    apply(Math.min(startPage, PAGES.length - 1));
-    if (video) {
-      // 動画の撮影用:場面の切り替え(前の声の終わりと次の声の始まりの中間)で光があふれて覆うように
-      VT.pages.forEach((t, i) => { if (i > 0) gsap.delayedCall(t - FLOOD_MID, () => goTo(i)); });
-    }
+    window.__mokoReady = true;   // 撮影(capture.mjs の waitFor)は、字体と絵を読みこみ終えて始まるまで待つ
+    resize();
+    apply(Math.min(Math.max(0, Number(q.get('page') || 0)), PAGES.length - 1));
+    if (video) PAGES.forEach((p, i) => { if (i > 0) gsap.delayedCall(p.video.start - FLOOD_MID, () => goTo(i)); });
   };
-  // 丸ゴシック(Zen Maru Gothic)は文字ごとに分けて配信されるので、えほんで使う文字を先に全部読みこんでから始める
-  // (あとから出る文字が、一瞬ちがう字体で出ないように)
-  const ALL = [...new Set([...document.body.innerText, ...Object.values(N.lines).map((l) => l.screen).join(''), 'ポツポツふわふわびゅうっキラキラ'])].join('');
-  const fontsReady = document.fonts
-    ? Promise.race([Promise.all(['500', '700', '900'].map((w) => document.fonts.load(`${w} 1em "Zen Maru Gothic"`, ALL))), new Promise((r) => setTimeout(r, 3000))]).then(() => document.fonts.ready)
-    : Promise.resolve();
-  fontsReady.then(start, start);
+  // 丸ゴシックは文字ごとに分けて配信されるので、使う文字を先に全部読みこむ。絵も先に読みこむ
+  const ALL = [...new Set([...document.body.innerText, ...PAGES.flatMap((p) => p.parts.map((x) => x.screen)).join(''), 'びゅうっポツポツキラキラもういちどよむ'])].join('');
+  const imgs = [...new Set(PAGES.flatMap((p) => p.cuts.map((c) => c.img)))].map((id) => new Promise((r) => { const im = new Image(); im.onload = im.onerror = r; im.src = src(id); }));
+  const fonts = document.fonts ? Promise.all(['700', '900'].map((w) => document.fonts.load(`${w} 1em "Zen Maru Gothic"`, ALL))) : Promise.resolve();
+  Promise.race([Promise.all([fonts, ...imgs]), new Promise((r) => setTimeout(r, 4000))]).then(() => document.fonts?.ready).then(start, start);
 })();

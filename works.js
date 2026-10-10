@@ -21,8 +21,8 @@ window.KAKUU_WORKS = [
     genre: "ANIMATION",
     name: "MOKO",
     nameJa: "くものこ もこ",
-    theme: "さわれる絵本",
-    themeEn: "Interactive Picture Book",
+    theme: "よみきかせ絵本",
+    themeEn: "Read-Aloud Picture Book",
     date: "2026-10-09",
     palette: ["#BFE5F4", "#6A564C", "#F6A6BA"]
   },

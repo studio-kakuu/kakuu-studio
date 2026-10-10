@@ -1,76 +1,48 @@
-import numpy as np, json
-V=np.load('V.npy'); t=np.load('Vt.npy')
-E=np.log1p(V.sum(0)*50)
-beat=60/86.03; s16=beat/4; g0=0.645-4*beat
-cells=np.arange(g0,110.0,s16)
-val=[]
-for a in cells:
-    m=(t>=a-0.03)&(t<a+s16-0.03); val.append(E[m].mean() if m.any() else 0)
-val=np.array(val); lo,hi=np.percentile(val,20),np.percentile(val,98); vn=np.clip((val-lo)/(hi-lo),0,1.2)
-rise=np.clip(vn-np.r_[0,vn[:-1]],0,None)
-strength=0.6*rise+0.4*vn*(np.r_[0,vn[:-1]]<vn+0.05)
-# 単語(歌われた順・Gemini の秒は目安)
+import numpy as np, json, sys
+D=sys.argv[1] if len(sys.argv)>1 else '.'
+E=np.load(D+'/E.npy'); t=np.load(D+'/Et.npy')
+lo,hi=np.percentile(E,20),np.percentile(E,98)
+def v(a,b):
+    m=(t>=a)&(t<b); return (E[m].mean()-lo)/(hi-lo) if m.any() else 0
+g8=0.25; cells=np.arange(0.044,117.5,g8)
+on=np.array([v(c-0.02,c+0.2) for c in cells]); pre=np.array([v(c-0.25,c-0.05) for c in cells])
+strength=np.clip(on-pre,0,None)*0.7+np.clip(on,0,1)*0.3
+LY={
+'Intro':['Three','two','one','Animation Overdrive!'],
+'Verse 1':'Fade In/Slide In/Pop In/Bounce/Slide Up/Slide Down/Slide Left/Slide Right/Zoom In/Blur In/Typewriter/Text Reveal/Mask Reveal/Stagger In/Count Up/Flip In X/Flip In Y/Split Reveal/Drop In/Spin In/Ink Splash/Glitch In/Line Drawing/Curtain Reveal/Wipe In/Iris In/Elastic In/Pixel In/Scramble Text/Letter Spacing'.split('/'),
+'Pre-Chorus':'Fade Out/Slide Out/Shrink Out/Zoom Out/Blur Out/Flip Out/Drop Out/Spin Out/Wipe Out/Iris Out/Slice Out/Pixel Out/Evaporate/Cross Dissolve/Push/Zoom Pan/Whip Pan/Morphing/Parallax/Seamless Zoom'.split('/'),
+'Chorus':'Pulse/Shake/Loop Bounce/Hover Scale/Shine/Ripple/Floating/Swing/Blink/Heartbeat/Glitch Loop/Spin/Gradient Shift/Neon Glow/Wave/Jello/Wobble/Rubber Band/Squash and Stretch/Breathing/Orbit/Marquee'.split('/'),
+'Chorus2':['Sync and Live!'],
+'Verse 2':'Paper Tear/Film Roll/RGB Split/Mosaic/Page Turn/Shatter/Accordion/Lens Flash/Distortion Wave/3D Cube/Split Slide/Match Cut/Progress Line/Circular Progress/3D Tilt/Magnet/Clock Wipe/Venetian Blinds/Kaleidoscope/Zoom Blur/Light Leak/Domino'.split('/'),
+'Outro':'Bubble Pop/Smoke Diffusion/Tooltip Pop/Particle Burst/Confetti/Rewind'.split('/'),
+'Outro2':['Shutdown.'],
+}
+START={'Intro':0.294,'Verse 1':4.294,'Pre-Chorus':34.294,'Chorus':54.294,'Chorus2':78.294,'Verse 2':82.294,'Outro':106.294,'Outro2':114.294}
+NONTECH={'Three','two','one','Animation Overdrive!','Sync and Live!','Shutdown.'}
 W=[]
-def add(sec,en,g,syl,tech=True,sig=0.55):
-    W.append(dict(sec=sec,en=en,g=g,syl=syl,tech=tech,sig=sig))
-I='Intro'
-add(I,'Fade In',5.3,2);add(I,'Slide In',5.9,2);add(I,'Pop In',6.7,2);add(I,'Bounce',7.2,1)
-for i,c in enumerate(['3','2','2','1']): add(I,c,8.2+0.35*i,1,False)
-add(I,'Animation Overdrive',9.7,8,False)
-V1='Verse 1'
-for r in range(2):
-    o=2.9*r
-    add(V1,'Fade In',11.2+o,2);add(V1,'Slide Up',11.85+o,2);add(V1,'Slide Down',12.6+o,2);add(V1,'Left',13.15+o,1);add(V1,'Right',13.5+o,1)
-for r in range(2):
-    o=2.9*r
-    add(V1,'Pop In',17.0+o,2);add(V1,'Bounce',17.4+o,1);add(V1,'Zoom In',17.8+o,2);add(V1,'Blur In',18.2+o,2);add(V1,'Typewriter',18.6+o,3)
-add(V1,'Text Reveal',22.3,3);add(V1,'Mask Reveal',23.6,3);add(V1,'Stagger In',24.3,3);add(V1,'Count Up',24.9,2)
-add(V1,'Flip X',25.3,2);add(V1,'Flip Y',25.8,2);add(V1,'Split Reveal',26.6,3);add(V1,'Drop In',27.2,2);add(V1,'Spin In',27.6,2)
-for r in range(2):
-    o=2.9*r
-    add(V1,'Ink Splash',28.1+o,2);add(V1,'Glitch In',28.7+o,2);add(V1,'Line Drawing',29.5+o,3,sig=0.55 if r==0 else 0.9);add(V1,'Curtain Reveal',30.1+o,4,sig=0.55 if r==0 else 0.9)
-P='Pre-Chorus'
-add(P,'Fade Out',34.0,2);add(P,'Slide Out',34.6,2);add(P,'Shrink Out',35.4,2);add(P,'Zoom Out',36.0,2)
-add(P,'Blur Out',39.5,2);add(P,'Flip Out',40.1,2);add(P,'Drop Out',40.8,2);add(P,'Spin Out',41.4,2)
-add(P,'Cross Dissolve',45.0,4);add(P,'Push',46.0,1);add(P,'Zoom Pan',46.6,2);add(P,'Whip Pan',47.2,2);add(P,'Morphing',48.0,3);add(P,'Parallax',48.8,3);add(P,'Seamless Zoom',49.5,4)
-C='Chorus'
-for en,g,s in [('Pulse',53.0,1),('Shake',53.7,1),('Loop Bounce',54.4,2),('Hover Scale',55.2,3),('Shine',58.7,1),('Ripple',59.4,2),('Floating',60.1,3),('Swing',61.3,1),
- ('Blink',64.3,1),('Heartbeat',65.0,2),('Glitch Loop',65.6,2),('Spin',66.8,1),('Gradient Shift',67.5,4),('Neon Glow',68.8,3),('Wave',70.1,1)]:
-    add(C,en,g,s)
-add(C,'Bring the motion,',72.3,4,False);add(C,'bring the noise,',73.5,3,False);add(C,'SYNC & LIVE!',74.8,3,False)
-V2=['Paper Tear','Film Roll','RGB Split','Mosaic','Page Turn','Shatter','Accordion','Lens Flash','Distortion Wave','3D Cube','Split Slide','Match Cut','Progress Line','Circular Progress','3D Tilt','Magnet']
-sy=[3,2,4,3,2,2,4,2,5,3,2,2,3,5,3,2]
-tot=sum(sy); acc=0
-for en,s in zip(V2,sy):
-    add('Verse 2',en,80.85+ (98.0-80.85)*acc/tot,s,sig=2.2); acc+=s
-O=[('Countdown',2,False),('3',1,False),('2',1,False),('1',1,False),('Bubble Pop',3,True),('Smoke Diffusion',5,True),('Tooltip Pop',4,True),('Error',2,False),('Shutdown',2,False)]
-tot=sum(o[1] for o in O); acc=0
-for en,s,tech in O:
-    add('Outro',en,100.2+(107.0-100.2)*acc/tot,s,tech,sig=1.6); acc+=s
-# DP
-N=len(W); K=len(cells)
-INF=1e18
+for sec,words in LY.items():
+    for i,w in enumerate(words):
+        W.append(dict(sec={'Chorus2':'Chorus','Outro2':'Outro'}.get(sec,sec),en=w,g=START[sec]+i,tech=w not in NONTECH))
+N=len(W);K=len(cells);INF=1e18
+sig=0.45
+def local(j,k): d=(cells[k]-W[j]['g'])/sig; return 0.5*d*d-2.0*strength[k]
 cost=np.full((N,K),INF); back=np.zeros((N,K),int)
-def local(j,k):
-    w=W[j]; d=(cells[k]-w['g'])/w['sig']
-    return 0.5*d*d - 2.2*strength[k]
 for k in range(K): cost[0,k]=local(0,k)
+gap=3  # 0.75 s
 for j in range(1,N):
-    gap=max(1,W[j-1]['syl'])
-    best=np.full(K,INF); arg=np.zeros(K,int)
-    run=INF; ra=0
+    run=INF;ra=0
     for k in range(K):
         kk=k-gap
-        if kk>=0 and cost[j-1,kk]<run: run=cost[j-1,kk]; ra=kk
-        best[k]=run; arg[k]=ra
-    for k in range(K):
-        if best[k]<INF:
-            cost[j,k]=best[k]+local(j,k); back[j,k]=arg[k]
-k=int(np.argmin(cost[N-1])); path=[k]
-for j in range(N-1,0,-1):
-    k=back[j,k]; path.append(k)
+        if kk>=0 and cost[j-1,kk]<run: run=cost[j-1,kk];ra=kk
+        if run<INF: cost[j,k]=run+local(j,k); back[j,k]=ra
+k=int(np.argmin(cost[N-1]));path=[k]
+for j in range(N-1,0,-1): k=back[j,k];path.append(k)
 path=path[::-1]
-for w,k in zip(W,path): w['t']=round(float(cells[k]),3); w['str']=round(float(strength[k]),2)
-json.dump(W,open('align.json','w'),ensure_ascii=False,indent=0)
+for w,k in zip(W,path):
+    w['t']=round(float(cells[k]),3); w['d']=round(w['t']-w['g'],2); w['s']=round(float(strength[k]),2)
+json.dump(W,open(D+'/align.json','w'),ensure_ascii=False,indent=0)
+print('words',N,'techs',sum(w['tech'] for w in W))
+from collections import Counter
+print(Counter(w['d'] for w in W))
 for i,w in enumerate(W):
-    print(f"{i+1:3d} {w['sec']:10s} {w['en']:20s} gem {w['g']:6.2f} -> {w['t']:6.2f}  d={w['t']-w['g']:+.2f} s={w['str']}")
+    if w['d']!=0: print(i+1,w['sec'],w['en'],w['g'],'->',w['t'],w['d'],w['s'])

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MOTION 100 モーション図鑑 — KAKUU STUDIO</title>
+<meta name="description" content="アニメーションの技100種を、名前と実際の動きで見くらべられる図鑑。カードを押すと、その技の動きで名前が動きます。※KAKUU STUDIO が AI とコードでつくったオリジナル作品です(曲は音楽生成AI、絵は画像生成AI、動きはコード)。">
+<meta name="theme-color" content="#F2F0E9">
+<link rel="icon" href="../../brand/logo-on-black.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/gsap.min.js" defer></script>
+<script type="module" src="main.js"></script>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-stage" id="heroStage" aria-hidden="true"></div>
+  <h1 class="hero-title"><span class="sr">MOTION 100 モーション図鑑</span></h1>
+  <img class="hero-koma" src="img/chara.png" alt="この図鑑の案内役、アンドロイドのコマ" width="560" height="1003">
+  <p class="hero-lead">アニメーションの技を100種、<br>名前と動きで見くらべる図鑑。<br><strong>名前を押すと、その動きで動きます。</strong></p>
+</header>
+
+<nav class="groups" id="groups" aria-label="動きのグループ"></nav>
+
+<main id="list"></main>
+
+<footer class="credit">
+  <p>MV「MOTION 100」の曲は音楽生成AI、絵は画像生成AI、動きはコードでつくりました。<br>※実在しない、KAKUU STUDIO のオリジナル作品です。</p>
+  <p><a href="../../">KAKUU STUDIO のほかの作品</a></p>
+</footer>
+<noscript><p class="noscript">この図鑑を動かすには JavaScript をオンにしてください。</p></noscript>
+</body>
+</html>

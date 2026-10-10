@@ -1,0 +1,12 @@
+AIとコードで、モーションの技100種を1本のMVにしました。
+曲は音楽生成AI、絵は画像生成AI、文字の動きはすべてコード。
+技の名前が歌われた瞬間に、その技の動きで文字が出る「動きの図鑑」です。
+
+※KAKUU STUDIO のオリジナル作品です。AIで制作しています。
+
+100種の動きを押して試せる「モーション図鑑」は、Instagram(@studio_kakuu)の投稿に『モーション』とコメントすると届きます。
+
+I turned 100 animation techniques into one music video with AI and code. Each technique's name appears in its own motion, right when it's sung.
+Comment "モーション" on our Instagram post (@studio_kakuu) to get the Motion Encyclopedia.
+
+#KAKUUSTUDIO #モーショングラフィック #AIでつくってみた #AI動画 #motiongraphics

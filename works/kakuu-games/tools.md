@@ -1,9 +1,27 @@
 # 005 KAKUU GAMES — 使った道具とスキル
 
-アニメ調の3Dのアンドロイド「コマ」が、本物の人の動きのデータで14競技に挑戦する、架空のスポーツ大会のシリーズ(全4話)。
-台本は `video/storyboards/kakuu-games.md`。動画は `videos/kakuu-games/`。出典と利用条件は `SOURCES.md`。
+**3回目(今の案):** アニメーションするピクトグラム(頭はコマのモニター)で、20競技をテーマ曲1本の中にワンカットのようにつなぐ動画(約 105 秒)。
+台本は `video/storyboards/kakuu-games.md`。動画は `videos/kakuu-games/`。
 
-## 道具
+## 道具(3回目)
+| 用途 | 道具 | メモ |
+|---|---|---|
+| 曲 | 音楽生成AI(ユーザーが Gemini で作成) | テーマ曲 `strike_at_the_summit.mp3`(103.7 秒・130BPM)。解析は `videos/kakuu-games/analyze_song.py` → `song_analysis.json` |
+| ピクトグラムと動き | Remotion 4.0.534 + SVG(`video/remotion/src/kakuu-games/picto/`) | `rig.tsx`(骨組み・キーポーズの補間・イージング・衝撃波・集中線・スピード線)/`Games.tsx`(曲の拍で全体を進める)。手で作ったキーポーズ+イージング |
+| 書き出し | `node scripts/render-kgf.mjs opening` / `film` | composition `KakuuGames-opening`(冒頭 17.6 秒)/`KakuuGames-film`(全体 105.32 秒) |
+| フォント | Anton(英語)・Zen Kaku Gothic New Black(日本語) | Google Fonts(OFL) |
+
+## スキル
+- `remotion-best-practices`(動画)、`frontend-design`(プレゼントの Web を作るとき)
+
+## 書き出しの実測(この環境:CPU 4、GPU なし)
+- 冒頭 17.6 秒(528 コマ・2026-10-10):**合計 52 秒**(描画 37 秒+圧縮 15 秒)。4.1MB
+- 全体(105.32 秒=3,160 コマ)の見込み:描画 約 3 分 40 秒+圧縮 約 1 分 30 秒=**約 5〜6 分**(場面が増えて1コマが重くなっても 10 分以内の見込み)
+
+---
+
+## 前の案(1回目・2回目。取りやめ)の記録
+### 道具
 | 用途 | 道具 | メモ |
 |---|---|---|
 | 動きのデータ | CMU Graphics Lab Motion Capture Database(BVH 版:`Shriinivas/cmubvh`) | 研究・商用とも無料。謝辞:The data used in this project was obtained from mocap.cs.cmu.edu. The database was created with funding from NSF EIA-0196217. |
@@ -16,15 +34,15 @@
 | 曲 | 音楽生成AI(ユーザーが Gemini で作成) | テーマ曲 `strike_at_the_summit.mp3`(103.7 秒・130BPM)。`video/remotion/public/kakuu-games/` に置く。最初の版の仮の音は `temp_drums.py`(今は使っていない) |
 | フォント | Anton(英語)・Zen Kaku Gothic New Black(日本語) | Google Fonts(OFL) |
 
-## スキル
+### スキル
 - `remotion-best-practices`(動画)
 - `frontend-design`(Web 版を作るとき)
 
-## 書き出しの実測(この環境:CPU 4、GPU なし、WebGL はソフトウェア描画)
+### 書き出しの実測(この環境:CPU 4、GPU なし、WebGL はソフトウェア描画)
 - 最初の版(キューブの粒)バスケ 18 秒(540 コマ):**合計 7 分 28 秒**(Remotion の描画 416 秒+仕上げの圧縮 32 秒。1コマ約 0.77 秒、同時に4コマ)。出来上がり 13.2MB
 - **2回目(なめらかなモデル)バスケ 18.46 秒(553 コマ・2026-10-10):合計 4 分 51 秒**(描画 263 秒+圧縮 28 秒。1コマ約 0.48 秒)。出来上がり 7.5MB
 - 全4話の見込み(1話 66.46 秒=1,994 コマ × 4話=約 7,980 コマ):描画だけで約 1 時間 05 分(1話あたり約 16 分)
 
-## 使っていないもの
+### 使っていないもの
 - AI動画・有料の生成(画像・音声・動画)は使っていない
 - 参考動画はリポジトリに入れていない

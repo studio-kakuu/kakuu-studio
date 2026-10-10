@@ -4,6 +4,7 @@ import { Process } from "./Process";
 import { COMMON, TL, processSchema, type ProcessProps } from "./config";
 import cafe from "../../themes/cafe.json";
 import { MotionMV } from "./motion-mv/MotionMV";
+import { KakuuEvent, eventFrames } from "./kakuu-games/Event";
 
 // 尺は _common.json の timeline.closing[1](61〜75秒)
 const DURATION = Math.round(TL.closing[1] * COMMON.fps);
@@ -15,6 +16,9 @@ const calculateMetadata: CalculateMetadataFunction<ProcessProps> = ({ props }) =
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+    <Folder name="KAKUU-GAMES">
+      <Composition id="KakuuGames-basketball" component={KakuuEvent} durationInFrames={eventFrames("basketball")} fps={30} width={1080} height={1920} defaultProps={{ event: "basketball", withAudio: true }} />
+    </Folder>
     <Folder name="MOTION-100">
       {(["instagram", "tiktok", "x"] as const).map((p) => (
         <Composition key={p} id={`MotionMV-${p}`} component={MotionMV} durationInFrames={Math.round(126.06 * 30)} fps={30} width={1080} height={1920} defaultProps={{ platform: p }} />

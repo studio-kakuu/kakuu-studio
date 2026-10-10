@@ -16,6 +16,17 @@
 */
 window.KAKUU_WORKS = [
   {
+    no: "004",
+    slug: "motion-zukan",
+    genre: "WEB",
+    name: "MOTION 100",
+    nameJa: "モーション図鑑",
+    theme: "モーション100種のMVと図鑑",
+    themeEn: "100 Motions — Music Video & Encyclopedia",
+    date: "2026-10-10",
+    palette: ["#F2F0E9", "#0E0E0E", "#C6FF3D"]
+  },
+  {
     no: "003",
     slug: "moko",
     genre: "ANIMATION",

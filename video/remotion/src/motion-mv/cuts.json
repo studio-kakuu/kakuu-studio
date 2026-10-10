@@ -1,0 +1,1479 @@
+{
+"cuts": [
+{
+"no": 1,
+"t": 0.294,
+"end": 0.794,
+"sec": "Intro",
+"en": "THREE",
+"jp": null,
+"tech": false,
+"pics": [],
+"flip": false,
+"desc": "数字を1つずつ画面いっぱいに"
+},
+{
+"no": 2,
+"t": 0.794,
+"end": 1.294,
+"sec": "Intro",
+"en": "TWO",
+"jp": null,
+"tech": false,
+"pics": [],
+"flip": false,
+"desc": "数字を1つずつ画面いっぱいに"
+},
+{
+"no": 3,
+"t": 1.294,
+"end": 1.794,
+"sec": "Intro",
+"en": "ONE",
+"jp": null,
+"tech": false,
+"pics": [],
+"flip": false,
+"desc": "数字を1つずつ画面いっぱいに"
+},
+{
+"no": 4,
+"t": 1.794,
+"end": 4.294,
+"sec": "Intro",
+"en": "ANIMATION OVERDRIVE!",
+"jp": null,
+"tech": false,
+"pics": [
+11
+],
+"flip": false,
+"desc": "2段に積んだ巨大な文字が 拍ごとに太さ・位置を変えて連打"
+},
+{
+"no": 5,
+"t": 4.294,
+"end": 4.794,
+"sec": "Verse 1",
+"en": "FADE IN",
+"jp": "フェードイン",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "文字が透明から じわっと現れる"
+},
+{
+"no": 6,
+"t": 4.794,
+"end": 5.294,
+"sec": "Verse 1",
+"en": "SLIDE IN",
+"jp": "スライドイン",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "文字が画面の外(左)から すべり込む"
+},
+{
+"no": 7,
+"t": 5.294,
+"end": 5.794,
+"sec": "Verse 1",
+"en": "POP IN",
+"jp": "ポップイン",
+"tech": true,
+"pics": [],
+"flip": false,
+"desc": "0 → 110% → 100% と弾んで出る"
+},
+{
+"no": 8,
+"t": 5.794,
+"end": 6.294,
+"sec": "Verse 1",
+"en": "BOUNCE",
+"jp": "バウンス",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "上から落ちて 3回はねて止まる"
+},
+{
+"no": 9,
+"t": 6.294,
+"end": 7.294,
+"sec": "Verse 1",
+"en": "SLIDE UP",
+"jp": "スライドアップ",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "下から せり上がる(1文字ずつ少しずらす)"
+},
+{
+"no": 10,
+"t": 7.294,
+"end": 8.294,
+"sec": "Verse 1",
+"en": "SLIDE DOWN",
+"jp": "スライドダウン",
+"tech": true,
+"pics": [
+10
+],
+"flip": false,
+"desc": "上から下りてくる"
+},
+{
+"no": 11,
+"t": 8.294,
+"end": 9.294,
+"sec": "Verse 1",
+"en": "SLIDE LEFT",
+"jp": "スライドレフト",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "右から左へ すべって止まる"
+},
+{
+"no": 12,
+"t": 9.294,
+"end": 10.294,
+"sec": "Verse 1",
+"en": "SLIDE RIGHT",
+"jp": "スライドライト",
+"tech": true,
+"pics": [
+2
+],
+"flip": true,
+"desc": "左から右へ すべって止まる"
+},
+{
+"no": 13,
+"t": 10.294,
+"end": 11.294,
+"sec": "Verse 1",
+"en": "ZOOM IN",
+"jp": "ズームイン",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "奥(10%)から画面からはみ出す大きさまで寄る"
+},
+{
+"no": 14,
+"t": 11.294,
+"end": 12.294,
+"sec": "Verse 1",
+"en": "BLUR IN",
+"jp": "ブラーイン",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "強いぼかしから くっきりへ"
+},
+{
+"no": 15,
+"t": 12.294,
+"end": 13.294,
+"sec": "Verse 1",
+"en": "TYPEWRITER",
+"jp": "タイプライター",
+"tech": true,
+"pics": [
+8
+],
+"flip": false,
+"desc": "1文字ずつ打たれる+点滅する棒(カーソル)"
+},
+{
+"no": 16,
+"t": 13.294,
+"end": 14.294,
+"sec": "Verse 1",
+"en": "TEXT REVEAL",
+"jp": "テキストリビール",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "下から文字が 線の下からのぞく"
+},
+{
+"no": 17,
+"t": 14.294,
+"end": 15.294,
+"sec": "Verse 1",
+"en": "MASK REVEAL",
+"jp": "マスクリビール",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "丸い穴が広がって 文字が見える"
+},
+{
+"no": 18,
+"t": 15.294,
+"end": 16.294,
+"sec": "Verse 1",
+"en": "STAGGER IN",
+"jp": "スタッガーイン(時差出現)",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "1文字ずつ 時間差で出る"
+},
+{
+"no": 19,
+"t": 16.294,
+"end": 17.294,
+"sec": "Verse 1",
+"en": "COUNT UP",
+"jp": "カウントアップ",
+"tech": true,
+"pics": [
+8
+],
+"flip": false,
+"desc": "「0」から数字が回って 文字に変わる"
+},
+{
+"no": 20,
+"t": 17.294,
+"end": 18.294,
+"sec": "Verse 1",
+"en": "FLIP IN X",
+"jp": "フリップイン X",
+"tech": true,
+"pics": [
+10
+],
+"flip": false,
+"desc": "横軸で くるっと回って表になる"
+},
+{
+"no": 21,
+"t": 18.294,
+"end": 19.294,
+"sec": "Verse 1",
+"en": "FLIP IN Y",
+"jp": "フリップイン Y",
+"tech": true,
+"pics": [
+3
+],
+"flip": false,
+"desc": "縦軸で くるっと回って表になる"
+},
+{
+"no": 22,
+"t": 19.294,
+"end": 20.294,
+"sec": "Verse 1",
+"en": "SPLIT REVEAL",
+"jp": "スプリットリビール",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "上下半分ずつ 反対から合わさる"
+},
+{
+"no": 23,
+"t": 20.294,
+"end": 21.294,
+"sec": "Verse 1",
+"en": "DROP IN",
+"jp": "ドロップイン",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "真上から ドスンと落ちて少し沈む"
+},
+{
+"no": 24,
+"t": 21.294,
+"end": 22.294,
+"sec": "Verse 1",
+"en": "SPIN IN",
+"jp": "スピンイン",
+"tech": true,
+"pics": [],
+"flip": false,
+"desc": "回転しながら 小→大で止まる"
+},
+{
+"no": 25,
+"t": 22.294,
+"end": 23.294,
+"sec": "Verse 1",
+"en": "INK SPLASH",
+"jp": "インクスプラッシュ",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "黒いインクのしぶきが広がり 文字の形になる"
+},
+{
+"no": 26,
+"t": 23.294,
+"end": 24.294,
+"sec": "Verse 1",
+"en": "GLITCH IN",
+"jp": "グリッチイン",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "横にずれた断片が ガタついてから そろう"
+},
+{
+"no": 27,
+"t": 24.294,
+"end": 25.294,
+"sec": "Verse 1",
+"en": "LINE DRAWING",
+"jp": "ラインドロー",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "文字の輪郭線が描かれ 最後に塗られる"
+},
+{
+"no": 28,
+"t": 25.294,
+"end": 26.294,
+"sec": "Verse 1",
+"en": "CURTAIN REVEAL",
+"jp": "カーテンリビール",
+"tech": true,
+"pics": [
+10
+],
+"flip": false,
+"desc": "左右に開く黒い幕の奥から 文字"
+},
+{
+"no": 29,
+"t": 26.294,
+"end": 27.294,
+"sec": "Verse 1",
+"en": "WIPE IN",
+"jp": "ワイプイン",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "まっすぐな境目が左から右へ通り、通った所から文字が現れる"
+},
+{
+"no": 30,
+"t": 27.294,
+"end": 28.294,
+"sec": "Verse 1",
+"en": "IRIS IN",
+"jp": "アイリスイン(円の絞り)",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "画面の中心から円の窓が開いて、文字が見える"
+},
+{
+"no": 31,
+"t": 28.294,
+"end": 29.294,
+"sec": "Verse 1",
+"en": "ELASTIC IN",
+"jp": "エラスティックイン(ゴムの伸び)",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "ゴムのように行き過ぎて伸び、ぷるんと戻って止まる"
+},
+{
+"no": 32,
+"t": 29.294,
+"end": 30.294,
+"sec": "Verse 1",
+"en": "PIXEL IN",
+"jp": "ピクセルイン",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "粗い四角の粒が集まって文字になる"
+},
+{
+"no": 33,
+"t": 30.294,
+"end": 32.294,
+"sec": "Verse 1",
+"en": "SCRAMBLE TEXT",
+"jp": "スクランブルテキスト(文字のシャッフル)",
+"tech": true,
+"pics": [],
+"flip": false,
+"desc": "でたらめな文字がシャッフルして、正しい文字にそろう"
+},
+{
+"no": 34,
+"t": 32.294,
+"end": 34.294,
+"sec": "Verse 1",
+"en": "LETTER SPACING",
+"jp": "レタースペーシング(字間の広がり)",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "字間がぎゅっと詰まった状態から、大きく広がる"
+},
+{
+"no": 35,
+"t": 34.294,
+"end": 35.294,
+"sec": "Pre-Chorus",
+"en": "FADE OUT",
+"jp": "フェードアウト",
+"tech": true,
+"pics": [
+3
+],
+"flip": false,
+"desc": "文字が すうっと消える"
+},
+{
+"no": 36,
+"t": 35.294,
+"end": 36.294,
+"sec": "Pre-Chorus",
+"en": "SLIDE OUT",
+"jp": "スライドアウト",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "画面の外へ すべり出る"
+},
+{
+"no": 37,
+"t": 36.294,
+"end": 37.294,
+"sec": "Pre-Chorus",
+"en": "SHRINK OUT",
+"jp": "シュリンクアウト(縮小消滅)",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "ぎゅっと小さくなって 点で消える"
+},
+{
+"no": 38,
+"t": 37.294,
+"end": 38.294,
+"sec": "Pre-Chorus",
+"en": "ZOOM OUT",
+"jp": "ズームアウト",
+"tech": true,
+"pics": [
+3
+],
+"flip": false,
+"desc": "画面いっぱいから 遠ざかる"
+},
+{
+"no": 39,
+"t": 38.294,
+"end": 39.294,
+"sec": "Pre-Chorus",
+"en": "BLUR OUT",
+"jp": "ブラーアウト",
+"tech": true,
+"pics": [
+6
+],
+"flip": false,
+"desc": "くっきりから ぼけて消える"
+},
+{
+"no": 40,
+"t": 39.294,
+"end": 40.294,
+"sec": "Pre-Chorus",
+"en": "FLIP OUT",
+"jp": "フリップアウト",
+"tech": true,
+"pics": [],
+"flip": false,
+"desc": "くるっと裏返って消える"
+},
+{
+"no": 41,
+"t": 40.294,
+"end": 41.294,
+"sec": "Pre-Chorus",
+"en": "DROP OUT",
+"jp": "ドロップアウト",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "下へ落ちて 画面の外へ"
+},
+{
+"no": 42,
+"t": 41.294,
+"end": 42.294,
+"sec": "Pre-Chorus",
+"en": "SPIN OUT",
+"jp": "スピンアウト",
+"tech": true,
+"pics": [],
+"flip": false,
+"desc": "回転しながら 小さくなって消える"
+},
+{
+"no": 43,
+"t": 42.294,
+"end": 43.294,
+"sec": "Pre-Chorus",
+"en": "WIPE OUT",
+"jp": "ワイプアウト",
+"tech": true,
+"pics": [
+10
+],
+"flip": false,
+"desc": "境目が通った所から、文字が消えていく"
+},
+{
+"no": 44,
+"t": 43.294,
+"end": 44.294,
+"sec": "Pre-Chorus",
+"en": "IRIS OUT",
+"jp": "アイリスアウト",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "円の窓が小さく閉じて、文字ごと消える"
+},
+{
+"no": 45,
+"t": 44.294,
+"end": 45.294,
+"sec": "Pre-Chorus",
+"en": "SLICE OUT",
+"jp": "スライスアウト(切断消滅)",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "文字が斜めに切られ、上下がずれて落ちる"
+},
+{
+"no": 46,
+"t": 45.294,
+"end": 46.294,
+"sec": "Pre-Chorus",
+"en": "PIXEL OUT",
+"jp": "ピクセルアウト",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "文字が粗い粒にほどけて散る"
+},
+{
+"no": 47,
+"t": 46.294,
+"end": 47.294,
+"sec": "Pre-Chorus",
+"en": "EVAPORATE",
+"jp": "エバポレート(蒸発)",
+"tech": true,
+"pics": [
+6
+],
+"flip": false,
+"desc": "下から薄くなり、粒が上へ昇って消える"
+},
+{
+"no": 48,
+"t": 47.294,
+"end": 48.294,
+"sec": "Pre-Chorus",
+"en": "CROSS DISSOLVE",
+"jp": "クロスディゾルブ",
+"tech": true,
+"pics": [
+3,
+10
+],
+"flip": false,
+"desc": "前の語と重なりながら 入れ替わる"
+},
+{
+"no": 49,
+"t": 48.294,
+"end": 49.294,
+"sec": "Pre-Chorus",
+"en": "PUSH",
+"jp": "プッシュ",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "次の画面が 前の画面を押し出す"
+},
+{
+"no": 50,
+"t": 49.294,
+"end": 50.044,
+"sec": "Pre-Chorus",
+"en": "ZOOM PAN",
+"jp": "ズームパン",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "寄りながら 横へ流れる"
+},
+{
+"no": 51,
+"t": 50.044,
+"end": 50.794,
+"sec": "Pre-Chorus",
+"en": "WHIP PAN",
+"jp": "ホイップパン",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "ブレながら 高速で横に振る"
+},
+{
+"no": 52,
+"t": 50.794,
+"end": 52.294,
+"sec": "Pre-Chorus",
+"en": "MORPHING",
+"jp": "モーフィング",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "丸い形が 文字の形に変わる"
+},
+{
+"no": 53,
+"t": 52.294,
+"end": 53.294,
+"sec": "Pre-Chorus",
+"en": "PARALLAX",
+"jp": "パララックス(視差効果)",
+"tech": true,
+"pics": [
+3
+],
+"flip": false,
+"desc": "文字・帯・絵の3層が 別の速さで流れる"
+},
+{
+"no": 54,
+"t": 53.294,
+"end": 54.294,
+"sec": "Pre-Chorus",
+"en": "SEAMLESS ZOOM",
+"jp": "シームレスズーム",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "文字の穴(O など)に入り込み 次の画面へ"
+},
+{
+"no": 55,
+"t": 54.294,
+"end": 55.294,
+"sec": "Chorus",
+"en": "PULSE",
+"jp": "パルス(脈動)",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "拍ごとに ふくらんで戻る"
+},
+{
+"no": 56,
+"t": 55.294,
+"end": 56.294,
+"sec": "Chorus",
+"en": "SHAKE",
+"jp": "シェイク(揺れ)",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "小刻みに揺れる"
+},
+{
+"no": 57,
+"t": 56.294,
+"end": 57.294,
+"sec": "Chorus",
+"en": "LOOP BOUNCE",
+"jp": "ループバウンス",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "同じ所で はね続ける"
+},
+{
+"no": 58,
+"t": 57.294,
+"end": 58.294,
+"sec": "Chorus",
+"en": "HOVER SCALE",
+"jp": "ホバー拡大",
+"tech": true,
+"pics": [
+8
+],
+"flip": false,
+"desc": "ポインタ(矢印)が乗ると 少し大きくなる"
+},
+{
+"no": 59,
+"t": 58.294,
+"end": 59.294,
+"sec": "Chorus",
+"en": "SHINE",
+"jp": "シャイン(光の走り)",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "ライムの光の帯が 文字の上を走る"
+},
+{
+"no": 60,
+"t": 59.294,
+"end": 60.294,
+"sec": "Chorus",
+"en": "RIPPLE",
+"jp": "リップル(波紋)",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "中心から 波紋の輪が広がる"
+},
+{
+"no": 61,
+"t": 60.294,
+"end": 61.294,
+"sec": "Chorus",
+"en": "FLOATING",
+"jp": "フローティング",
+"tech": true,
+"pics": [
+6
+],
+"flip": false,
+"desc": "ふわふわ上下に漂う"
+},
+{
+"no": 62,
+"t": 61.294,
+"end": 62.294,
+"sec": "Chorus",
+"en": "SWING",
+"jp": "スウィング",
+"tech": true,
+"pics": [
+10
+],
+"flip": false,
+"desc": "上を支点に ゆらゆら揺れる"
+},
+{
+"no": 63,
+"t": 62.294,
+"end": 63.294,
+"sec": "Chorus",
+"en": "BLINK",
+"jp": "ブリンク(点滅)",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "拍に合わせて 点滅"
+},
+{
+"no": 64,
+"t": 63.294,
+"end": 64.294,
+"sec": "Chorus",
+"en": "HEARTBEAT",
+"jp": "ハートビート",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "ドクン・ドクンと2回ずつ ふくらむ"
+},
+{
+"no": 65,
+"t": 64.294,
+"end": 65.294,
+"sec": "Chorus",
+"en": "GLITCH LOOP",
+"jp": "グリッチループ",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "横ずれが くり返し起きる"
+},
+{
+"no": 66,
+"t": 65.294,
+"end": 66.294,
+"sec": "Chorus",
+"en": "SPIN",
+"jp": "スピン",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "その場で回り続ける"
+},
+{
+"no": 67,
+"t": 66.294,
+"end": 67.294,
+"sec": "Chorus",
+"en": "GRADIENT SHIFT",
+"jp": "グラデーションシフト",
+"tech": true,
+"pics": [],
+"flip": false,
+"desc": "黒→ライム→オフホワイトの階調が 文字の中を流れる"
+},
+{
+"no": 68,
+"t": 67.294,
+"end": 68.294,
+"sec": "Chorus",
+"en": "NEON GLOW",
+"jp": "ネオングロウ",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "黒地にライムの光る文字(にじむ光)"
+},
+{
+"no": 69,
+"t": 68.294,
+"end": 69.294,
+"sec": "Chorus",
+"en": "WAVE",
+"jp": "ウェーブ(波打ち)",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "文字の並びが 波打つ"
+},
+{
+"no": 70,
+"t": 69.294,
+"end": 70.294,
+"sec": "Chorus",
+"en": "JELLO",
+"jp": "ジェロ(ぷるぷる)",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "文字がぷるぷると左右にゆがんで揺れる"
+},
+{
+"no": 71,
+"t": 70.294,
+"end": 71.294,
+"sec": "Chorus",
+"en": "WOBBLE",
+"jp": "ウォブル(ぐらぐら)",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "根元を軸に、ぐらぐら傾いて揺れる"
+},
+{
+"no": 72,
+"t": 71.294,
+"end": 72.294,
+"sec": "Chorus",
+"en": "RUBBER BAND",
+"jp": "ラバーバンド",
+"tech": true,
+"pics": [
+8
+],
+"flip": false,
+"desc": "横に引っぱられて伸び、ばちんと戻る"
+},
+{
+"no": 73,
+"t": 72.294,
+"end": 73.794,
+"sec": "Chorus",
+"en": "SQUASH AND STRETCH",
+"jp": "スクワッシュ&ストレッチ",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "落ちてつぶれ、縦に伸びて跳ね上がる"
+},
+{
+"no": 74,
+"t": 73.794,
+"end": 74.294,
+"sec": "Chorus",
+"en": "BREATHING",
+"jp": "ブリージング(呼吸)",
+"tech": true,
+"pics": [
+6
+],
+"flip": false,
+"desc": "ゆっくりふくらんで、しぼむ(呼吸)"
+},
+{
+"no": 75,
+"t": 74.294,
+"end": 75.294,
+"sec": "Chorus",
+"en": "ORBIT",
+"jp": "オービット(周回)",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "1文字ずつが円を描いて回る"
+},
+{
+"no": 76,
+"t": 75.294,
+"end": 78.294,
+"sec": "Chorus",
+"en": "MARQUEE",
+"jp": "マーキー(流れる文字)",
+"tech": true,
+"pics": [
+3
+],
+"flip": false,
+"desc": "文字が帯の中を右から左へ流れ続ける"
+},
+{
+"no": 77,
+"t": 78.294,
+"end": 82.294,
+"sec": "Chorus",
+"en": "SYNC AND LIVE!",
+"jp": null,
+"tech": false,
+"pics": [
+1
+],
+"flip": false,
+"desc": "巨大な文字が拍に合わせて3段で連打(このあと3秒、文字だけの連打を続ける)"
+},
+{
+"no": 78,
+"t": 82.294,
+"end": 83.294,
+"sec": "Verse 2",
+"en": "PAPER TEAR",
+"jp": "ペーパーティア(紙破り)",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "紙が破れて 下から文字が出る"
+},
+{
+"no": 79,
+"t": 83.294,
+"end": 84.294,
+"sec": "Verse 2",
+"en": "FILM ROLL",
+"jp": "フィルムロール",
+"tech": true,
+"pics": [
+7,
+9,
+10
+],
+"flip": false,
+"desc": "フィルムのコマが流れ 文字がコマに入る"
+},
+{
+"no": 80,
+"t": 84.294,
+"end": 85.294,
+"sec": "Verse 2",
+"en": "RGB SPLIT",
+"jp": "RGBスプリット(色ズレ)",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "ライムと黒の2色が ずれて重なる(3色にしぼるため)"
+},
+{
+"no": 81,
+"t": 85.294,
+"end": 86.294,
+"sec": "Verse 2",
+"en": "MOSAIC",
+"jp": "モザイク",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "粗いモザイクから くっきりへ"
+},
+{
+"no": 82,
+"t": 86.294,
+"end": 87.294,
+"sec": "Verse 2",
+"en": "PAGE TURN",
+"jp": "ページターン(ページめくり)",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "ページがめくれて 裏に文字"
+},
+{
+"no": 83,
+"t": 87.294,
+"end": 88.294,
+"sec": "Verse 2",
+"en": "SHATTER",
+"jp": "シャッター(ガラス割れ)",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "ガラスのように割れて 破片が飛ぶ"
+},
+{
+"no": 84,
+"t": 88.294,
+"end": 89.294,
+"sec": "Verse 2",
+"en": "ACCORDION",
+"jp": "アコーディオン",
+"tech": true,
+"pics": [
+10
+],
+"flip": false,
+"desc": "細い帯に分かれて 伸び縮み"
+},
+{
+"no": 85,
+"t": 89.294,
+"end": 89.794,
+"sec": "Verse 2",
+"en": "LENS FLASH",
+"jp": "レンズフラッシュ",
+"tech": true,
+"pics": [
+8
+],
+"flip": false,
+"desc": "白い閃光と光の輪"
+},
+{
+"no": 86,
+"t": 89.794,
+"end": 91.294,
+"sec": "Verse 2",
+"en": "DISTORTION WAVE",
+"jp": "ディストーションウェーブ(歪み波)",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "文字がゆがむ波に のまれる"
+},
+{
+"no": 87,
+"t": 91.294,
+"end": 92.294,
+"sec": "Verse 2",
+"en": "3D CUBE",
+"jp": "3Dキューブ",
+"tech": true,
+"pics": [
+10,
+11
+],
+"flip": false,
+"desc": "立方体の面に文字。回って次の面"
+},
+{
+"no": 88,
+"t": 92.294,
+"end": 92.794,
+"sec": "Verse 2",
+"en": "SPLIT SLIDE",
+"jp": "スプリットスライド",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "左右(上下)に割れて すべる"
+},
+{
+"no": 89,
+"t": 92.794,
+"end": 94.294,
+"sec": "Verse 2",
+"en": "MATCH CUT",
+"jp": "マッチカット",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "文字の「O」とキャラクターの丸い目を 重ねて切り替え"
+},
+{
+"no": 90,
+"t": 94.294,
+"end": 95.544,
+"sec": "Verse 2",
+"en": "PROGRESS LINE",
+"jp": "プログレスライン",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "細い線が 左から伸びて 文字を引き出す"
+},
+{
+"no": 91,
+"t": 95.544,
+"end": 96.294,
+"sec": "Verse 2",
+"en": "CIRCULAR PROGRESS",
+"jp": "サーキュラープログレス(円ゲージ)",
+"tech": true,
+"pics": [
+4
+],
+"flip": false,
+"desc": "円のゲージが一周して 中に文字"
+},
+{
+"no": 92,
+"t": 96.294,
+"end": 97.294,
+"sec": "Verse 2",
+"en": "3D TILT",
+"jp": "3Dチルト(傾き)",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "奥へ傾いて また起きる"
+},
+{
+"no": 93,
+"t": 97.294,
+"end": 98.294,
+"sec": "Verse 2",
+"en": "MAGNET",
+"jp": "マグネット",
+"tech": true,
+"pics": [
+8
+],
+"flip": false,
+"desc": "散らばった文字が 吸い寄せられて並ぶ"
+},
+{
+"no": 94,
+"t": 98.294,
+"end": 99.294,
+"sec": "Verse 2",
+"en": "CLOCK WIPE",
+"jp": "クロックワイプ(時計回り)",
+"tech": true,
+"pics": [
+3
+],
+"flip": false,
+"desc": "時計の針のように回る扇形で、次の画面に切り替わる"
+},
+{
+"no": 95,
+"t": 99.294,
+"end": 100.294,
+"sec": "Verse 2",
+"en": "VENETIAN BLINDS",
+"jp": "ブラインド",
+"tech": true,
+"pics": [
+10
+],
+"flip": false,
+"desc": "細い横板が回転して開き、文字が見える"
+},
+{
+"no": 96,
+"t": 100.294,
+"end": 101.294,
+"sec": "Verse 2",
+"en": "KALEIDOSCOPE",
+"jp": "カレイドスコープ(万華鏡)",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "文字と絵を6枚の三角に映して回す(万華鏡)"
+},
+{
+"no": 97,
+"t": 101.294,
+"end": 102.294,
+"sec": "Verse 2",
+"en": "ZOOM BLUR",
+"jp": "ズームブラー",
+"tech": true,
+"pics": [
+7
+],
+"flip": false,
+"desc": "中心へ放射状にぶれながら寄って止まる"
+},
+{
+"no": 98,
+"t": 102.294,
+"end": 103.294,
+"sec": "Verse 2",
+"en": "LIGHT LEAK",
+"jp": "ライトリーク(光漏れ)",
+"tech": true,
+"pics": [
+5
+],
+"flip": false,
+"desc": "画面の端からオフホワイトの光が漏れてにじみ、文字が浮かぶ"
+},
+{
+"no": 99,
+"t": 103.294,
+"end": 106.294,
+"sec": "Verse 2",
+"en": "DOMINO",
+"jp": "ドミノ",
+"tech": true,
+"pics": [
+2
+],
+"flip": false,
+"desc": "文字が1文字ずつドミノのように倒れて並ぶ"
+},
+{
+"no": 100,
+"t": 106.294,
+"end": 107.294,
+"sec": "Outro",
+"en": "BUBBLE POP",
+"jp": "バブルポップ",
+"tech": true,
+"pics": [
+9
+],
+"flip": false,
+"desc": "泡がふくらんで パチンと割れて文字"
+},
+{
+"no": 101,
+"t": 107.294,
+"end": 108.294,
+"sec": "Outro",
+"en": "SMOKE DIFFUSION",
+"jp": "スモーキーディフュージョン(拡散)",
+"tech": true,
+"pics": [
+6
+],
+"flip": false,
+"desc": "文字が煙のように ほどけて広がる"
+},
+{
+"no": 102,
+"t": 108.294,
+"end": 109.294,
+"sec": "Outro",
+"en": "TOOLTIP POP",
+"jp": "ツールチップポップ",
+"tech": true,
+"pics": [
+8
+],
+"flip": false,
+"desc": "小さな吹き出し(ツールチップ)が ポンと出る"
+},
+{
+"no": 103,
+"t": 109.294,
+"end": 110.294,
+"sec": "Outro",
+"en": "PARTICLE BURST",
+"jp": "パーティクルバースト(粒子爆発)",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "文字が粒になって、爆発するように飛び散る"
+},
+{
+"no": 104,
+"t": 110.294,
+"end": 111.794,
+"sec": "Outro",
+"en": "CONFETTI",
+"jp": "コンフェッティ(紙吹雪)",
+"tech": true,
+"pics": [
+11
+],
+"flip": false,
+"desc": "紙吹雪(ライムと黒の小さな四角)が降り、文字が出る"
+},
+{
+"no": 105,
+"t": 111.794,
+"end": 114.294,
+"sec": "Outro",
+"en": "REWIND",
+"jp": "リワインド(巻き戻し)",
+"tech": true,
+"pics": [
+1
+],
+"flip": false,
+"desc": "映像が巻き戻しのように逆再生し、文字が逆順に戻る"
+},
+{
+"no": 106,
+"t": 114.294,
+"end": 116.6,
+"sec": "Outro",
+"en": "SHUTDOWN.",
+"jp": null,
+"tech": false,
+"pics": [
+6
+],
+"flip": false,
+"desc": "画面が中央の横線につぶれて消える(テレビを切るように)"
+}
+],
+"song": 120.06,
+"closing": [
+120.06,
+126.06
+]
+}

@@ -1,0 +1,31 @@
+AIとコードで、モーションの技100種を1本のMVにしました。
+
+曲は 音楽生成AI、キャラクターの絵は 画像生成AI、
+文字の動きは すべてコードで つけています。
+
+「FADE IN」が歌われたら、文字がフェードインで出る。
+「GLITCH IN」なら、グリッチで出る。
+技の名前が歌われる その瞬間に、その技の動きで出す「動きの図鑑」です。
+曲調が変わる所で、画面の色と雰囲気も切り替わります。
+
+キャラクターは、アンドロイドの「コマ」。
+※実在しない、KAKUU STUDIO のオリジナル作品です。AIで制作しています。
+
+100種の動きを、押して試せる「モーション図鑑」を作りました。
+ほしい方は、コメントで『モーション』と送ってね、URLをお届けします。
+
+―――
+
+I turned 100 animation techniques into one music video, made with AI and code.
+
+The song was made with a music-generating AI, the character with an image-generating AI, and every bit of text motion was coded.
+When the song sings "FADE IN," the words fade in. When it sings "GLITCH IN," they glitch in.
+A moving encyclopedia of motion, where each name appears in its own motion. The colors and mood change whenever the music does.
+
+The character is Koma, an android dancer.
+*An original work by KAKUU STUDIO, made with AI.
+
+I also made a "Motion Encyclopedia" page where you can tap and try all 100 motions.
+Comment "モーション" (motion) and I'll send you the URL.
+
+#KAKUUSTUDIO #モーショングラフィック #AIでつくってみた

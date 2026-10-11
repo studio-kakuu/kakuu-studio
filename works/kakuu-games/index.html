@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KAKUU GAMES ピクトグラム図鑑 — KAKUU STUDIO</title>
+<meta name="description" content="架空のスポーツ大会「KAKUU GAMES」の20競技のピクトグラム。押すと動き、SVG と PNG で保存できます。※KAKUU STUDIO が AI とコードでつくったオリジナル作品です。">
+<meta name="theme-color" content="#0E0E0E">
+<link rel="icon" href="../../brand/logo-on-black.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="main.js"></script>
+</head>
+<body data-theme="ink">
+<header class="hero">
+  <div class="hero-stage" aria-hidden="true"><svg id="heroFig" viewBox="-300 -620 600 700"></svg></div>
+  <h1 class="hero-title"><span class="t1">KAKUU</span><span class="t2">GAMES</span></h1>
+  <p class="hero-sub">ピクトグラム図鑑</p>
+  <p class="hero-lead">架空のスポーツ大会の20競技。<br>押すと、その競技の動きで動きます。<br>気に入ったら、SVG か PNG で保存できます。</p>
+  <p class="hero-now" id="heroNow" aria-live="off"></p>
+</header>
+
+<div class="bar">
+  <span class="bar-label" id="themeLabel">地の色</span>
+  <div class="swatches" role="radiogroup" aria-labelledby="themeLabel">
+    <button type="button" role="radio" aria-checked="true" data-t="ink" class="sw sw-ink"><span>黒</span></button>
+    <button type="button" role="radio" aria-checked="false" data-t="off" class="sw sw-off"><span>白</span></button>
+    <button type="button" role="radio" aria-checked="false" data-t="lime" class="sw sw-lime"><span>ライム</span></button>
+  </div>
+  <span class="bar-note">保存する絵も、この色になります</span>
+</div>
+
+<main class="list" id="list"></main>
+
+<footer class="foot">
+  <p><strong>使い方のルール</strong><br>保存したピクトグラムは、個人の資料や作品に使えます。再配布・販売はできません。</p>
+  <p>ピクトグラムと動きは、すべてコードで描いています。頭は KAKUU STUDIO のアンドロイド「コマ」のモニターです。<br>※AIとコードでつくった、実在の大会・団体とは関係のない架空の大会です。</p>
+  <p><a href="../../">KAKUU STUDIO のほかの作品</a></p>
+</footer>
+<noscript><p class="noscript">ピクトグラムを動かすには JavaScript をオンにしてください。</p></noscript>
+</body>
+</html>

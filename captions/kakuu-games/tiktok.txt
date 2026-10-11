@@ -1,0 +1,12 @@
+AIとコードで、架空のスポーツ大会「KAKUU GAMES」をつくりました。
+20競技のアニメーションするピクトグラムを、1曲の中でワンカットのようにつないでいます。
+曲は音楽生成AI、ピクトグラムと動きはすべてコード。
+
+※実在の大会・団体とは関係のない、KAKUU STUDIO のオリジナル作品です。AIで制作しています。
+
+20競技のピクトグラムを保存できる「ピクトグラム図鑑」は、Instagram(@studio_kakuu)の投稿に『ゲームズ』とコメントすると届きます。
+
+I made a fictional sports event with AI and code: 20 sports as animated pictograms, flowing like one shot within one song.
+Comment "ゲームズ" on our Instagram post (@studio_kakuu) to get the Pictogram Encyclopedia.
+
+#KAKUUSTUDIO #AIでつくってみた #ピクトグラム #AI動画 #モーショングラフィック

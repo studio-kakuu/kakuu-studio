@@ -7,16 +7,18 @@
 | 用途 | 道具 | メモ |
 |---|---|---|
 | 曲 | 音楽生成AI(ユーザーが Gemini で作成) | テーマ曲 `strike_at_the_summit.mp3`(103.7 秒・130BPM)。解析は `videos/kakuu-games/analyze_song.py` → `song_analysis.json` |
-| ピクトグラムと動き | Remotion 4.0.534 + SVG(`video/remotion/src/kakuu-games/picto/`) | `rig.tsx`(骨組み・キーポーズの補間・イージング・衝撃波・集中線・スピード線)/`Games.tsx`(曲の拍で全体を進める)。手で作ったキーポーズ+イージング |
-| 書き出し | `node scripts/render-kgf.mjs opening` / `film` | composition `KakuuGames-opening`(冒頭 17.6 秒)/`KakuuGames-film`(全体 105.32 秒) |
+| ピクトグラムと動き | Remotion 4.0.534 + SVG(`video/remotion/src/kakuu-games/picto/`) | `rigcore.ts`(骨組み・キーポーズ・道具・20競技の決めの動き。React なし)/`rig.tsx`(描画と演出の部品)/`stage.tsx`(紙のざらつき・奥と手前の層・巨大な競技名・カメラの揺れ)/`scenesA〜C.tsx`(18競技・クライマックス・締め)/`Games.tsx`(冒頭・陸上・弓道と全体の重ね合わせ)。手で作ったキーポーズ+イージング |
+| 紙のざらつき | Python(numpy・PIL) | `video/remotion/public/kakuu-games/grain.png`(細かい粒)・`paper.png`(紙の繊維)を生成 |
+| プレゼントの Web | 素の HTML/CSS/JS(`works/kakuu-games/`) | `picto.js` は `rigcore.ts` を esbuild で書き出したもの(動画と同じ形・同じ動き)。動きのライブラリは使わない(requestAnimationFrame だけ) |
+| 書き出し | `node scripts/render-kgf.mjs instagram` / `tiktok` / `x` | composition `KakuuGames-instagram` など(全体 105.32 秒=3,160 コマ。締めの文字だけ違う)。紙のざらつきが動くので crf 28 で 50MB 以下に収める |
 | フォント | Anton(英語)・Zen Kaku Gothic New Black(日本語) | Google Fonts(OFL) |
 
 ## スキル
-- `remotion-best-practices`(動画)、`frontend-design`(プレゼントの Web を作るとき)
+- `remotion-best-practices`(動画)、`frontend-design`(プレゼントの Web)
 
 ## 書き出しの実測(この環境:CPU 4、GPU なし)
 - 冒頭 17.6 秒(528 コマ・2026-10-10):**合計 52 秒**(描画 37 秒+圧縮 15 秒)。4.1MB
-- 全体(105.32 秒=3,160 コマ)の見込み:描画 約 3 分 40 秒+圧縮 約 1 分 30 秒=**約 5〜6 分**(場面が増えて1コマが重くなっても 10 分以内の見込み)
+- **全体の書き出し(105.32 秒=3,160 コマ・2026-10-11)**:Instagram 8分07秒(描画 343 秒+圧縮 145 秒)/TikTok 7分56秒/X 7分53秒。**3本で合計 約24分**。各 33.5〜33.7MB(crf 28)
 
 ---
 

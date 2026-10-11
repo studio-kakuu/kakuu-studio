@@ -1,0 +1,29 @@
+AIとコードで、架空のスポーツ大会「KAKUU GAMES」をつくりました。
+
+20の競技を、アニメーションするピクトグラムで、1曲の中にワンカットのようにつないでいます。
+陸上のスタートから、弓道、フェンシング、体操、スケボー、サーフィン…最後は20競技が画面に並びます。
+
+ピクトグラムの頭は、KAKUU のアンドロイド「コマ」のモニター。
+曲は音楽生成AI、コマのデザインは画像生成AI、ピクトグラムと動きはすべてコードです。
+
+※実在の大会・団体とは関係のない、KAKUU STUDIO のオリジナル作品です。AIで制作しています。
+
+20競技のピクトグラムを、押して動かせて、SVG・PNGで保存できる「ピクトグラム図鑑」を作りました。
+ほしい方は、コメントで『ゲームズ』と送ってね、URLをお届けします。
+
+―――
+
+I made a fictional sports event, "KAKUU GAMES," with AI and code.
+
+20 sports, drawn as animated pictograms, flow into each other like a single shot within one song.
+From the sprint start to kyudo, fencing, gymnastics, skateboarding, surfing... and at the end, all 20 line up on screen.
+
+Each pictogram's head is the monitor of Koma, KAKUU's android.
+The music was made with a music-generating AI, Koma's design with an image-generating AI, and the pictograms and every motion were coded.
+
+*An original work by KAKUU STUDIO, not related to any real event or organization. Made with AI.
+
+I also made a "Pictogram Encyclopedia" where you can play all 20 pictograms and save them as SVG or PNG.
+Comment "ゲームズ" (games) and I'll send you the URL.
+
+#KAKUUSTUDIO #AIでつくってみた #ピクトグラム

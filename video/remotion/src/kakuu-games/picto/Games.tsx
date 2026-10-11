@@ -1,78 +1,21 @@
 // KAKUU GAMES — 20競技のアニメーションするピクトグラム(1本の動画・ワンカットのようにつなぐ)
 // テーマ曲 strike_at_the_summit(130BPM:1拍 0.4615 秒・1小節 1.846 秒・1小節目の頭 0.09 秒)
 // 時間はすべて「拍」B で考える(B=0 が曲の1小節目の頭)。小節 k の頭は B=4k。
+// 各場面は Out(地の色・人の色・カメラ・世界の絵・画面の絵)を返し、KakuuGamesFilm が層を重ねる。
 import React from "react";
 import { AbsoluteFill, staticFile, useCurrentFrame } from "remotion";
 import { Audio } from "@remotion/media";
 import { loadFont } from "@remotion/fonts";
 import { Burst, C, E, FocusLines, Figure, P, type Pose, Shock, SpeedStreaks, valAt, clamp01, mix, fk, hash } from "./rig";
+import { BEAT, T0, HB, S, hs, lerp, shakeAt, camT, drift, type Cam, type Out, type Rel, FarLayer, NearLayer, BeatBars, Ripples, GiantWord, Label, Grain } from "./stage";
+import { SCENES_A } from "./scenesA";
+import { SCENES_B } from "./scenesB";
+import { SCENES_C, Climax, Closing } from "./scenesC";
 
 loadFont({ family: "Anton", url: staticFile("fonts/Anton-Regular.ttf"), weight: "400" });
 loadFont({ family: "Zen Kaku Gothic New", url: staticFile("fonts/ZenKakuGothicNew-Black.ttf"), weight: "900" });
 
-export const BPM = 130;
-export const BEAT = 60 / BPM;
-export const T0 = 0.09;
-const HB = 0.1 / BEAT; // 止め(3コマ)を拍で
-const S = 600; // ピクトグラムの大きさ(体の高さ ≒ 560px)
-
-// 止め:解放の拍 r から3コマ止めて、そのあとは跳ぶ
-const hs = (B: number, r: number) => (B >= r && B < r + HB ? r : B);
 const ease = (x: number, e: keyof typeof E = "io") => E[e](clamp01(x));
-const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
-
-type Cam = { cx: number; cy: number; z: number; rot: number };
-const camT = (c: Cam, shake = { x: 0, y: 0 }) => `translate(${540 + shake.x} ${960 + shake.y}) rotate(${c.rot}) scale(${c.z}) translate(${-c.cx} ${-c.cy})`;
-const shakeAt = (B: number, rels: number[], amp = 14) => {
-  let x = 0, y = 0;
-  for (const r of rels) { const a = (B - r) * BEAT; if (a >= 0 && a < 0.35) { const k = amp * Math.exp(-a / 0.09); x += k * Math.sin(a * 110); y += k * Math.cos(a * 83); } }
-  return { x, y };
-};
-
-// ── 背景:さりげないイコライザーの棒と、拍の波紋 ──
-const BeatBars: React.FC<{ B: number; color: string; o?: number }> = ({ B, color, o = 0.1 }) => {
-  const age = ((B % 1) + 1) % 1, kick = Math.exp(-age * BEAT / 0.12) * (Math.floor(B) % 4 === 0 ? 1.3 : 1);
-  const n = 30, out = [];
-  for (let i = 0; i < n; i++) {
-    const v = 0.35 + 0.35 * Math.sin(i * 1.7 + B * 1.3) + 0.3 * Math.sin(i * 0.61 - B * 2.1);
-    const h = 40 + 260 * v * (0.4 + 0.6 * kick);
-    out.push(<rect key={i} x={i * 36 + 4} y={1920 - h} width={22} height={h} rx={4} />);
-  }
-  return <g fill={color} opacity={o}>{out}</g>;
-};
-const Ripples: React.FC<{ B: number; x: number; y: number; color: string; o?: number }> = ({ B, x, y, color, o = 0.1 }) => {
-  const out = [];
-  for (let k = 0; k < 4; k++) {
-    const b = Math.floor(B) - k, age = (B - b) * BEAT;
-    if (age < 0 || age > 1.8) continue;
-    out.push(<circle key={b} cx={x} cy={y} r={80 + age * 620} fill="none" stroke={color} strokeWidth={b % 4 === 0 ? 6 : 3} opacity={(1 - age / 1.8) * o} />);
-  }
-  return <g>{out}</g>;
-};
-
-// ── 画面の文字 ──
-const SportTitle: React.FC<{ B: number; at: number; en: string; jp: string; color: string; accent: string; no: number; top?: number }> = ({ B, at, en, jp, color, accent, no, top = 250 }) => {
-  const a = (B - at) * BEAT;
-  if (a < 0 || a > 1.9) return null;
-  const pop = a < 0.1 ? 1.12 : 1 + 0.12 * Math.exp(-(a - 0.1) / 0.06);
-  const gone = ease((a - 1.5) / 0.35, "in");
-  return (
-    <div style={{ position: "absolute", left: 0, right: 0, top, textAlign: "center", transform: `translateY(${-gone * 120}px) scale(${pop})`, opacity: 1 - gone }}>
-      <div style={{ fontFamily: "Anton", fontSize: Math.min(250, 1900 / en.length), lineHeight: 0.92, color, letterSpacing: 4, whiteSpace: "pre" }}>
-        {en.split("").map((ch, i) => { const p = ease((a - i * 0.025) / 0.18, "back"); return <span key={i} style={{ display: "inline-block", transform: `translateY(${(1 - p) * 90}px)`, opacity: clamp01(p * 2) }}>{ch}</span>; })}
-      </div>
-      <div style={{ display: "inline-flex", alignItems: "center", gap: 18, marginTop: 14, fontFamily: "Zen Kaku Gothic New", fontWeight: 900, fontSize: 52, color, letterSpacing: 6, opacity: ease((a - 0.12) / 0.15) }}>
-        <span style={{ fontFamily: "Anton", fontWeight: 400, fontSize: 40, background: accent, color: C.ink, padding: "2px 12px", letterSpacing: 2 }}>{String(no).padStart(2, "0")}</span>{jp}
-      </div>
-    </div>
-  );
-};
-const Header: React.FC<{ color: string; no: number; o?: number }> = ({ color, no, o = 1 }) => (
-  <div style={{ position: "absolute", left: 60, right: 60, top: 70, display: "flex", justifyContent: "space-between", fontFamily: "Anton", fontSize: 40, letterSpacing: 5, color, opacity: o }}>
-    <span>KAKUU GAMES</span>
-    <span>{String(no).padStart(2, "0")}<span style={{ opacity: 0.45 }}> / 20</span></span>
-  </div>
-);
 
 // ── 姿勢 ──
 const ORGANIZER = P({ fr: 1, a1: 14, a1l: 10, a2: 14, a2l: 10, l1: 4, l1l: 4, l2: 4, l2l: 4 });
@@ -117,40 +60,34 @@ function bowGeom(p: Pose, drawn: number, f = 1) {
 // ═════════ 場面 ═════════
 
 // 0〜11.9拍:主催者のコマ(正面)。あいさつ→タイトル→モニターの画面の中へ
-const Opening: React.FC<{ B: number; t: number }> = ({ B }) => {
+function opening(B: number): Out {
   let p = ORGANIZER;
-  // 1小節目:手を振る/2小節目の頭:両手を上げて開会
   if (B >= 3.5 && B < 8) {
     const wave = Math.sin((B - 4) * Math.PI) * 22;
-    const up = ease((B - 3.5) / 0.5, "back");
-    p = mix(p, P({ ...ORGANIZER, a1: 150, a1l: 160 + wave }), up);
+    p = mix(p, P({ ...ORGANIZER, a1: 150, a1l: 160 + wave }), ease((B - 3.5) / 0.5, "back"));
   } else if (B >= 8) {
     p = mix(P({ ...ORGANIZER, a1: 150, a1l: 160 }), P({ ...ORGANIZER, a1: 140, a1l: 165, a2: 140, a2l: 165, y: -0.45 }), ease((B - 7.7) / 0.35, "back"));
   }
   const blink = B > 2 && (B % 4) > 3.82 ? 1 : 0;
   const eyeOn = B < -0.05 ? 0 : B < 0.4 ? (Math.floor(B * 18) % 2 ? 0.3 : 1) : 1;
-  // カメラ:9.5拍から、モニターの画面へ一気に寄る
   const j = fk(p);
   const hx = j.head[0] * S, hy = (j.head[1] - 0.004) * S;
   const zk = ease((B - 9.4) / 2.6, "in");
   const z = Math.exp(Math.log(46) * zk);
-  const cam: Cam = { cx: lerp(0, hx, ease((B - 9.4) / 2.2)), cy: lerp(-330, hy, ease((B - 9.4) / 2.2)), z, rot: lerp(0, -8, zk) };
-  return (
-    <svg width={1080} height={1920}>
-      <rect width={1080} height={1920} fill={C.ink} />
-      <BeatBars B={B} color={C.off} o={B < 4 ? 0.04 : 0.08} />
-      <g transform={camT(cam)}>
+  const cam: Cam = { cx: lerp(0, hx, ease((B - 9.4) / 2.2)), cy: lerp(-330, hy, ease((B - 9.4) / 2.2)), z: z * lerp(0.94, 1.04, ease(B / 9.4)), rot: lerp(-2, -8, zk) };
+  return {
+    bg: C.ink, fg: C.off, cam, far: "rings", no: 0, noDrift: B > 9.4,
+    world: (
+      <>
         <ellipse cx={0} cy={6} rx={170} ry={18} fill={C.off} opacity={0.08} />
         <Figure p={p} S={S} color={C.off} bg={C.ink} blink={blink} eyeOn={eyeOn} />
-      </g>
-    </svg>
-  );
-};
+      </>
+    ),
+  };
+}
 
-// 12〜27.9拍:陸上(短距離)— 位置について→用意→16拍目のスタートの爆発→疾走→ゴールテープ
-// 28〜35.9拍:弓道 — テープが弓に変わる→会→32拍目の離れ→矢を追う
-// 36〜:フェンシングへ(矢が剣になる)
-const Track: React.FC<{ B: number }> = ({ B }) => {
+// 12〜37.9拍:陸上(短距離)→ゴールの線が弓に→弓道→矢を追って→フェンシングの構え
+function track(B: number): Out {
   const R1 = 16, R2 = 32; // スタート・離れ
   const Bh = hs(hs(B, R1), R2);
   // ── 走る人の姿勢 ──
@@ -269,116 +206,155 @@ const Track: React.FC<{ B: number }> = ({ B }) => {
     </>
   );
 
-  const startX = 0.25 * S, startY = -0.3 * S; // スタートの爆発の位置
+  const startX = 0.25 * S, startY = -0.3 * S;
   const relAge = (r: number) => (B - r) * BEAT;
   const Rpt = fk(KAI).ha2;
-  return (
-    <svg width={1080} height={1920}>
-      <rect width={1080} height={1920} fill={C.ink} />
-      {/* 弓道へ:テープの所から、オフホワイトが丸く広がる */}
-      {inKyudo && <circle cx={540} cy={820} r={2400 * wipe} fill={C.off} />}
-      {B >= 34.6 && <rect x={0} y={960 - 1100 * limeWipe} width={1080} height={2200 * limeWipe} fill={C.lime} />}
-      <BeatBars B={B} color={B >= 35.6 ? C.ink : inKyudo ? C.ink : C.off} o={0.07} />
-      {B >= R1 && B < 28 && <SpeedStreaks t={(B - R1) * BEAT} speed={2600} color={C.off} o={B < 20 ? 0.32 : 0.18} seed={3} y0={500} y1={1500} />}
-
-      {/* 1画面 */}
-      {!split && !lanes && (
-        <g transform={camT(cam, shake)}>
-          {B >= 12 && B < 28 && <Ripples B={B} x={0} y={0} color={C.off} o={0.08} />}
-          {/* スタートの爆発 */}
-          {B >= R1 && relAge(R1) < 0.5 && (
-            <g>
-              <Burst x={startX - 0.15 * S} y={startY} r={(0.5 + 1.6 * E.out(clamp01(relAge(R1) / 0.3))) * S} n={16} inner={0.4} color={C.lime} rot={B} seed={4} />
-              <Burst x={startX - 0.15 * S} y={startY} r={(0.3 + 0.9 * E.out(clamp01(relAge(R1) / 0.3))) * S} n={12} inner={0.5} color={C.off} rot={-B} seed={9} />
-              <Shock x={startX} y={startY} age={relAge(R1)} color={C.off} max={1400} life={0.5} w={40} />
-            </g>
-          )}
-          {world()}
-          {/* 離れ:衝撃波 */}
-          {B >= R2 && <Shock x={Rpt[0] * S} y={Rpt[1] * S} age={relAge(R2)} color={C.ink} max={700} life={0.42} w={22} />}
-          {B >= R2 && <Shock x={Rpt[0] * S} y={Rpt[1] * S} age={relAge(R2) - 0.06} color={C.lime} max={520} life={0.38} w={14} />}
-          {/* フェンシングの人(矢が剣になる)*/}
-          {B >= 35.4 && (
-            <g transform={`translate(${(fenceX + 0.9 * (1 - fenceIn)) * S} 0)`} opacity={clamp01(fenceIn * 3)}>
-              <Figure p={ENGARDE} S={S} color={C.ink} bg={C.lime} />
-            </g>
-          )}
-          {B >= 36 && (() => {
-            const j = fk(ENGARDE); const hx = fenceX + j.ha1[0], hy = j.ha1[1];
-            const k = ease((B - 36) / 0.5, "back");
-            const tipX = hx + lerp(0.92, 0.66, k), ang = lerp(0, -0.1, k);
-            return (
-              <g>
-                <line x1={hx * S} y1={hy * S} x2={tipX * S} y2={(hy + ang) * S} stroke={C.ink} strokeWidth={0.012 * S} strokeLinecap="round" />
-                <path d={`M${(hx + 0.03) * S},${(hy - 0.055) * S} A${0.055 * S},${0.055 * S} 0 0 1 ${(hx + 0.03) * S},${(hy + 0.055) * S}`} fill="none" stroke={C.ink} strokeWidth={0.02 * S} />
-              </g>
-            );
-          })()}
+  const single = (
+    <>
+      {B >= 12 && B < 28 && <Ripples B={B} x={0} y={0} color={C.off} o={0.08} sq={0.3} />}
+      {B >= R1 && relAge(R1) < 0.5 && (
+        <g>
+          <Burst x={startX - 0.15 * S} y={startY} r={(0.5 + 1.6 * E.out(clamp01(relAge(R1) / 0.3))) * S} n={16} inner={0.4} color={C.lime} rot={B} seed={4} />
+          <Burst x={startX - 0.15 * S} y={startY} r={(0.3 + 0.9 * E.out(clamp01(relAge(R1) / 0.3))) * S} n={12} inner={0.5} color={C.off} rot={-B} seed={9} />
+          <Shock x={startX} y={startY} age={relAge(R1)} color={C.off} max={1400} life={0.5} w={40} />
         </g>
       )}
-
-      {/* 画面を3つに分ける(20〜21.9拍):顔・全身・足 */}
-      {split && [0, 1, 2].map((k) => {
-        const inK = ease((B - 20 - k * 0.25) / 0.45, "back");
-        const c: Cam = k === 0 ? { cx: 170, cy: -520, z: 2.4, rot: -6 } : k === 1 ? { cx: 60, cy: -300, z: 0.95, rot: 0 } : { cx: 40, cy: -150, z: 2.1, rot: 5 };
-        const y0 = k * 640;
+      {world()}
+      {B >= R2 && <Shock x={Rpt[0] * S} y={Rpt[1] * S} age={relAge(R2)} color={C.ink} max={700} life={0.42} w={22} />}
+      {B >= R2 && <Shock x={Rpt[0] * S} y={Rpt[1] * S} age={relAge(R2) - 0.06} color={C.lime} max={520} life={0.38} w={14} />}
+      {B >= 35.4 && (
+        <g transform={`translate(${(fenceX + 0.9 * (1 - fenceIn)) * S} 0)`} opacity={clamp01(fenceIn * 3)}>
+          <Figure p={ENGARDE} S={S} color={C.ink} bg={C.lime} />
+        </g>
+      )}
+      {B >= 36 && (() => {
+        const j = fk(ENGARDE); const hx = fenceX + j.ha1[0], hy = j.ha1[1];
+        const k = ease((B - 36) / 0.5, "back");
+        const tipX = hx + lerp(0.92, 0.66, k), ang = lerp(0, -0.1, k);
+        return (
+          <g>
+            <line x1={hx * S} y1={hy * S} x2={tipX * S} y2={(hy + ang) * S} stroke={C.ink} strokeWidth={0.012 * S} strokeLinecap="round" />
+            <path d={`M${(hx + 0.03) * S},${(hy - 0.055) * S} A${0.055 * S},${0.055 * S} 0 0 1 ${(hx + 0.03) * S},${(hy + 0.055) * S}`} fill="none" stroke={C.ink} strokeWidth={0.02 * S} />
+          </g>
+        );
+      })()}
+    </>
+  );
+  const splitView = split && [0, 1, 2].map((k) => {
+    const inK = ease((B - 20 - k * 0.25) / 0.45, "back");
+    const c: Cam = k === 0 ? { cx: 170, cy: -520, z: 2.4, rot: -6 + Math.sin(B) * 2 } : k === 1 ? { cx: 60, cy: -300, z: 0.95, rot: Math.sin(B * 0.7) * 2 } : { cx: 40, cy: -150, z: 2.1, rot: 5 };
+    const y0 = k * 640;
+    return (
+      <g key={k}>
+        <clipPath id={`band${k}`}><rect x={0} y={y0} width={1080} height={640} /></clipPath>
+        <g clipPath={`url(#band${k})`} transform={`translate(${(1 - inK) * (k % 2 ? -1080 : 1080)} 0)`}>
+          <rect x={0} y={y0} width={1080} height={640} fill={k === 1 ? C.lime : C.ink} />
+          <SpeedStreaks t={(B - R1) * BEAT} speed={3200} color={k === 1 ? C.ink : C.off} o={0.25} seed={k * 7} y0={y0} y1={y0 + 640} n={10} />
+          <g transform={`translate(0 ${y0 + 320 - 960}) ${camT(c)}`}>
+            <line x1={-3000} y1={0} x2={3000} y2={0} stroke={k === 1 ? C.ink : C.off} strokeWidth={5} opacity={0.5} />
+            <Figure p={p} S={S} color={k === 1 ? C.ink : C.off} bg={k === 1 ? C.lime : C.ink} />
+          </g>
+        </g>
+        <rect x={0} y={y0 + 636} width={1080} height={8} fill={C.ink} />
+      </g>
+    );
+  });
+  const laneView = lanes && (
+    <g transform={`rotate(${-7 + (B - 22) * 1.5} 540 960) translate(540 960) scale(${1 + (B - 22) * 0.05}) translate(-540 -960)`}>
+      <rect x={-600} y={-600} width={2400} height={3200} fill={C.ink} />
+      {[0, 1, 2, 3, 4].map((k) => {
+        const ahead = k === 2 ? ease((B - 22) / 2) * 260 : -40 * hash(k) * (B - 22);
+        const y = 330 + k * 330;
         return (
           <g key={k}>
-            <clipPath id={`band${k}`}><rect x={0} y={y0} width={1080} height={640} /></clipPath>
-            <g clipPath={`url(#band${k})`} transform={`translate(${(1 - inK) * (k % 2 ? -1080 : 1080)} 0)`}>
-              <rect x={0} y={y0} width={1080} height={640} fill={k === 1 ? C.lime : C.ink} />
-              <SpeedStreaks t={(B - R1) * BEAT} speed={3200} color={k === 1 ? C.ink : C.off} o={0.25} seed={k * 7} y0={y0} y1={y0 + 640} n={10} />
-              <g transform={`translate(0 ${y0 + 320 - 960}) ${camT(c)}`}>
-                <line x1={-3000} y1={0} x2={3000} y2={0} stroke={k === 1 ? C.ink : C.off} strokeWidth={5} opacity={0.5} />
-                <Figure p={p} S={S} color={k === 1 ? C.ink : C.off} bg={k === 1 ? C.lime : C.ink} />
-              </g>
+            <line x1={-200} y1={y + 6} x2={1300} y2={y + 6} stroke={C.off} strokeWidth={3} opacity={0.3} />
+            <g transform={`translate(${430 + ahead} ${y}) scale(0.5)`}>
+              <Figure p={run((B - 16) * Math.PI * 2 + k * 0.7, 16)} S={S} color={k === 2 ? C.off : "#5A5A57"} bg={C.ink} eyes={k === 2 ? C.lime : "#5A5A57"} />
             </g>
-            <rect x={0} y={y0 + 636} width={1080} height={8} fill={C.ink} />
           </g>
         );
       })}
-
-      {/* 同じ人型のくり返し(22〜23.9拍):5レーン。ライムの目のコマが前へ */}
-      {lanes && (
-        <g transform={`rotate(-7 540 960)`}>
-          {[0, 1, 2, 3, 4].map((k) => {
-            const ahead = k === 2 ? ease((B - 22) / 2) * 260 : -40 * hash(k) * (B - 22);
-            const ph = (B - 16) * Math.PI * 2 + k * 0.7;
-            const y = 330 + k * 330;
-            return (
-              <g key={k}>
-                <line x1={-200} y1={y + 6} x2={1300} y2={y + 6} stroke={C.off} strokeWidth={3} opacity={0.3} />
-                <g transform={`translate(${430 + ahead} ${y}) scale(0.5)`}>
-                  <Figure p={run(ph, 16)} S={S} color={k === 2 ? C.off : "#5A5A57"} bg={C.ink} eyes={k === 2 ? C.lime : "#5A5A57"} />
-                </g>
-              </g>
-            );
-          })}
-        </g>
-      )}
-
-      {/* 集中線 */}
-      <FocusLines cx={540} cy={900} o={B >= R1 && relAge(R1) < 0.45 ? 0.9 * (1 - ease((relAge(R1) - 0.1) / 0.35)) : 0} seed={Math.floor(B * 6)} color={C.off} inner={380} />
-      <FocusLines cx={560} cy={760} o={B >= R2 && relAge(R2) < 0.45 ? 0.85 * (1 - ease((relAge(R2) - 0.1) / 0.35)) : 0} seed={Math.floor(B * 6) + 50} color={C.ink} inner={360} />
-      {/* スタートの瞬間の白い光(1コマ)*/}
-      {B >= R1 && relAge(R1) < 0.034 && <rect width={1080} height={1920} fill={C.off} opacity={0.85} />}
-    </svg>
+    </g>
   );
-};
+  return {
+    bg: C.ink, tone: B < 28 ? C.ink : B < 35.6 ? C.off : C.lime, fg: B < 28 ? C.off : C.ink, cam, shake, no: B < 16 ? 0 : B < 28 ? 1 : B < 36 ? 2 : 3,
+    far: B < 28 ? "lanes" : "stripes", stream: B >= R1 && B < 28 ? 1 : 0,
+    under: (
+      <>
+        {inKyudo && <circle cx={540} cy={820} r={2400 * wipe} fill={C.off} />}
+        {B >= 34.6 && <rect x={0} y={960 - 1100 * limeWipe} width={1080} height={2200 * limeWipe} fill={C.lime} />}
+        {B >= R1 && B < 28 && <SpeedStreaks t={(B - R1) * BEAT} speed={2600} color={C.off} o={B < 20 ? 0.32 : 0.18} seed={3} y0={500} y1={1500} />}
+      </>
+    ),
+    world: split || lanes ? null : single,
+    screen: (
+      <>
+        {splitView}
+        {laneView}
+        <FocusLines cx={540} cy={900} o={B >= R1 && relAge(R1) < 0.45 ? 0.9 * (1 - ease((relAge(R1) - 0.1) / 0.35)) : 0} seed={Math.floor(B * 6)} color={C.off} inner={380} />
+        <FocusLines cx={560} cy={760} o={B >= R2 && relAge(R2) < 0.45 ? 0.85 * (1 - ease((relAge(R2) - 0.1) / 0.35)) : 0} seed={Math.floor(B * 6) + 50} color={C.ink} inner={360} />
+        {B >= R1 && relAge(R1) < 0.034 && <rect width={1080} height={1920} fill={C.off} opacity={0.85} />}
+      </>
+    ),
+  };
+}
+
+// ═════════ 競技名(解放の瞬間)═════════
+export const REL: Rel[] = [
+  { B: 16, no: 1, en: "SPRINT", jp: "陸上(短距離)", style: "bleed", until: 27.5, sig: "sprint", y: 1500 },
+  { B: 32, no: 2, en: "KYUDO", jp: "弓道", style: "outline", until: 35.3, sig: "kyudo", y: 1350, rot: -8 },
+  { B: 40, no: 3, en: "FENCING", jp: "フェンシング", style: "bleed", until: 42.6, sig: "fencing", y: 1420 },
+  { B: 48, no: 4, en: "KENDO", jp: "剣道", style: "stack", until: 51.2, sig: "kendo" },
+  { B: 56, no: 5, en: "KARATE", jp: "空手", style: "inside", until: 63, sig: "karate", y: 760 },
+  { B: 68, no: 6, en: "JUDO", jp: "柔道", style: "outline", until: 70.6, sig: "judo", y: 700, rot: 6 },
+  { B: 76, no: 7, en: "BOXING", jp: "ボクシング", style: "bleed", until: 78.4, sig: "boxing", y: 1450 },
+  { B: 84, no: 8, en: "GYMNASTICS", jp: "体操", style: "stack", until: 90.6, sig: "gymnastics" },
+  { B: 96, no: 9, en: "VOLLEYBALL", jp: "バレー", style: "inside", until: 99, sig: "volleyball", y: 1500 },
+  { B: 104, no: 10, en: "BASKETBALL", jp: "バスケ", style: "outline", until: 115.5, sig: "basketball", y: 640, rot: -6 },
+  { B: 120, no: 11, en: "SOCCER", jp: "サッカー", style: "bleed", until: 123, sig: "soccer", y: 1450 },
+  { B: 128, no: 12, en: "BASEBALL", jp: "野球", style: "outline", until: 131, sig: "baseball", y: 1450, rot: -10 },
+  { B: 136, no: 13, en: "TENNIS", jp: "テニス", style: "stack", until: 139, sig: "tennis" },
+  { B: 144, no: 14, en: "TABLE TENNIS", jp: "卓球", style: "bleed", until: 147.6, sig: "tabletennis", y: 520 },
+  { B: 152, no: 15, en: "SKATEBOARD", jp: "スケボー", style: "inside", until: 159, sig: "skateboard", y: 600 },
+  { B: 164, no: 16, en: "SURFING", jp: "サーフィン", style: "outline", until: 171, sig: "surfing", y: 560, rot: -12 },
+  { B: 176, no: 17, en: "SWIMMING", jp: "水泳", style: "bleed", until: 179, sig: "swimming", y: 600 },
+  { B: 184, no: 18, en: "RUGBY", jp: "ラグビー", style: "stack", until: 187, sig: "rugby" },
+  { B: 192, no: 19, en: "BADMINTON", jp: "バドミントン", style: "outline", until: 195, sig: "badminton", y: 1450, rot: 8 },
+  { B: 200, no: 20, en: "BMX", jp: "BMX", style: "inside", until: 203, sig: "bmx", y: 1300 },
+];
+
+type Scene = { from: number; to: number; fn: (B: number) => Out };
+const ALL: Scene[] = [{ from: -99, to: 12, fn: opening }, { from: 12, to: 38, fn: track }, ...SCENES_A, ...SCENES_B, ...SCENES_C];
+export const sceneAt = (B: number) => (ALL.find((s) => B >= s.from && B < s.to) ?? ALL[ALL.length - 1]).fn(B);
 
 // ═════════ 全体 ═════════
-export const KakuuGamesFilm: React.FC = () => {
+export type Platform = "instagram" | "tiktok" | "x";
+export const KakuuGamesFilm: React.FC<{ platform?: Platform }> = ({ platform = "instagram" }) => {
   const frame = useCurrentFrame();
   const t = frame / 30;
   const B = (t - T0) / BEAT;
+  const o = sceneAt(B);
+  const tone = o.tone ?? o.bg;
+  const cam = o.noDrift ? o.cam : drift(o.cam, B);
   const hookOut = ease((B - 4) / 0.5, "in");
   const titleIn = (i: number) => ease((B - 4.4 - i * 0.5) / 0.4, "back");
   const titleOut = ease((B - 9.4) / 1.6, "in");
+  const rel = REL.filter((r) => B >= r.B - 0.01 && B <= r.until + 0.6);
   return (
-    <AbsoluteFill style={{ background: C.ink }}>
-      {B < 12 ? <Opening B={B} t={t} /> : <Track B={B} />}
+    <AbsoluteFill style={{ background: o.bg }}>
+      <svg width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
+        <rect width={1080} height={1920} fill={o.bg} />
+        {o.under}
+        <FarLayer kind={o.far ?? "none"} cam={cam} B={B} color={o.fg} />
+        {rel.map((r) => <GiantWord key={r.no} r={r} B={B} bg={tone} fg={o.fg} />)}
+        <BeatBars B={B} color={o.fg} o={B < 4 ? 0.04 : 0.07} />
+        {o.world && <g transform={camT(cam, o.shake)}>{o.world}</g>}
+        {o.over}
+        <NearLayer cam={cam} B={B} color={o.fg} stream={o.stream} />
+        {o.screen}
+      </svg>
+      <Grain frame={frame} dark={tone === C.ink} />
 
-      {/* 冒頭 1.5 秒のフック(0コマ目から全部見える)*/}
       {B < 4.6 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 170, textAlign: "center", color: C.off, transform: `translateY(${-hookOut * 260}px)`, opacity: 1 - hookOut }}>
           <div style={{ fontFamily: "Zen Kaku Gothic New", fontWeight: 900, fontSize: 66, lineHeight: 1.35, letterSpacing: 2 }}>AIとコードで、<br />架空のスポーツ大会をつくった</div>
@@ -386,7 +362,6 @@ export const KakuuGamesFilm: React.FC = () => {
           <div style={{ fontFamily: "Zen Kaku Gothic New", fontWeight: 900, fontSize: 54, marginTop: 8, letterSpacing: 6 }}>ピクトグラムで20競技</div>
         </div>
       )}
-      {/* タイトル */}
       {B >= 4.3 && B < 12 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 230, textAlign: "center", color: C.off, transform: `scale(${1 + titleOut * 2.5}) translateY(${-titleOut * 120}px)`, opacity: 1 - titleOut }}>
           <div style={{ fontFamily: "Anton", fontSize: 200, lineHeight: 0.9, letterSpacing: 6 }}>
@@ -399,16 +374,21 @@ export const KakuuGamesFilm: React.FC = () => {
           <div style={{ fontFamily: "Zen Kaku Gothic New", fontWeight: 900, fontSize: 26, marginTop: 16, letterSpacing: 2, opacity: titleIn(4.5) * 0.7 }}>※実在の大会・団体とは関係のない、架空の大会です</div>
         </div>
       )}
-      {/* 位置について/用意 */}
       {B >= 12 && B < 16 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 360, textAlign: "center", fontFamily: "Zen Kaku Gothic New", fontWeight: 900, fontSize: 64, letterSpacing: 14, color: C.off }}>
           <span style={{ opacity: B < 14 ? ease((B - 12) / 0.3) : 0.25 }}>位置について</span><br />
           <span style={{ color: C.lime, opacity: ease((B - 14) / 0.3) }}>用意</span>
         </div>
       )}
-      {B >= 16 && <Header color={B < 28 ? C.off : C.ink} no={B < 28 ? 1 : B < 36 ? 2 : 3} o={ease((B - 16.5) / 0.5)} />}
-      <SportTitle B={B} at={16} en="SPRINT" jp="陸上(短距離)" color={C.off} accent={C.lime} no={1} top={250} />
-      <SportTitle B={B} at={32} en="KYUDO" jp="弓道" color={C.ink} accent={C.lime} no={2} top={250} />
+      {o.no > 0 && (
+        <div style={{ position: "absolute", left: 60, right: 60, top: 64, display: "flex", justifyContent: "space-between", fontFamily: "Anton", fontSize: 40, letterSpacing: 5, color: o.fg, opacity: ease((B - 16.5) / 0.5) }}>
+          <span>KAKUU GAMES</span>
+          <span>{String(o.no).padStart(2, "0")}<span style={{ opacity: 0.45 }}> / 20</span></span>
+        </div>
+      )}
+      {rel.map((r) => <Label key={r.no} r={r} B={B} color={o.fg} />)}
+      <Climax B={B} />
+      <Closing B={B} platform={platform} />
       <Audio src={staticFile("kakuu-games/strike_at_the_summit.mp3")} />
     </AbsoluteFill>
   );

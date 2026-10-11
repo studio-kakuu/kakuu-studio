@@ -1,0 +1,19 @@
+【本投稿】
+AIとコードで、架空のスポーツ大会をつくりました。
+
+20競技のアニメーションするピクトグラムを、
+1曲の中でワンカットのようにつないでいます。
+動きはすべてコードです。
+
+20競技を保存できる「ピクトグラム図鑑」の
+URLはプロフィールのリンクから。
+
+#KAKUUSTUDIO #ピクトグラム
+
+【リプライ(英語)】
+A fictional sports event, made with AI and code.
+20 sports as animated pictograms, flowing like one shot within one song. Every motion is coded.
+
+Save all 20 pictograms: link in our profile.
+
+#KAKUUSTUDIO #pictogram

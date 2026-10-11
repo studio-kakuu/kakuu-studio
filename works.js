@@ -16,6 +16,17 @@
 */
 window.KAKUU_WORKS = [
   {
+    no: "005",
+    slug: "kakuu-games",
+    genre: "WEB",
+    name: "KAKUU GAMES",
+    nameJa: "ピクトグラム図鑑",
+    theme: "架空のスポーツ大会・20競技のピクトグラム",
+    themeEn: "A Fictional Sports Event — 20 Animated Pictograms",
+    date: "2026-10-11",
+    palette: ["#0E0E0E", "#F2F0E9", "#C6FF3D"]
+  },
+  {
     no: "004",
     slug: "motion-zukan",
     genre: "WEB",

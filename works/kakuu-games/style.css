@@ -1,0 +1,59 @@
+/* KAKUU GAMES ピクトグラム図鑑 — 動画と同じ3色。1競技を「ゼッケン」のように大きな番号と名前で並べる */
+:root { --ink: #0E0E0E; --off: #F2F0E9; --lime: #C6FF3D; --en: "Anton", "Arial Narrow", sans-serif; --ja: "Zen Kaku Gothic New", sans-serif; }
+body[data-theme="ink"] { --bg: var(--ink); --fg: var(--off); --ac: var(--lime); }
+body[data-theme="off"] { --bg: var(--off); --fg: var(--ink); --ac: var(--ink); }
+body[data-theme="lime"] { --bg: var(--lime); --fg: var(--ink); --ac: var(--ink); }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--ja); font-weight: 700; transition: background .25s, color .25s; }
+a { color: inherit; }
+:focus-visible { outline: 4px solid var(--lime); outline-offset: 3px; }
+body[data-theme="lime"] :focus-visible { outline-color: var(--ink); }
+
+/* ── 冒頭 ── */
+.hero { position: relative; display: grid; grid-template-columns: 1fr; padding: 40px 16px 32px; gap: 8px; overflow: hidden; }
+.hero-stage { width: min(78vw, 360px); justify-self: center; }
+.hero-stage svg { width: 100%; height: auto; display: block; }
+.hero-title { margin: 0; font-family: var(--en); font-weight: 400; line-height: .86; font-size: clamp(88px, 26vw, 220px); letter-spacing: .01em; display: flex; flex-direction: column; }
+.hero-title .t2 { color: var(--ac); }
+body[data-theme="ink"] .hero-title .t2 { color: var(--lime); }
+.hero-sub { margin: 6px 0 0; font-weight: 900; font-size: clamp(26px, 5vw, 40px); letter-spacing: .12em; }
+.hero-lead { margin: 14px 0 0; font-size: 17px; line-height: 1.8; max-width: 26em; }
+.hero-now { margin: 10px 0 0; font-family: var(--en); font-weight: 400; font-size: 22px; letter-spacing: .06em; opacity: .7; min-height: 1.4em; }
+@media (min-width: 900px) {
+  .hero { grid-template-columns: 1.1fr 1fr; grid-template-rows: auto auto auto auto 1fr; padding: 64px 6vw 48px; column-gap: 4vw; }
+  .hero-stage { grid-column: 2; grid-row: 1 / span 5; width: 100%; max-width: 460px; align-self: center; }
+  .hero-title, .hero-sub, .hero-lead, .hero-now { grid-column: 1; }
+}
+
+/* ── 地の色 ── */
+.bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 12px 16px; background: var(--bg); border-top: 4px solid var(--fg); border-bottom: 4px solid var(--fg); }
+.bar-label { font-weight: 900; font-size: 15px; }
+.swatches { display: flex; gap: 8px; }
+.sw { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border: 3px solid var(--fg); background: transparent; color: var(--fg); font: inherit; font-size: 14px; cursor: pointer; }
+.sw::before { content: ""; width: 22px; height: 22px; border: 2px solid var(--fg); }
+.sw-ink::before { background: var(--ink); } .sw-off::before { background: var(--off); } .sw-lime::before { background: var(--lime); }
+.sw[aria-checked="true"] { background: var(--fg); color: var(--bg); }
+.bar-note { font-size: 13px; opacity: .7; }
+@media (min-width: 900px) { .bar { padding: 12px 6vw; } }
+
+/* ── 20競技 ── */
+.list { display: grid; grid-template-columns: 1fr 1fr; border-left: 4px solid var(--fg); }
+@media (min-width: 720px) { .list { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1100px) { .list { grid-template-columns: repeat(4, 1fr); } }
+.card { display: grid; grid-template-rows: auto auto; border-right: 4px solid var(--fg); border-bottom: 4px solid var(--fg); min-width: 0; }
+.stage { position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; padding: 0; margin: 0; border: 0; background: transparent; cursor: pointer; overflow: hidden; color: inherit; }
+.stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.no { position: absolute; left: 10px; top: 4px; font-family: var(--en); font-size: clamp(34px, 7vw, 56px); line-height: 1; color: var(--fg); opacity: .16; }
+.meta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 4px 8px; padding: 10px 12px 12px; border-top: 4px solid var(--fg); }
+.en { font-family: var(--en); font-weight: 400; font-size: clamp(22px, 4.2vw, 34px); line-height: 1; letter-spacing: .02em; overflow-wrap: anywhere; }
+.jp { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+.save { grid-column: 1 / -1; display: flex; gap: 6px; margin-top: 6px; }
+.save button { flex: 1; white-space: nowrap; padding: 8px 4px; border: 3px solid var(--fg); background: transparent; color: var(--fg); font: inherit; font-size: 13px; cursor: pointer; }
+.save button:hover, .save button:focus-visible { background: var(--fg); color: var(--bg); }
+.stage:active { transform: scale(.985); }
+
+.foot { padding: 40px 16px 64px; font-size: 14px; line-height: 1.9; max-width: 44em; }
+.foot strong { font-weight: 900; }
+@media (min-width: 900px) { .foot { padding: 56px 6vw 80px; } }
+.noscript { padding: 24px; }
+@media (prefers-reduced-motion: reduce) { body { transition: none; } }

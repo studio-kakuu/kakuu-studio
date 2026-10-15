@@ -7,6 +7,7 @@ import { MotionMV } from "./motion-mv/MotionMV";
 import { KakuuEvent, eventFrames } from "./kakuu-games/Event";
 import { KakuuGamesFilm } from "./kakuu-games/picto/Games";
 import { SigSheet } from "./kakuu-games/picto/SigSheet";
+import { BattleMV, BMV_FPS, BMV_FRAMES } from "./battle-mv/BattleMV";
 
 // 尺は _common.json の timeline.closing[1](61〜75秒)
 const DURATION = Math.round(TL.closing[1] * COMMON.fps);
@@ -26,6 +27,10 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="KakuuGames-film" component={KakuuGamesFilm} durationInFrames={3160} fps={30} width={1080} height={1920} defaultProps={{ platform: "instagram" as const }} />
       <Composition id="KakuuGames-opening" component={KakuuGamesFilm} durationInFrames={528} fps={30} width={1080} height={1920} />
       <Composition id="KakuuGames-basketball" component={KakuuEvent} durationInFrames={eventFrames("basketball")} fps={30} width={1080} height={1920} defaultProps={{ event: "basketball", withAudio: true }} />
+    </Folder>
+    <Folder name="BATTLE-MV">
+      <Composition id="BattleMV" component={BattleMV} durationInFrames={BMV_FRAMES} fps={BMV_FPS} width={1080} height={1920} defaultProps={{ withAudio: true }} />
+      <Composition id="BattleMV-silent" component={BattleMV} durationInFrames={BMV_FRAMES} fps={BMV_FPS} width={1080} height={1920} defaultProps={{ withAudio: false }} />
     </Folder>
     <Folder name="MOTION-100">
       {(["instagram", "tiktok", "x"] as const).map((p) => (

@@ -430,6 +430,7 @@ export type WPose = {
   neck: number; // 首の角度(+ で上)
   tail: number; // しっぽのゆれ(位相)
   wing: number; // 翼の開き(-1 たたむ 〜 1 大きく上)
+  headRot?: number; // 頭の回転(度。- で鼻先が上=のけぞる・吠える)
 };
 // 脚の角度は「真下 = 0°、前へ +」。3つの関節は親からの相対
 export const WSTAND: WPose = { y: 0, tilt: 0, fl1: 10, fl2: -14, fl3: 30, fb1: -6, fb2: -8, fb3: 26, hl1: -24, hl2: 42, hl3: -30, hb1: -12, hb2: 38, hb3: -26, jaw: 0.2, neck: 30, tail: 0, wing: 0.3 };
@@ -662,13 +663,37 @@ export const drawWolf = (d: WolfDesign, pose: WPose, opts: { winged?: boolean; s
   b.line(nb[0], nb[1], hd[0], hd[1], pal.B, 13);
   const rows = d.head.slice();
   if (pose.jaw > 0.5) {
+    // 口を開く:口の中の行を足す(jaw が大きいほど大きく開く)。下あごの歯は下へずれる
     const extra = Math.round(pose.jaw * 3);
     for (let e = 0; e < extra; e++) rows.splice(d.jawRow + 1, 0, rows[d.jawRow + 1].replace(/T/g, "M"));
+    if (pose.jaw >= 1.4) rows.splice(d.jawRow + 1, 0, rows[d.jawRow].replace(/M/g, "T")); // 上の牙を長く
   }
   const hw = Math.max(...rows.map((r) => r.length));
-  const hx = Math.round(hd[0] - hw * 0.3);
-  const hy = Math.round(hd[1] - rows.length * 0.6);
-  b.map(rows, pal, hx, hy);
+  const ax = hw * 0.3;
+  const ay = rows.length * 0.6;
+  const hx = Math.round(hd[0] - ax);
+  const hy = Math.round(hd[1] - ay);
+  const rot = pose.headRot ?? 0;
+  let mouth = [hx + hw - 2 - ox, hy + d.jawRow + 1 - oy];
+  if (Math.abs(rot) < 0.5) b.map(rows, pal, hx, hy);
+  else {
+    // 頭を首のつけねのまわりに回す(ぼかさず、いちばん近いドットを拾う)
+    const hb = new Buf(hw, rows.length);
+    hb.map(rows, pal, 0, 0);
+    const c = Math.cos(rad(rot));
+    const s2 = Math.sin(rad(rot));
+    const R = Math.ceil(Math.hypot(hw, rows.length)) + 2;
+    for (let y = -R; y <= R; y++)
+      for (let x = -R; x <= R; x++) {
+        const sx = c * x + s2 * y + ax;
+        const sy = -s2 * x + c * y + ay;
+        const col = hb.get(sx, sy);
+        if (col) b.set(hd[0] + x, hd[1] + y, col);
+      }
+    const mx = hw - 2 - ax;
+    const my = d.jawRow + 1 - ay;
+    mouth = [hd[0] + c * mx - s2 * my - ox, hd[1] + s2 * mx + c * my - oy];
+  }
 
   if (opts.winged) wing(true);
 
@@ -676,6 +701,5 @@ export const drawWolf = (d: WolfDesign, pose: WPose, opts: { winged?: boolean; s
   b.outline(hex(opts.flash ? "#ffffff" : d.outline));
   if (opts.flash) b.tint(hex("#ffffff"));
   else if (!opts.silhouette) b.rim(hex(d.outline), [pal.B, pal.b, pal.D], hex(RIM_IN[d.v]), hex(RIM_OUT[d.v]));
-  const mouth = [hx + hw - 2 - ox, hy + d.jawRow + 1 - oy];
   return { buf: b, ox, oy, mouth, neck: [nb[0] - ox, nb[1] - oy], top: Math.min(hy, cy - BH) - oy };
 };

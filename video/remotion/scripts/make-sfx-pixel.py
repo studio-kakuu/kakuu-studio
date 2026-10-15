@@ -231,21 +231,60 @@ def sheathe(g=0.5):
     return norm(x, g)
 
 
+def rewind(g=0.8):
+    # 巻き戻し:音程が速く下がりながら震える+ざらついたノイズ
+    d = 0.36
+    t = t_(d)
+    x = square(lambda t: 1800 * (1 - t / d) ** 2 + 120 + 80 * np.sign(np.sin(2 * np.pi * 45 * t)), d, 0.25) * 0.6
+    x += noise(d, 5000) * 0.5
+    return norm(x * np.minimum(1, (d - t) / 0.05), g)
+
+
+def title_in(g=0.5):
+    d = 0.5
+    x = tri(steps([392, 523, 659, 784, 1047], 0.3), d) * env(d, 0.002, 0.25, 0.2)
+    return norm(echo(x, 0.08, 0.3, 2), g)
+
+
+def tick(g=0.3):
+    d = 0.04
+    return norm(square(1047, d, 0.5) * env(d, 0.001, 0.015), g)
+
+
+def piko(g=0.8):
+    # 決定音「ピコッ」:高い2音を短く
+    d = 0.14
+    x = square(steps([1760, 2637], d), d, 0.5) * env(d, 0.001, 0.05, 0.06)
+    return norm(x, g)
+
+
 # ---------------- 鳴らす位置(コマ, 音, 音量, 左右) ----------------
 CUES = []
 add = lambda f, x, g=1.0, pan=0.0: CUES.append((f, x, g, pan))
-# 1. 奇襲
-for k in range(18, 52, 6):
+# 0. 冒頭:決め技(シーン7の縦一閃)→ 巻き戻し → タイトル画面(「はじめから」でピコッ)
+add(0, whoosh(0.8, 0.6, up=False), 0.9, 0)
+add(12, slash(), 1.0, 0)
+add(14, impact(big=True), 1.0, 0)
+add(14, boom(), 1.0, 0)
+add(16, ice_break(big=True), 0.9, 0)
+add(29, rewind(), 1.0, 0)
+add(38, title_in(), 0.8, 0)
+for k in (44, 50):
+    add(k, tick(), 0.5, 0)
+add(52, piko(), 1.0, 0)
+# 1. 奇襲(60コマから)
+O = 60
+add(O + 1, blip(0.35), 0.6, 0.5)
+for k in range(O + 8, O + 36, 4):
     add(k, step_(), 0.6, -0.4)
-add(66, blip(), 0.5, 0.5)
-add(94, whoosh(0.7, 0.45), 0.9, 0.4)
-add(110, impact(big=True), 1.0, 0.2)
-add(110, boom(), 0.6, 0)
-add(112, roar(d=1.4, base=95), 1.0, 0.2)
-add(124, ice_break(0.3), 0.2, 0.3)
-for k in range(172, 192, 6):
+add(O + 44, whoosh(0.7, 0.45), 0.9, 0.4)
+add(O + 58, impact(big=True), 1.0, 0.2)
+add(O + 58, boom(), 0.6, 0)
+add(O + 60, roar(d=1.3, base=95), 1.0, 0.2)
+add(O + 70, ice_break(0.3), 0.2, 0.3)
+for k in range(O + 110, 192, 4):
     add(k, step_(0.4), 0.6, 0.3)
-add(178, impact(0.6), 0.6, 0)
+add(O + 116, impact(0.6), 0.6, 0)
 # 2. 防御
 add(S + 8, land(0.5), 0.7, -0.3)
 add(S + 10, barrier_up(), 0.9, -0.2)

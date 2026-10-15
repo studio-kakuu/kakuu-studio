@@ -37,3 +37,10 @@
 | デザイン案・ポーズの一覧 | `scripts/pixel-sheet.ts`・`pixel-poses.ts` → `works/anime-battle/scripts/design-sheet.py` | `works/anime-battle/v2/design/` |
 | 効果音 | Python(numpy・scipy)`video/remotion/scripts/make-sfx-pixel.py` | 矩形波・三角波・ゲーム機風ノイズだけで合成(外部の音源・有料APIなし) |
 | 書き出し | `node scripts/render-pixel.mjs`(`video/remotion/` で) | 文字あり・文字なしの2本 → `videos/anime-battle/v2/`(-14 LUFS・各30MB以内)。確認用 `works/anime-battle/v2/review/scene1〜8.png` |
+
+## v2.1 で足したもの
+| 用途 | 道具 | メモ |
+|---|---|---|
+| タイトルの文字 | `works/anime-battle/scripts/make-glyphs.py` → `video/remotion/src/pixel-mv/glyphs.ts` | Zen Kaku Gothic New Black(OFL)を小さく描いて白黒のドットに。「影狼の森」「はじめから」 |
+| 冒頭(決め技 → 巻き戻し → タイトル) | `scenes.ts` の `Opening` / `Title` | 決め技はシーン7の絵をそのまま使う。巻き戻しは逆回し+行のずれ+ドットの飛び散り+ノイズ |
+| 書き出し | `node scripts/render-pixel.mjs` | `anime-battle-v2.1_text.mp4` / `_notext.mp4`。確認用 `works/anime-battle/v2/review-v2.1/` |

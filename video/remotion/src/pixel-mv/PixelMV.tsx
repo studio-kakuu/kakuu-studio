@@ -17,9 +17,9 @@ loadFont({ family: "Zen Kaku Gothic New", url: staticFile("fonts/ZenKakuGothicNe
 export const HOOK = ["AIとコードだけで", "ドット絵バトルを作った"];
 
 const Hook: React.FC<{ f: number }> = ({ f }) => {
-  if (f >= 48) return null;
-  // 0〜40 コマは出したまま、40〜48 で消える(4段階)
-  const o = f < 40 ? 1 : 1 - Math.ceil(((f - 40) / 8) * 4) / 4;
+  // 冒頭の決め技(0〜1.2秒)の上にだけ出し、巻き戻しが始まる 29 コマ目で消す
+  if (f >= 29) return null;
+  const o = 1;
   const shadow = [-6, 0, 6].flatMap((x) => [-6, 0, 6].map((y) => `${x}px ${y}px 0 #000`)).join(",");
   return (
     <AbsoluteFill style={{ opacity: o, alignItems: "center", paddingTop: 300 }}>

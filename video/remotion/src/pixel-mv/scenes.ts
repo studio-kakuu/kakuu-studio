@@ -4,6 +4,7 @@ import { Buf, dither, hash, hex } from "./px";
 import { cloudHole, drawLayers, fog, forest, FOREST_GROUND, lightRays, sky, vista } from "./bg";
 import { barrier, beam, burst, chain, COL, disc, glow, iceBlock, line, magicCircle, ring, slashArc, slashLine, snow, speedLines, streaks, veil } from "./fx";
 import { K, M, W, WW, knight, mage, wolf, type Sprite } from "./poses";
+import { MENU, TITLE } from "./glyphs";
 
 export const SW = 180;
 export const SH = 320;
@@ -81,57 +82,147 @@ const shakeAt = (f: number, s: number) => SHAKES.push([f, s]);
 const KG = { silhouette: "#ffe08a" };
 const WG = { silhouette: "#8a3cf0" };
 
-// ================= シーン 1:森の遺跡での奇襲 =================
-const S1 = (b: Buf, l: number): Partial<Frame> => {
-  drawLayers(b, forest(), 20 + l * 0.5);
-  fog(b, l, 0.35, "#5a7a74", 130, 250);
-  // 二人が走ってきて構える
-  const kx = tw(l, 18, 50, -30, 56, E.out);
-  const mx = tw(l, 24, 56, -40, 32, E.out);
-  const running = l < 50;
-  if (l > 16) {
-    put(b, mage(running ? M.float : l > 150 ? M.cast : M.ready), mx, FOREST_GROUND - (running ? 2 : 0));
-    put(b, knight(running ? cyc(K.run, l) : K.ready), kx, FOREST_GROUND);
+// ================= 冒頭(0〜2.5秒):決め技 → 巻き戻し → タイトル画面 =================
+export const OPEN = 60;
+const CLIMAX_END = 29; // 0〜1.2秒:シーン7の縦一閃を先に見せる
+const REWIND_END = 37; // 1.2秒〜:ドットが崩れて巻き戻る
+const DECIDE = 52; // タイトル画面で「はじめから」を決定(ピコッ)
+const BRAND = { black: hex("#0E0E0E"), white: hex("#F2F0E9"), lime: hex("#C6FF3D"), limeD: hex("#5f7a1c"), gray: hex("#2a2a26") };
+const glyph = (b: Buf, rows: string[], x: number, y: number, c: number, t = 1, seed = 1) => {
+  // t<1 のときはドットが散った所から集まってくる
+  rows.forEach((r, j) => {
+    for (let i = 0; i < r.length; i++) {
+      if (r[i] !== "#") continue;
+      const sx = hash(seed, i, j) * SW;
+      const sy = hash(seed, j, i, 2) * SH;
+      const k = E.out(clamp01(t));
+      b.set(Math.round(lerp(sx, x + i, k)), Math.round(lerp(sy, y + j, k)), c);
+    }
+  });
+};
+const Title = (b: Buf, t: number): Partial<Frame> => {
+  b.clear(BRAND.black);
+  // ゆっくり上る小さな光(ライム)
+  for (let i = 0; i < 18; i++) {
+    const y = SH - ((hash(i, 21) * SH + t * (1 + hash(i, 22))) % SH);
+    b.set(Math.floor(hash(i, 23) * SW), Math.floor(y), i % 3 ? BRAND.limeD : BRAND.lime);
   }
-  // 茂みの奥に赤い目
-  if (l > 64 && l < 94 && !(l > 76 && l < 80)) {
+  const k = clamp01(t / 6);
+  const tx = Math.round((SW - TITLE[0].length) / 2);
+  const ty = 92;
+  // 角のかぎ(画面の枠)
+  if (k >= 1) {
+    for (const [cx, cy, dx, dy] of [[14, 70, 1, 1], [SW - 15, 70, -1, 1], [14, 236, 1, -1], [SW - 15, 236, -1, -1]]) {
+      line(b, cx, cy, cx + dx * 12, cy, BRAND.lime, 1);
+      line(b, cx, cy, cx, cy + dy * 12, BRAND.lime, 1);
+    }
+  }
+  // タイトル「影狼の森」:白の文字にライムの影(右下に2ドット)
+  glyph(b, TITLE, tx + 2, ty + 2, BRAND.lime, k, 3);
+  glyph(b, TITLE, tx, ty, BRAND.white, k, 4);
+  // 下の飾り線と、まん中のひし形
+  if (k >= 1) {
+    const w = Math.round(tw(t, 6, 10, 0, TITLE[0].length / 2, E.out));
+    line(b, SW / 2 - w, ty + 42, SW / 2 + w, ty + 42, BRAND.lime, 1);
+    for (let j = -2; j <= 2; j++) line(b, SW / 2 - (2 - Math.abs(j)), ty + 42 + j, SW / 2 + (2 - Math.abs(j)), ty + 42 + j, BRAND.lime, 1);
+  }
+  // 選択肢「はじめから」とカーソル
+  const mx = Math.round((SW - MENU[0].length) / 2) + 4;
+  const my = 196;
+  if (t >= 7) {
+    const decided = t >= DECIDE - REWIND_END;
+    const blinkOn = decided ? (t - (DECIDE - REWIND_END)) % 2 === 0 : true;
+    glyph(b, MENU, mx, my, decided && blinkOn ? BRAND.lime : BRAND.white);
+    const cursorOn = decided || Math.floor(t / 3) % 2 === 0;
+    if (cursorOn) for (let j = 0; j < 7; j++) line(b, mx - 10, my + 3 + j, mx - 10 + (3 - Math.abs(j - 3)), my + 3 + j, BRAND.lime, 1);
+  }
+  // 決定のあと、ドットが消えていく(次のシーンへ)
+  if (t >= 20) veil(b, hex("#000000"), tw(t, 20, 23, 0, 1));
+  return { cam: { x: 90, y: 160, z: 1 } };
+};
+const Opening = (b: Buf, f: number): Partial<Frame> => {
+  if (f < CLIMAX_END) {
+    const r = S7(b, 46 + f); // f=14 で縦一閃
+    return { ...r, flash: null };
+  }
+  if (f < REWIND_END) {
+    // 巻き戻し:絵を逆回しにしながら、行がずれ、ドットが散り、ノイズがふえる
+    const o = f - CLIMAX_END;
+    const tmp = new Buf(SW, SH);
+    tmp.clear(hex("#000000"));
+    const r = S7(tmp, 46 + 28 - o * 5);
+    const kk = (o + 1) / 8;
+    for (let y = 0; y < SH; y++) {
+      const shift = hash(y >> 2, o, 5) < 0.2 + kk * 0.5 ? Math.round((hash(y >> 2, o, 6) - 0.5) * 30 * kk) : 0;
+      for (let x = 0; x < SW; x++) {
+        let c = tmp.get(x - shift, y);
+        if (hash(x >> 1, y >> 1, o) < kk * 0.7) c = tmp.get(x + Math.round((hash(x, y, o, 7) - 0.5) * 40 * kk), y + Math.round((hash(x, y, o, 8) - 0.5) * 40 * kk));
+        if (hash(x, y, o, 9) < kk * 0.45) c = [BRAND.white, BRAND.gray, BRAND.lime, hex("#000000")][Math.floor(hash(x, y, o, 10) * 4)];
+        b.set(x, y, c || hex("#000000"));
+      }
+    }
+    const cam = r.cam ?? { x: 90, y: 160, z: 1 };
+    return { cam: { x: lerp(cam.x, 90, kk), y: lerp(cam.y, 160, kk), z: lerp(cam.z, 1, kk) }, bars: (r.bars ?? 0) * (1 - kk) };
+  }
+  return Title(b, f - REWIND_END);
+};
+
+// ================= シーン 1:森の遺跡での奇襲(冒頭のあと 5.5 秒) =================
+// 霧の中で影狼の赤い目が光る所から始め、暗いだけの時間を作らない
+const S1 = (b: Buf, l: number): Partial<Frame> => {
+  drawLayers(b, forest(), 40 + l * 0.5);
+  fog(b, l, 0.35, "#5a7a74", 130, 250);
+  // 茂みの奥の赤い目(すぐ光る。途中で1回まばたき)
+  if (l < 42 && !(l > 14 && l < 18)) {
     for (const ex of [146, 156]) {
       b.set(ex, 206, COL.red);
       b.set(ex + 1, 206, COL.red);
-      glow(b, ex + 0.5, 206.5, 3, COL.red, 0.5);
+      glow(b, ex + 0.5, 206.5, l < 3 ? l + 1 : 3.5, COL.red, 0.6);
     }
   }
-  // 狼が飛び出す(放物線)→ 着地して咆哮
-  const jump = (ll: number) => clamp01((ll - 94) / 16);
+  // 二人が走ってきて構える
+  const kx = tw(l, 8, 34, -20, 56, E.out);
+  const mx = tw(l, 12, 38, -30, 32, E.out);
+  const running = l < 34;
+  if (l > 6) {
+    put(b, mage(running ? M.float : l > 104 ? M.cast : M.ready), mx, FOREST_GROUND - (running ? 2 : 0));
+    put(b, knight(running ? cyc(K.run, l, 2) : K.ready), kx, FOREST_GROUND);
+  }
+  // 狼が飛び出す(放物線)→ 着地して大きく吠える → 走りよる
+  const J0 = 44;
+  const LAND = 58;
+  const jump = (ll: number) => clamp01((ll - J0) / (LAND - J0));
   const wx = (ll: number) => lerp(210, 142, E.out(jump(ll)));
-  const wy = (ll: number) => (ll < 94 ? 400 : lerp(170, FOREST_GROUND, jump(ll)) - Math.sin(jump(ll) * Math.PI) * 40);
-  if (l >= 94) {
-    const airborne = l < 110;
-    const pose = airborne ? W.pounce : l < 150 ? W.roar : l < 172 ? W.ready : cyc(W.run, l, 3);
-    const x = l < 172 ? wx(l) : wx(l) - (l - 172) * 3;
-    withGhosts(b, { sp: () => wolf(pose), ghost: () => wolf(W.pounce, WG), x: (ll) => (ll < 172 ? wx(Math.max(94, ll)) : x), y: (ll) => wy(Math.max(94, ll)), flip: true }, l, airborne);
-    if (l >= 112 && l < 140) {
+  const wy = (ll: number) => (ll < J0 ? 400 : lerp(170, FOREST_GROUND, jump(ll)) - Math.sin(jump(ll) * Math.PI) * 40);
+  if (l >= J0) {
+    const airborne = l < LAND;
+    const RUN = 110;
+    const pose = airborne ? W.pounce : l < 90 ? W.roar : l < RUN ? W.ready : cyc(W.run, l, 2);
+    const x = l < RUN ? wx(l) : wx(l) - (l - RUN) * 3;
+    withGhosts(b, { sp: () => wolf(pose), ghost: () => wolf(W.pounce, WG), x: (ll) => (ll < RUN ? wx(Math.max(J0, ll)) : x), y: (ll) => wy(Math.max(J0, ll)), flip: true }, l, airborne);
+    if (l >= LAND + 2 && l < 88) {
       const mouth = ptOf(wolf(W.roar).mouth, x, FOREST_GROUND, true);
-      for (let k = 0; k < 3; k++) ring(b, mouth[0], mouth[1], ((l - 112 + k * 5) % 15) * 4, COL.purpleHi, 1, 0.5);
+      for (let k = 0; k < 3; k++) ring(b, mouth[0], mouth[1], ((l - LAND + k * 5) % 15) * 4, COL.purpleHi, 1, 0.5);
     }
   }
-  burst(b, 142, FOREST_GROUND, l - 110, "stone", { n: 18, speed: 3.2, life: 26, seed: 11, dir: -Math.PI / 2, cone: 2.6, grav: 0.18, size: 2 });
-  burst(b, 142, FOREST_GROUND - 6, l - 110, "spark", { n: 14, speed: 4, life: 12, seed: 12 });
-  if (l > 94 && l < 112) speedLines(b, 128, 220, l, COL.white, 0.8, 40);
-  if (l >= 112 && l < 146) speedLines(b, 128, 200, l, hex("#c8a0ff"), 0.5, 55);
+  burst(b, 142, FOREST_GROUND, l - LAND, "stone", { n: 18, speed: 3.2, life: 26, seed: 11, dir: -Math.PI / 2, cone: 2.6, grav: 0.18, size: 2 });
+  burst(b, 142, FOREST_GROUND - 6, l - LAND, "spark", { n: 14, speed: 4, life: 12, seed: 12 });
+  if (l > J0 && l < LAND) speedLines(b, 128, 220, l, COL.white, 0.8, 40);
+  if (l >= LAND && l < 88) speedLines(b, 128, 200, l, hex("#c8a0ff"), 0.5, 55);
   // 次の場面へ:石の破片がカメラに飛んでくる
-  burst(b, 110, 230, l - 176, "stone", { n: 22, speed: 3, life: 16, seed: 13, size: 3, toCam: true, grav: 0 });
+  burst(b, 110, 230, l - 116, "stone", { n: 22, speed: 3, life: 16, seed: 13, size: 3, toCam: true, grav: 0 });
   const cam: Cam =
-    l < 40 ? { x: 90, y: tw(l, 0, 40, 110, 196, E.io), z: 1.5 }
-      : l < 64 ? { x: tw(l, 40, 64, 90, 74), y: 214, z: tw(l, 40, 64, 1.5, 1.9, E.io) }
-        : l < 94 ? { x: tw(l, 64, 88, 74, 140, E.io), y: tw(l, 64, 88, 214, 200), z: tw(l, 64, 88, 1.9, 2.4, E.io) }
-          : l < 150 ? { x: tw(l, 94, 112, 150, 108, E.out), y: 212, z: tw(l, 94, 112, 1.5, 1.45, E.out) + tw(l, 112, 116, 0.15, 0) }
-            : { x: tw(l, 150, 170, 108, 98, E.io), y: 214, z: 1.45 };
+    l < 12 ? { x: 146, y: 204, z: tw(l, 0, 12, 2.6, 2.3) }
+      : l < 36 ? { x: tw(l, 12, 34, 146, 74, E.io), y: tw(l, 12, 34, 204, 214, E.io), z: tw(l, 12, 34, 2.3, 1.7, E.io) }
+        : l < LAND ? { x: tw(l, 36, LAND, 74, 98, E.io), y: tw(l, 36, LAND, 214, 212), z: tw(l, 36, LAND, 1.7, 1.45) }
+          : { x: 98, y: 212, z: 1.45 + tw(l, LAND, LAND + 4, 0.15, 0) };
   return { cam };
 };
-hitAt(110, 6);
-shakeAt(114, 4);
-shakeAt(122, 3);
+const S1x = (b: Buf, l: number): Partial<Frame> => (l < OPEN ? Opening(b, l) : S1(b, l - OPEN));
+hitAt(14, 10); // 冒頭の縦一閃
+hitAt(OPEN + 58, 6);
+shakeAt(OPEN + 62, 4);
+shakeAt(OPEN + 70, 3);
 
 // ================= シーン 2:バリアで防御・氷の足場 =================
 const S2 = (b: Buf, l: number): Partial<Frame> => {
@@ -306,9 +397,16 @@ const S5 = (b: Buf, l: number): Partial<Frame> => {
   }
   // 雲を突き抜ける(白い流線で場面を切りかえる)
   if (l >= 72 && l < 90) {
-    veil(b, COL.white, l < toSky ? tw(l, 72, toSky, 0, 0.85) : tw(l, toSky, 90, 0.85, 0));
-    streaks(b, l, 0, 1, hex("#d8e8f8"), 1, 40, 20);
+    // 雲を突き抜ける:白で画面を埋めず、雲のかたまりが下へ流れていく(白フラッシュではない)
+    for (let k = 0; k < 9; k++) {
+      const cy = ((hash(k, 31) * 400 + (l - 72) * 26) % 420) - 60;
+      const cx = hash(k, 32) * SW;
+      disc(b, cx, cy, 14 + hash(k, 33) * 16, hex("#e8f2fc"), 0.85);
+      disc(b, cx - 3, cy - 3, 8 + hash(k, 33) * 10, COL.white, 0.9);
+    }
+    streaks(b, l, 0, 1, hex("#d8e8f8"), 0.8, 30, 20);
   }
+  let follow: number[] | null = null;
   if (l >= toSky) {
     // 氷の階段が1段ずつ現れる
     const broken = [[3, 126], [5, 156]];
@@ -321,13 +419,13 @@ const S5 = (b: Buf, l: number): Partial<Frame> => {
     });
     broken.forEach(([k, t], j) => burst(b, STEPS[k].x, STEPS[k].y, l - t - 3, "ice", { n: 18, speed: 2.6, life: 18, seed: 80 + j, size: 2 }));
     // 翼の影狼:上で羽ばたき、ビームを吐く
-    const wx = 132 + Math.sin(l * 0.05) * 6;
-    const wy = 92 + Math.sin(l * 0.11) * 4;
+    const wx = 64 + Math.sin(l * 0.05) * 5;
+    const wy = 100 + Math.sin(l * 0.11) * 4;
     const beams = [120, 150];
     const shooting = beams.some((t) => l >= t - 6 && l < t + 10);
     const sp = shooting ? wolf(WW.beam, { winged: true }) : wolf(cyc(WW.rise, l, 3), { winged: true });
-    put(b, sp, wx, wy, { flip: true });
-    const mouth = ptOf(sp.mouth, wx, wy, true);
+    put(b, sp, wx, wy);
+    const mouth = ptOf(sp.mouth, wx, wy);
     beams.forEach((t, j) => {
       if (l >= t - 6 && l < t) glow(b, mouth[0], mouth[1], (l - t + 7) * 1.6, COL.purpleHi, 0.9);
       const tgt = STEPS[broken[j][0]];
@@ -352,13 +450,27 @@ const S5 = (b: Buf, l: number): Partial<Frame> => {
     const dodging = beams.some((bt) => l >= bt - 8 && l < bt + 10);
     const kPose = l < toSky + 16 ? K.ready : dodging ? K.airGuard : (kStep(l) % 1) < 0.5 ? K.jump : cyc(K.run, l);
     if (l >= toSky + 4) withGhosts(b, { sp: () => knight(kPose), ghost: () => knight(K.jump, KG), x: kx, y: ky }, l, dodging || l % 12 < 6, 2, 2);
+    // カメラは騎士を大きく追う(はねる動きでゆれないよう、少し前のコマと平均する)
+    let ax = 0;
+    let ay = 0;
+    for (let q = 0; q < 8; q++) {
+      ax += kx(l - q);
+      ay += ky(l - q);
+    }
+    follow = [ax / 8, ay / 8];
   }
   if (l >= 180) veil(b, COL.greenHi, tw(l, 180, 192, 0, 0.6));
   const cam: Cam =
     l < morph ? { x: 96, y: 206, z: tw(l, 0, morph, 1.6, 2.0, E.io) }
       : l < toSky ? { x: 96, y: tw(l, morph, toSky, 206, 120, E.in), z: 1.6 }
-        : { x: 90, y: tw(l, toSky + 10, 186, 250, 130, E.io), z: 1.4 };
-  return { cam, flash: l >= morph && l < morph + 2 ? "#e0b0ff" : null };
+        : follow
+          ? (() => {
+              // 最初のビームの前に一度、上の翼の影狼を見せる
+              const look = tw(l, 100, 106, 0, 1, E.io) - tw(l, 112, 118, 0, 1, E.io);
+              return { x: lerp(follow[0] + 10, 70, look), y: lerp(follow[1] - 34, 70, look), z: lerp(tw(l, toSky, toSky + 16, 1.5, 2.4, E.io), 1.6, look) };
+            })()
+          : { x: 90, y: 250, z: 1.5 };
+  return { cam, flash: l === morph ? "#e0b0ff" : null };
 };
 shakeAt(SCENE * 4 + 48, 6);
 shakeAt(SCENE * 4 + 123, 4);
@@ -539,7 +651,7 @@ const S8 = (b: Buf, l: number): Partial<Frame> => {
   return { cam: { x: tw(l, 90, 186, 90, 90), y: tw(l, 0, 90, 236, 238) - tw(l, 90, 186, 0, 78, E.io), z }, fade: tw(l, 150, 190, 0, 1) };
 };
 
-const SCENES = [S1, S2, S3, S4, S5, S6, S7, S8];
+const SCENES = [S1x, S2, S3, S4, S5, S6, S7, S8];
 
 export const drawFrame = (f: number): Frame => {
   const i = Math.min(7, Math.floor(f / SCENE));
@@ -571,13 +683,12 @@ export const drawFrame = (f: number): Frame => {
 export const compose = (fr: Frame, ow: number, oh: number, out?: Uint32Array) => {
   const o = out ?? new Uint32Array(ow * oh);
   const z = Math.max(1, fr.cam.z);
-  const vw = SW / z;
-  const vh = SH / z;
-  // 見える範囲が絵の外に出ないようにカメラを止める
-  const cx = Math.max(vw / 2, Math.min(SW - vw / 2, fr.cam.x));
-  const cy = Math.max(vh / 2, Math.min(SH - vh / 2, fr.cam.y));
-  const x0 = cx - vw / 2;
-  const y0 = cy - vh / 2;
+  // 見える範囲はドットの数を整数にし、切り取りの端もドットの境目にそろえる
+  // (端にドットの細い切れはしが残って「帯」に見えるのを防ぐ)
+  const vw = Math.max(1, Math.round(SW / z));
+  const vh = Math.max(1, Math.round(SH / z));
+  const x0 = Math.max(0, Math.min(SW - vw, Math.round(fr.cam.x - vw / 2)));
+  const y0 = Math.max(0, Math.min(SH - vh, Math.round(fr.cam.y - vh / 2)));
   const sxs = new Int32Array(ow);
   for (let X = 0; X < ow; X++) sxs[X] = Math.min(SW - 1, Math.max(0, Math.floor(x0 + ((X + 0.5) / ow) * vw)));
   const barH = Math.round((fr.bars * 0.13 * oh) / 6) * 6;

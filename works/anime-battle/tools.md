@@ -20,3 +20,19 @@
 ## 書き出しの実測(この環境:CPU 4、GPU なし)
 - 確認用(0.4倍の大きさ・音なし):6分33秒
 - 試作版(本番画質・音あり・crf 23):約16分。27.2MB
+
+---
+
+# v2 — ドット絵アクション(2026-10-15)
+画像素材・動画生成AIは使わず、キャラ・背景・エフェクト・効果音をすべてコードで作る。
+
+| 用途 | 道具 | メモ |
+|---|---|---|
+| ドット絵の描画の芯 | TypeScript(React なし)`video/remotion/src/pixel-mv/px.ts` | 180×320 の小さな絵(色の配列)に、四角・線・多角形・円・文字の地図で描く。半透明は間引き(ディザ)。輪郭線・ふちの光もここ |
+| キャラ | `chars.ts`(体のつくりと A〜C のデザイン)/`poses.ts`(選んだ騎士B・精霊術師B・影狼C・翼の影狼C と全ポーズ) | 頭は文字の地図で手描き、体は関節の角度から組み立てる。急降下は描いたあと 180° 回す |
+| 背景 | `bg.ts` | 霧の森と遺跡/雲の上/雲の切れ間から見下ろす森/光の差す森の全景。奥・中・手前の層で動く速さを変える |
+| エフェクト | `fx.ts` | 剣の軌跡(12コマで消える)・集中線・流線・破片・六角形バリア・氷のブロック・ビーム・魔法陣・鎖・雪 |
+| 8シーンと拡大 | `scenes.ts`(drawFrame / compose)・`PixelMV.tsx`(Remotion。composition `PixelMV-text` / `PixelMV-notext`) | カメラ(位置・ズーム・揺れ)で切り取ってぼかさず 1080×1920 に。白フラッシュ・黒帯・暗転もここ。Node でも同じ絵を PNG に書き出せる(`scripts/pixel-frames.ts`) |
+| デザイン案・ポーズの一覧 | `scripts/pixel-sheet.ts`・`pixel-poses.ts` → `works/anime-battle/scripts/design-sheet.py` | `works/anime-battle/v2/design/` |
+| 効果音 | Python(numpy・scipy)`video/remotion/scripts/make-sfx-pixel.py` | 矩形波・三角波・ゲーム機風ノイズだけで合成(外部の音源・有料APIなし) |
+| 書き出し | `node scripts/render-pixel.mjs`(`video/remotion/` で) | 文字あり・文字なしの2本 → `videos/anime-battle/v2/`(-14 LUFS・各30MB以内)。確認用 `works/anime-battle/v2/review/scene1〜8.png` |

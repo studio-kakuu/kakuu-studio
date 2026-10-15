@@ -125,6 +125,21 @@ export class Buf {
       }
     this.d = out;
   }
+  /**
+   * 輪郭のふちの光:輪郭線の内側(上・左・右)の体の色を inner に、輪郭線の外側を outer(間引き)にする。
+   * 暗い背景でも形が沈まないように使う(影狼)
+   */
+  rim(line: number, body: number[], inner: number, outer: number) {
+    const src = this.d.slice();
+    const g = (x: number, y: number) => (x < 0 || y < 0 || x >= this.w || y >= this.h ? 0 : src[y * this.w + x]);
+    for (let y = 0; y < this.h; y++)
+      for (let x = 0; x < this.w; x++) {
+        const c = src[y * this.w + x];
+        if (c === 0) {
+          if ((g(x, y - 1) === line || g(x - 1, y) === line || g(x + 1, y) === line || g(x, y + 1) === line) && (x + y) % 2 === 0) this.d[y * this.w + x] = outer;
+        } else if (body.includes(c) && g(x, y - 1) === line && (x + y) % 3 !== 0) this.d[y * this.w + x] = inner;
+      }
+  }
   /** 全部の色を 1 色に(白フラッシュの点滅・シルエット) */
   tint(c: number) {
     for (let i = 0; i < this.d.length; i++) if (this.d[i]) this.d[i] = c;

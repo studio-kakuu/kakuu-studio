@@ -152,7 +152,7 @@ const KNIGHT: Record<Variant, Omit<HumanDesign, "head" | "neck">> = {
   B: {
     kind: "knight", v: "B", legU: 6, legL: 6, torso: 11, arm1: 5, arm2: 5, limb: 3.4, shoulderW: 12, hipW: 8, outline: "#1c1424", detail: 1,
     pal: { H: "#f2c84a", h: "#c08a28", L: "#fbe9a0", S: "#f8d0b0", s: "#d8a080", W: "#ffffff", E: "#3070e0", e: "#183070", k: "#3a2418", m: "#b85050",
-      C: "#e8eef8", c: "#8c98b0", G: "#3070e0", A: "#c0cbe0", a: "#7a88a6", B: "#2f63c0", b: "#1f3f80", K: "#f2f6fc", Q: "#b0bccc", Y: "#f0c040", y: "#a07018", X: "#ffffff", x: "#9aa6be", N: "#5a3a24" },
+      C: "#e8eef8", c: "#8c98b0", G: "#3070e0", A: "#d4dcec", a: "#8692b0", B: "#2f63c0", b: "#1f3f80", K: "#ffffff", Q: "#dde3ec", Y: "#ffc83a", y: "#b07a14", X: "#f4f8ff", x: "#9aa6be", N: "#5a3a24", Z: "#ffffff" },
   },
   C: {
     kind: "knight", v: "C", legU: 7, legL: 8, torso: 13, arm1: 6, arm2: 6, limb: 3.4, shoulderW: 12, hipW: 8, outline: "#120c18", detail: 2,
@@ -276,7 +276,9 @@ export const drawHuman = (d: HumanDesign, pose: HPose, opts: HumanOpts = {}) => 
   const hw = d.hipW / 2;
   const P4 = (p: number[], s: number) => [p[0] + nx * s, p[1] + ny * s];
   if (d.kind === "knight") {
-    // 鎧の胴(銀)+青い前垂れ
+    // 鎧の胴(明るい銀)+青い前垂れ。マント(白)との境目に線を入れる
+    const ol = hex(d.outline);
+    b.poly([P4(add(neck, 180 - pose.lean, 1), -tw - 1), P4(add(neck, 180 - pose.lean, 1), tw + 1), P4(add(hip, 180 - pose.lean, -1), hw + 1), P4(add(hip, 180 - pose.lean, -1), -hw - 1)], ol);
     b.poly([P4(neck, -tw), P4(neck, tw), P4(hip, hw), P4(hip, -hw)], pal.A);
     b.poly([P4(neck, -tw + 1), P4(neck, -1), P4(hip, -1), P4(hip, -hw)], pal.a);
     const tab = add(hip, pose.fl1 * 0.5, d.legU + (d.detail > 0 ? 2 : 1));
@@ -289,8 +291,11 @@ export const drawHuman = (d: HumanDesign, pose: HPose, opts: HumanOpts = {}) => 
     b.set(chest[0] + 0.5, chest[1], pal.Y);
     if (d.detail > 1) b.set(chest[0] + 0.5, chest[1] + 1, pal.y);
     // 肩当て
-    b.disc(shoulderF[0], shoulderF[1] + 0.5, d.v === "A" ? 2.6 : 2.4, pal.X);
-    if (d.detail > 0) b.set(shoulderF[0] + 1, shoulderF[1] - 1, pal.K);
+    // 胸の光(銀のつや)
+    if (d.detail > 0) {
+      const c0 = P4(add(neck, 180 - pose.lean, -1), tw - 2);
+      b.line(c0[0], c0[1], c0[0] - td[0] * 3, c0[1] - td[1] * 3, pal.X, 1);
+    }
   } else {
     // ドレス:緑の上衣+白い重ね布のスカート(地面近くまで)
     b.poly([P4(neck, -tw + 0.5), P4(neck, tw - 0.5), P4(hip, hw), P4(hip, -hw)], pal.A);
@@ -325,33 +330,49 @@ export const drawHuman = (d: HumanDesign, pose: HPose, opts: HumanOpts = {}) => 
   const hy = Math.round(neck[1] - d.neck[1] + pose.head);
   b.map(d.head, pal, hx, hy);
 
+  // 剣:金のつば・青い柄・羽根の飾り・白銀の刃。体と重ならないよう、剣だけ別に輪郭をつけて重ねる
+  const drawSword = () => {
+    const sb = new Buf(W, H);
+    const bladeL = d.v === "A" ? 13 : d.v === "B" ? 16 : 18;
+    const base = add(wr0, pose.w, 2);
+    const tp = add(base, pose.w, bladeL);
+    const pom = add(wr0, pose.w, -3);
+    const g = dir(pose.w + 90);
+    // 刃(白銀+影の線)。先はとがる
+    const nearTip = add(base, pose.w, bladeL - 2);
+    sb.line(base[0], base[1], nearTip[0], nearTip[1], pal.X, 2.4);
+    sb.line(nearTip[0], nearTip[1], tp[0], tp[1], pal.X, 1);
+    sb.line(base[0] + g[0] * 0.6, base[1] + g[1] * 0.6, nearTip[0] + g[0] * 0.6, nearTip[1] + g[1] * 0.6, pal.x, 1);
+    // 柄(青)と柄頭(金)
+    sb.line(pom[0], pom[1], base[0], base[1], pal.B, 1.6);
+    sb.disc(pom[0], pom[1], 1.1, pal.Y);
+    // 羽根の飾り(白い羽根が左右に開く)
+    const wing = (s: number) => {
+      const w0 = [base[0] + g[0] * 3 * s, base[1] + g[1] * 3 * s];
+      const back = dir(pose.w + 180);
+      const w1 = [w0[0] + g[0] * 3 * s + back[0] * 1.5, w0[1] + g[1] * 3 * s + back[1] * 1.5];
+      const w2 = [w0[0] + back[0] * 3.5 + g[0] * 1.5 * s, w0[1] + back[1] * 3.5 + g[1] * 1.5 * s];
+      sb.poly([w0, w1, w2], pal.Z);
+      sb.line(w0[0], w0[1], (w1[0] + w2[0]) / 2, (w1[1] + w2[1]) / 2, pal.Q, 1);
+    };
+    wing(1);
+    wing(-1);
+    // つば(金・太め)と青い宝石
+    sb.line(base[0] - g[0] * 3.5, base[1] - g[1] * 3.5, base[0] + g[0] * 3.5, base[1] + g[1] * 3.5, pal.Y, 2.2);
+    sb.line(base[0] - g[0] * 3, base[1] - g[1] * 3 + 0.8, base[0] + g[0] * 3, base[1] + g[1] * 3 + 0.8, pal.y, 1);
+    sb.set(base[0], base[1], pal.G);
+    sb.outline(hex(d.outline));
+    b.blit(sb, 0, 0);
+    b.disc(wr0[0], wr0[1], 1.4, pal.a); // 剣を握る手
+  };
+
   // ---- 6. 武器と手前の腕 ----
   const wr0 = add(add(shoulderF, pose.fa1, d.arm1), pose.fa2, d.arm2);
   let tip = wr0;
   if (opts.weapon !== false) {
     if (d.kind === "knight") {
       const bladeL = d.v === "A" ? 13 : d.v === "B" ? 16 : 18;
-      const base = add(wr0, pose.w, 1.5);
-      tip = add(base, pose.w, bladeL);
-      const pom = add(wr0, pose.w, -2.5);
-      b.line(pom[0], pom[1], base[0], base[1], pal.B, 1.5); // 柄(青)
-      b.set(pom[0], pom[1], pal.Y);
-      b.line(base[0], base[1], tip[0], tip[1], pal.X, 2.2); // 刃
-      if (d.detail > 0) {
-        const mid = add(base, pose.w, 2);
-        b.line(mid[0], mid[1], tip[0], tip[1], pal.x, 1);
-      }
-      // つば(金)と羽根の飾り
-      const g = dir(pose.w + 90);
-      b.line(base[0] - g[0] * 2.5, base[1] - g[1] * 2.5, base[0] + g[0] * 2.5, base[1] + g[1] * 2.5, pal.Y, 1.6);
-      b.set(base[0], base[1], pal.G);
-      const wing = (s: number) => {
-        const w0 = [base[0] + g[0] * 2.5 * s, base[1] + g[1] * 2.5 * s];
-        const w1 = add(w0, pose.w + 180 + s * 50, d.detail > 0 ? 3 : 2);
-        b.line(w0[0], w0[1], w1[0], w1[1], pal.K, d.detail > 0 ? 1.6 : 1);
-      };
-      wing(1);
-      wing(-1);
+      tip = add(add(wr0, pose.w, 2), pose.w, bladeL);
     } else {
       // 木の杖:手の位置から上下にのびる。先端は巻いて葉がつく
       const L1 = d.v === "A" ? 20 : d.v === "B" ? 24 : 27;
@@ -376,7 +397,10 @@ export const drawHuman = (d: HumanDesign, pose: HPose, opts: HumanOpts = {}) => 
     b.line(shoulderF[0], shoulderF[1], el[0], el[1], ol, limbT + 1.6);
     b.line(el[0], el[1], wr0[0], wr0[1], ol, limbT + 1.2);
     arm(shoulderF, pose.fa1, pose.fa2, pal.A, pal.a);
-    b.disc(shoulderF[0], shoulderF[1] + 0.5, d.v === "A" ? 2.6 : 2.4, pal.X);
+    b.disc(shoulderF[0], shoulderF[1] + 0.5, d.v === "A" ? 2.6 : 2.4, pal.A);
+    b.set(shoulderF[0], shoulderF[1] - 1, pal.X);
+    b.set(shoulderF[0] + 1, shoulderF[1] - 1, pal.X);
+    if (opts.weapon !== false) drawSword();
   }
   else {
     // ゆったりした袖(白い布)
@@ -480,6 +504,8 @@ const WOLF: Record<Variant, Omit<WolfDesign, "head" | "jawRow">> = {
   C: { v: "C", outline: "#08050c", detail: 2, spikes: 9, L: 50, BH: 28, leg: [17, 15, 7], thigh: 10,
     pal: { B: "#1a1322", b: "#0d0913", D: "#382c4c", R: "#ff1830", r: "#ff9aa6", T: "#e2dcf0", M: "#5a1430", P: "#8a3cf0", p: "#4a1488", Q: "#d8a0ff", n: "#050308", S: "#6a30c8", s: "#34126e" } },
 };
+const RIM_IN: Record<Variant, string> = { A: "#6e48b0", B: "#5e3aa4", C: "#553496" };
+const RIM_OUT: Record<Variant, string> = { A: "#6a32b8", B: "#5c28a8", C: "#52209c" };
 export const wolfDesign = (v: Variant): WolfDesign => ({ ...WOLF[v], head: WOLF_HEAD[v], jawRow: WOLF_HEAD[v].findIndex((r) => r.includes("M")) });
 
 /** 影狼(winged=true で翼の影狼)を描く。足元の中心は (ox, oy)。fade(0〜1)で結晶の粒に崩れる */
@@ -526,46 +552,37 @@ export const drawWolf = (d: WolfDesign, pose: WPose, opts: { winged?: boolean; s
   }
 
   // 翼(結晶の羽根)
+  // 翼:紫の結晶の羽根が1枚ずつすき間をあけて並ぶ(板に見えないように)
   const wing = (front: boolean) => {
     const root = at(L * 0.18 + (front ? 0 : -6), BH * 0.62 + (front ? 0 : 2));
     const sp = pose.wing;
-    const a1 = 200 - sp * 40 + (front ? 0 : 18);
-    const el = add(root, a1, 18 + (d.v === "C" ? 4 : d.v === "B" ? 2 : 0));
-    const a2 = a1 + 45 - sp * 15;
-    const tip = add(el, a2, 20 + (d.v === "C" ? 6 : d.v === "B" ? 3 : 0));
+    const a1 = 195 - sp * 40 + (front ? 0 : 16);
+    const el = add(root, a1, 16 + (d.v === "C" ? 4 : d.v === "B" ? 2 : 0));
+    const a2 = a1 + 40 - sp * 12;
+    const tip = add(el, a2, 18 + (d.v === "C" ? 6 : d.v === "B" ? 3 : 0));
     const cMain = front ? pal.P : pal.p;
     const cEdge = front ? pal.Q : pal.P;
-    const cDeep = front ? pal.p : pal.s;
-    const n = d.v === "A" ? 5 : d.v === "B" ? 6 : 8;
-    const tips: number[][] = [];
-    const bases: number[][] = [];
-    for (let i = 0; i < n; i++) {
+    const cDark = front ? pal.p : pal.s;
+    const n = d.v === "A" ? 5 : d.v === "B" ? 6 : 7;
+    // 骨(黒い腕)
+    b.line(root[0], root[1], el[0], el[1], front ? pal.B : pal.b, 3.4);
+    b.line(el[0], el[1], tip[0], tip[1], front ? pal.B : pal.b, 2.4);
+    for (let i = n - 1; i >= 0; i--) {
       const k = i / (n - 1);
-      const base = k < 0.35 ? [root[0] + (el[0] - root[0]) * (k / 0.35), root[1] + (el[1] - root[1]) * (k / 0.35)] : [el[0] + (tip[0] - el[0]) * ((k - 0.35) / 0.65), el[1] + (tip[1] - el[1]) * ((k - 0.35) / 0.65)];
-      const fa = -6 - k * 58 - (1 - sp) * 20; // 下・後ろへ垂れる(先ほど広がる)
-      const len = 11 + k * k * 24 + (d.v === "A" ? 0 : 3);
-      bases.push(base);
-      tips.push(add(base, fa, len));
+      const t = 0.15 + k * 0.85;
+      const base = t < 0.42 ? [root[0] + (el[0] - root[0]) * (t / 0.42), root[1] + (el[1] - root[1]) * (t / 0.42)] : [el[0] + (tip[0] - el[0]) * ((t - 0.42) / 0.58), el[1] + (tip[1] - el[1]) * ((t - 0.42) / 0.58)];
+      const fa = -2 - k * 62 - (1 - sp) * 18; // 内側は下へ、外側ほど後ろへ開く
+      const len = 13 + k * 15 + (d.v === "A" ? 0 : 2);
+      const ft = add(base, fa, len);
+      const mid = add(base, fa, len * 0.42);
+      const s2 = dir(fa + 90);
+      const w = 3.2;
+      // ひし形の結晶(片側が明るく、反対側が暗い)
+      b.poly([base, [mid[0] + s2[0] * w, mid[1] + s2[1] * w], ft], cMain);
+      b.poly([base, [mid[0] - s2[0] * w, mid[1] - s2[1] * w], ft], cDark);
+      b.line(base[0], base[1], ft[0], ft[1], cEdge, 1);
+      b.set(ft[0], ft[1], cEdge);
     }
-    // 翼の膜(暗い紫)
-    b.poly([root, el, tip, ...tips.slice().reverse()], cDeep);
-    for (let i = 0; i < n; i++) {
-      const base = bases[i];
-      const ft = tips[i];
-      const fa = Math.atan2(ft[0] - base[0], ft[1] - base[1]) * 180 / Math.PI;
-      const s = dir(fa + 90);
-      const w = 2.4;
-      b.poly([[base[0] - s[0] * w, base[1] - s[1] * w], [base[0] + s[0] * w, base[1] + s[1] * w], ft], cMain);
-      b.line(base[0] + s[0], base[1] + s[1], ft[0], ft[1], cEdge, 1);
-    }
-    if (d.detail > 1) for (let i = 0; i < n - 1; i++) {
-      const m = [(bases[i][0] + bases[i + 1][0]) / 2, (bases[i][1] + bases[i + 1][1]) / 2];
-      const ft = add(m, -20 - i * 4, 7);
-      b.poly([[m[0] - 2, m[1]], [m[0] + 2, m[1]], ft], cEdge);
-    }
-    b.line(root[0], root[1], el[0], el[1], cMain, 3);
-    b.line(el[0], el[1], tip[0], tip[1], cMain, 2.4);
-    b.line(root[0], root[1], el[0], el[1], cEdge, 1);
     b.set(tip[0], tip[1], cEdge);
   };
   if (opts.winged) wing(false);
@@ -658,6 +675,7 @@ export const drawWolf = (d: WolfDesign, pose: WPose, opts: { winged?: boolean; s
   if (opts.silhouette) b.tint(hex(opts.silhouette));
   b.outline(hex(opts.flash ? "#ffffff" : d.outline));
   if (opts.flash) b.tint(hex("#ffffff"));
+  else if (!opts.silhouette) b.rim(hex(d.outline), [pal.B, pal.b, pal.D], hex(RIM_IN[d.v]), hex(RIM_OUT[d.v]));
   const mouth = [hx + hw - 2 - ox, hy + d.jawRow + 1 - oy];
   return { buf: b, ox, oy, mouth, neck: [nb[0] - ox, nb[1] - oy], top: Math.min(hy, cy - BH) - oy };
 };

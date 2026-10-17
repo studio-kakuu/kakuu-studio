@@ -38,6 +38,10 @@
   header nav { display: flex; gap: 20px; font-size: 12px; letter-spacing: .14em; }
   header nav a { color: var(--dim); transition: color .3s; }
   header nav a:hover { color: var(--kakuu-accent); }
+  @media (max-width: 479px) {
+    header .wrap { flex-wrap: wrap; height: auto; padding: 24px 0 8px; row-gap: 14px; }
+    header nav { width: 100%; gap: 18px; font-size: 11px; }
+  }
 
   .intro { padding: 72px 0 64px; border-bottom: 1px solid var(--rule); }
   .intro h1 {
@@ -111,6 +115,8 @@
     <a href="./" aria-label="KAKUU STUDIO"><img src="brand/logo.svg" alt="KAKUU STUDIO"></a>
     <nav>
       <a href="#works">WORKS</a>
+      <a href="https://x.com/studio_kakuu" rel="noopener">X</a>
+      <a href="https://www.tiktok.com/@studio_kakuu" rel="noopener">TIKTOK</a>
       <a href="https://www.instagram.com/studio_kakuu/" rel="noopener">INSTAGRAM</a>
     </nav>
   </div>
@@ -127,10 +133,16 @@
 
   <section id="works">
     <div class="wrap">
-      <div class="list-head"><span>WORKS</span><span><b id="count">01</b> / ARCHIVE</span></div>
+      <div class="list-head"><span>WORKS</span><span><b id="count">05</b> / ARCHIVE</span></div>
       <ul class="works" id="works-list">
         <!-- works.js から自動生成。JSが無効な環境用のフォールバック -->
-        <noscript><li><a href="works/cafe/">001 — [WEB] YUGE 湯気と珈琲(架空のカフェ)</a></li></noscript>
+        <noscript>
+          <li><a href="works/kakuu-games/">005 — [WEB] KAKUU GAMES ピクトグラム図鑑(架空のスポーツ大会・20競技のピクトグラム)</a></li>
+          <li><a href="works/motion-zukan/">004 — [WEB] MOTION 100 モーション図鑑(モーション100種のMVと図鑑)</a></li>
+          <li><a href="works/moko/">003 — [ANIMATION] MOKO くものこ もこ(よみきかせ絵本)</a></li>
+          <li><a href="works/kakuu-os/">002 — [WEB] KAKUU OS 制作記録 01(制作システムのダッシュボード)</a></li>
+          <li><a href="works/cafe/">001 — [WEB] YUGE 湯気と珈琲(架空のカフェ)</a></li>
+        </noscript>
       </ul>
     </div>
   </section>

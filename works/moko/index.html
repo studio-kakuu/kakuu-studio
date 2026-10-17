@@ -14,6 +14,7 @@
 <script src="vendor/gsap.min.js" defer></script>
 <script src="book.js" defer></script>
 <script src="main.js" defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&family=Zen+Kaku+Gothic+New:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 <main class="book" id="book" aria-label="えほん くものこ もこ">
@@ -38,7 +39,17 @@
     <button class="read" id="read" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="w" d="M15 9.5a3.5 3.5 0 0 1 0 5"/><path class="w" d="M17.5 7a7 7 0 0 1 0 10"/></svg><span>よみきかせ</span></button>
     <button class="next" id="next" type="button">つぎへ</button>
   </nav>
-  <p class="credit" id="credit">さく:KAKUU STUDIO(え・こえ は AI、うごき は コード)<br><a href="../../">KAKUU STUDIO の ほかの さくひん</a></p>
+  <div class="credit" id="credit"><p>さく:KAKUU STUDIO(え・こえ は AI、うごき は コード)<br><a href="../../">KAKUU STUDIO の ほかの さくひん</a></p>
+<aside class="kk-follow" aria-label="KAKUU STUDIO のSNS">
+  <p class="kk-follow-ja"><span>新作は各SNSで公開しています。</span><span>フォローして次の作品もお楽しみに</span></p>
+  <p class="kk-follow-en">Follow us for the next imaginary world.</p>
+  <ul class="kk-follow-links">
+    <li><a href="https://x.com/studio_kakuu" target="_blank" rel="noopener">X</a></li>
+    <li><a href="https://www.tiktok.com/@studio_kakuu" target="_blank" rel="noopener">TikTok</a></li>
+    <li><a href="https://www.instagram.com/studio_kakuu/" target="_blank" rel="noopener">Instagram</a></li>
+  </ul>
+</aside>
+</div>
 </main>
 <noscript><p style="padding:24px;font-family:sans-serif">この えほんを よむには JavaScript を オンに してください。</p></noscript>
 </body>

@@ -1,0 +1,14 @@
+[
+ {"id":"hook","kind":"card","dur":3.5,"html":"<div class=logo>KAKUU STUDIO<i>.</i></div><div class=chip><span>MAKING-OF 02</span><b>制作記録</b></div><div class=big style='top:520px;font-size:118px'>AIで、<br>工程表を<br><em style='color:#C6FF3D;font-style:normal'>アプリにした</em></div><div class=sub style='top:1130px'>「毎朝の工程表づくりが大変」<br>職場で聞いたその声から。</div><div class=note>{NOTE}</div>"},
+ {"id":"tl","kind":"part","n":1,"clip":"tl","dur":6.37,"dev":"pc","title":"工程管理表","cap":"作業の帯を<em>ドラッグ</em>で、<br>別の時間・別の人へ。"},
+ {"id":"tasks","kind":"part","n":2,"clip":"tasks","dur":7.5,"dev":"phone","title":"作業入力","cap":"数量と開始時刻だけで、<br>時間は<em>自動で計算</em>。"},
+ {"id":"staff","kind":"part","n":3,"clip":"staff","dur":7.5,"dev":"phone","title":"出勤・欠勤","cap":"シフト表から、その日の<br>出勤者が<em>自動で並ぶ</em>。"},
+ {"id":"shift","kind":"part","n":4,"clip":"shift","dur":8.5,"dev":"pc","title":"シフト表","cap":"いつもの記号のまま、<br><em>1か月分</em>を塗るだけ。"},
+ {"id":"vac","kind":"part","n":5,"clip":"vac","dur":8.0,"dev":"phone","admin":true,"title":"欠員対応","cap":"急な休みにも、<br>代わりの人を<em>自動で提案</em>。"},
+ {"id":"dash","kind":"part","n":6,"clip":"dash","dur":7.0,"dev":"pc","admin":true,"title":"集計グラフ","cap":"週・月の作業の偏りが、<br><em>ひと目</em>でわかる。"},
+ {"id":"roster","kind":"part","n":7,"clip":"roster","dur":6.0,"dev":"pc","admin":true,"title":"名簿・スキル","cap":"誰が何をできるかを、<br><em>△○◎</em>で管理。"},
+ {"id":"master","kind":"part","n":8,"clip":"master","dur":5.5,"dev":"pc","admin":true,"title":"マスタ・設定","cap":"作業の標準時間や言葉を、<br><em>職場に合わせる</em>。"},
+ {"id":"end_instagram","kind":"card","dur":4.5,"html":"<div class=logo>KAKUU STUDIO<i>.</i></div><div class=sub style='top:420px;color:#8A949C;font-size:36px'>工程・シフト管理</div><div class=big style='top:520px;font-size:84px'>8つの画面の<br>ガイドページは、<br>コメントで<br><em style='color:#C6FF3D;font-style:normal'>『工程』</em>と<br>送ってね</div><div class=next>NEXT WORK — COMING SOON</div><div class=note>{NOTE}</div>"},
+ {"id":"end_tiktok","kind":"card","dur":4.5,"html":"<div class=logo>KAKUU STUDIO<i>.</i></div><div class=sub style='top:420px;color:#8A949C;font-size:36px'>工程・シフト管理</div><div class=big style='top:520px;font-size:76px'>ガイドページは、<br>Instagram<br>(@studio_kakuu)<br>の投稿に<em style='color:#C6FF3D;font-style:normal'>『工程』</em>と<br>コメントすると<br>届きます</div><div class=next>NEXT WORK — COMING SOON</div><div class=note>{NOTE}</div>"},
+ {"id":"end_x","kind":"card","dur":4.5,"html":"<div class=logo>KAKUU STUDIO<i>.</i></div><div class=sub style='top:420px;color:#8A949C;font-size:36px'>工程・シフト管理</div><div class=big style='top:520px;font-size:92px'>ガイドの<br>URLは<br><em style='color:#C6FF3D;font-style:normal'>プロフィールの<br>リンク</em>から</div><div class=next>NEXT WORK — COMING SOON</div><div class=note>{NOTE}</div>"}
+]

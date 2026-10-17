@@ -1,0 +1,379 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>工程・シフト管理 ガイド</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Space+Grotesk:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { display: ['"Zen Kaku Gothic New"', '"Hiragino Kaku Gothic ProN"', 'sans-serif'], 'serif-jp': ['"Zen Kaku Gothic New"', '"Hiragino Kaku Gothic ProN"', 'sans-serif'], en: ['"Space Grotesk"', '"Zen Kaku Gothic New"', 'sans-serif'], body: ['"BIZ UDPGothic"', '"Hiragino Kaku Gothic ProN"', '"Yu Gothic"', 'sans-serif'] }
+} } };
+</script>
+<style>
+/* Guide-style LP: one PART per app tab, each with a playable screen recording whose steps light up in sync.
+   Dark glow look (single theme by design) + scroll Fade Up + count-up + per-viewer progress guide. */
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 120px); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: #0E0E0E; color: #E2E8F0; }
+.gx { padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+.hdr { top: env(safe-area-inset-top, 0px); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: #0E0E0E; }
+h1, h2, h3 { text-wrap: balance; }
+.gb { position: relative; border-radius: 1.25rem; padding: 1px; background: linear-gradient(140deg, rgba(198,255,61,.45), rgba(148,163,184,.12) 40%, rgba(255,255,255,.16)); }
+.gb > .gbi { border-radius: calc(1.25rem - 1px); background: rgba(13,17,28,.92); height: 100%; }
+.phone { border-radius: 2.2rem; } .phone > .gbi { border-radius: 2.15rem; }
+.glow-btn { position: relative; isolation: isolate; transition: transform .3s ease; }
+.glow-btn::before { content: ""; position: absolute; inset: -5px; z-index: -1; border-radius: .9rem; background: linear-gradient(90deg, #C6FF3D, #E9FFB8, #C6FF3D); filter: blur(12px); opacity: .4; transition: opacity .3s ease, filter .3s ease; }
+.glow-btn:hover::before, .glow-btn:focus-visible::before { opacity: .85; filter: blur(16px); }
+.glow-btn:hover { transform: translateY(-1px); }
+.grid-bg { background-image: linear-gradient(rgba(148,163,184,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.07) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%); }
+video { display: block; width: 100%; height: auto; background: #0D111C; object-fit: cover; }
+.num { font-variant-numeric: tabular-nums; }
+.step.on { background: rgba(198,255,61,.10); color: #E6FFB0; }
+.step.on .dot { background: #C6FF3D; box-shadow: 0 0 10px rgba(198,255,61,.8); }
+.step.done .dot { background: #64748B; }
+.navx { scrollbar-width: none; } .navx::-webkit-scrollbar { display: none; }
+.navx a.cur { color: #fff; border-color: #C6FF3D; }
+.play { transition: filter .2s; } .play:hover { filter: brightness(1.1); }
+@media (prefers-reduced-motion: reduce) { .glow-btn, .glow-btn::before { transition: none; } }
+</style>
+
+<div class="font-body leading-relaxed tracking-wide antialiased">
+
+  <header class="hdr sticky z-50 border-b border-slate-800/80 bg-[#0E0E0E]">
+    <div class="gx"><div class="mx-auto max-w-6xl flex items-center justify-between gap-4 pt-3.5 pb-2">
+      <a href="#top" class="flex items-center gap-2.5 font-display font-bold text-white text-lg no-underline"><span class="inline-block h-6 w-6 rounded-md bg-[#C6FF3D]"></span>工程・シフト管理<span class="font-en text-[11px] font-medium tracking-[0.18em] text-slate-500 ml-1 hidden sm:inline">by KAKUU STUDIO</span></a>
+      <span class="text-xs text-slate-500" id="hdrProg">0 / 8 見た</span>
+    </div></div>
+    <nav class="navx gx overflow-x-auto" aria-label="章の移動"><div class="mx-auto max-w-6xl flex gap-1 pb-2 text-sm text-slate-400 whitespace-nowrap">
+      <a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#story">きっかけ</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#flow">全体の流れ</a>
+      <a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#guide">進行ガイド</a>
+      <a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part1">PART 1 工程管理表</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part2">PART 2 作業入力</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part3">PART 3 出勤・欠勤</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part4">PART 4 シフト表</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part5">PART 5 欠員対応</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part6">PART 6 集計グラフ</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part7">PART 7 名簿・スキル</a><a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#part8">PART 8 マスタ・設定</a>
+      <a class="rounded-md border-b-2 border-transparent px-2.5 py-1.5 hover:text-white" href="#faq">よくある質問</a>
+    </div></nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="top" class="relative overflow-hidden gx pt-20 pb-20 sm:pt-28 sm:pb-24">
+    <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[520px] w-[820px] max-w-[160vw]" style="background:radial-gradient(closest-side,rgba(198,255,61,.09),transparent)" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute top-40 -right-40 h-[380px] w-[380px]" style="background:radial-gradient(closest-side,rgba(198,255,61,.06),transparent)" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl flex flex-col items-center text-center gap-8">
+      <span class="rounded-full border border-slate-700/70 bg-slate-900/60 px-4 py-1.5 text-xs text-slate-300"><span class="font-en tracking-[0.2em] text-[#C6FF3D]">KAKUU STUDIO</span>　制作記録</span>
+      <h1 class="font-display font-black text-white text-4xl sm:text-6xl lg:text-7xl leading-tight tracking-normal max-w-4xl">「毎朝の工程表づくりが大変」<br><span class="bg-gradient-to-r from-white via-[#E6FFB0] to-[#C6FF3D] bg-clip-text text-transparent">その声から、作ってみた。</span></h1>
+      <p class="text-lg text-slate-400 max-w-2xl">職場で聞いた困りごとをきっかけに、Excelで組んでいた工程表を、AIと一緒にアプリにしてみました。どんな動きになったのか、8つの画面をひとつずつ再生して紹介します。</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#part1" class="glow-btn inline-flex items-center rounded-xl bg-[#C6FF3D] px-6 py-3.5 font-bold text-[#0E0E0E]">PART 1 から見る</a>
+        <a href="#guide" class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-900/60 px-6 py-3.5 font-bold text-slate-200 transition-colors hover:border-slate-500">見たい画面を選ぶ</a>
+      </div>
+      <div class="grid grid-cols-3 gap-4 sm:gap-10 pt-6 w-full max-w-2xl">
+        <div><div class="font-display font-black text-white text-4xl sm:text-5xl num"><span data-count="8">8</span><span class="text-lg text-slate-400 ml-1">画面</span></div><p class="text-xs sm:text-sm text-slate-500 mt-1">をひとつのアプリに</p></div>
+        <div><div class="font-display font-black text-white text-4xl sm:text-5xl num"><span data-count="15">15</span><span class="text-lg text-slate-400 ml-1">分</span></div><p class="text-xs sm:text-sm text-slate-500 mt-1">単位で組み替え</p></div>
+        <div><div class="font-display font-black text-white text-4xl sm:text-5xl num"><span data-count="1">1</span><span class="text-lg text-slate-400 ml-1">タップ</span></div><p class="text-xs sm:text-sm text-slate-500 mt-1">で欠員を割り当て</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section id="story" class="gx py-16 sm:py-20 border-t border-slate-800/60">
+    <div class="mx-auto max-w-3xl flex flex-col gap-5">
+      <span class="font-en text-xs font-bold tracking-[0.2em] text-[#C6FF3D]">WHY</span>
+      <h2 class="font-serif-jp font-bold text-white text-2xl sm:text-3xl leading-snug">きっかけは、職場で聞いたひとこと</h2>
+      <p class="text-slate-300">毎朝、数量と人数から作業時間を計算して、Excelで工程表を組む。急な休みが出れば、誰に代わってもらうかを考え直す。そんな「毎日のちょっと大変」を聞いて、仕組みにできないかと思ったのが始まりです。</p>
+      <p class="text-slate-400">売り物として作ったものではなく、職場の声を形にしてみた記録です。このあとの改良や次の作品は、KAKUU STUDIO のSNSで公開していきます。</p>
+    </div>
+  </section>
+
+  <!-- Daily flow -->
+  <section id="flow" class="gx py-20 sm:py-28 border-t border-slate-800/60">
+    <div class="mx-auto max-w-6xl flex flex-col gap-12">
+      <div class="flex flex-col gap-3"><span class="text-xs font-bold tracking-[0.2em] text-[#C6FF3D]">全体の流れ</span><h2 class="font-serif-jp font-bold text-white text-3xl sm:text-4xl leading-snug">毎日の流れは、この5つ</h2></div>
+      <ol class="relative grid gap-6 lg:grid-cols-5">
+        <div class="hidden lg:block absolute left-0 right-0 top-[18px] h-px bg-gradient-to-r from-[#C6FF3D]/60 via-slate-700 to-slate-800" aria-hidden="true"></div>
+        <li class="relative flex lg:flex-col gap-4"><span class="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#C6FF3D] font-bold text-slate-900">1</span><div><div class="font-bold text-white">シフトを決める</div><p class="text-sm text-slate-400">記号で1か月分を入力 → <a href="#part4" class="text-[#C6FF3D]">PART 4</a></p></div></li>
+        <li class="relative flex lg:flex-col gap-4"><span class="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#C6FF3D]/60 bg-slate-900 font-bold text-[#DDFF8A]">2</span><div><div class="font-bold text-white">その日の作業を入れる</div><p class="text-sm text-slate-400">数量と開始時刻だけ → <a href="#part2" class="text-[#C6FF3D]">PART 2</a></p></div></li>
+        <li class="relative flex lg:flex-col gap-4"><span class="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#C6FF3D]/60 bg-slate-900 font-bold text-[#DDFF8A]">3</span><div><div class="font-bold text-white">工程表で確認・調整</div><p class="text-sm text-slate-400">ドラッグで組み替え → <a href="#part1" class="text-[#C6FF3D]">PART 1</a></p></div></li>
+        <li class="relative flex lg:flex-col gap-4"><span class="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#C6FF3D]/60 bg-slate-900 font-bold text-[#DDFF8A]">4</span><div><div class="font-bold text-white">欠員が出たら代わりを提案</div><p class="text-sm text-slate-400">1タップで割り当て → <a href="#part5" class="text-[#C6FF3D]">PART 5</a></p></div></li>
+        <li class="relative flex lg:flex-col gap-4"><span class="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full border border-[#C6FF3D]/60 bg-slate-900 font-bold text-[#DDFF8A]">5</span><div><div class="font-bold text-white">週・月で振り返る</div><p class="text-sm text-slate-400">偏りをグラフで確認 → <a href="#part6" class="text-[#C6FF3D]">PART 6</a></p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Progress guide -->
+  <section id="guide" class="gx py-20 sm:py-28 border-t border-slate-800/60">
+    <div class="mx-auto max-w-6xl flex flex-col gap-8">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="flex flex-col gap-3"><span class="text-xs font-bold tracking-[0.2em] text-[#C6FF3D]">進行ガイド</span><h2 class="font-serif-jp font-bold text-white text-3xl sm:text-4xl leading-snug">8つの画面を、順番に見ていく</h2><p class="text-slate-400 text-sm">各PARTの動画を最後まで見ると、チェックが付きます(この端末だけに記録)。</p></div>
+        <div class="flex items-center gap-3"><span class="font-display font-black text-white text-3xl num" id="pct">0%</span><button type="button" id="resetProg" class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-300 hover:border-slate-500">リセット</button></div>
+      </div>
+      <div class="h-2 rounded-full bg-slate-800 overflow-hidden"><div id="bar" class="h-full w-0 rounded-full bg-gradient-to-r from-[#7FB51A] to-[#C6FF3D] transition-all duration-500"></div></div>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <a href="#part1" data-check="tl" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 1</span><span class="text-white font-bold">工程管理表</span></span></a><a href="#part2" data-check="tasks" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 2</span><span class="text-white font-bold">作業入力</span></span></a><a href="#part3" data-check="staff" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 3</span><span class="text-white font-bold">出勤・欠勤</span></span></a><a href="#part4" data-check="shift" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 4</span><span class="text-white font-bold">シフト表</span></span></a><a href="#part5" data-check="vac" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 5</span><span class="text-white font-bold">欠員対応<span class="ml-2 text-[11px] font-normal text-[#C6FF3D]">管理者</span></span></span></a><a href="#part6" data-check="dash" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 6</span><span class="text-white font-bold">集計グラフ<span class="ml-2 text-[11px] font-normal text-[#C6FF3D]">管理者</span></span></span></a><a href="#part7" data-check="roster" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 7</span><span class="text-white font-bold">名簿・スキル<span class="ml-2 text-[11px] font-normal text-[#C6FF3D]">管理者</span></span></span></a><a href="#part8" data-check="master" class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 no-underline hover:border-slate-600 transition-colors"><span class="ck flex h-6 w-6 flex-none items-center justify-center rounded-full border border-slate-600 text-transparent text-sm font-bold"></span><span class="flex flex-col"><span class="text-[11px] tracking-[0.15em] text-[#C6FF3D] font-en">PART 8</span><span class="text-white font-bold">マスタ・設定<span class="ml-2 text-[11px] font-normal text-[#C6FF3D]">管理者</span></span></span></a>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="part1" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 1　工程管理表タブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">工程管理表</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.5fr] items-center">
+        <div class="lg:order-1 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">全員</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">その日の作業が、担当者ごとの時間割で並ぶ</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="tl" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="tl"><li data-t="0" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>工程管理表を開く</span></li><li data-t="0.96" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>作業の帯をつかむ</span></li><li data-t="1.52" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>別の時間・別の人へ動かす</span></li><li data-t="3.7" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>離すと保存、全員の画面に反映</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>15分刻みの帯で、出勤が早い人から上に並ぶ</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>赤い線で今の時刻がわかる</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>空いている所を押すと、その人・その時刻で作業を追加</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>A4横で印刷して貼り出せる</li></ul>
+        </div>
+        <div class="lg:order-2 min-w-0"><div class="w-full overflow-hidden rounded-xl border border-slate-700 bg-[#0B0F18] shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="flex items-center gap-3 border-b border-slate-800 px-4 py-2.5"><span class="flex gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i></span><span class="truncate rounded-full bg-slate-800/80 px-3 py-0.5 text-[11px] text-slate-400 font-mono">工程・シフト管理 / 工程管理表</span></div><video style="aspect-ratio:1280/720" data-part="tl" src="vid/tl.mp4" poster="vid/tl.jpg" muted loop playsinline preload="metadata" aria-label="工程管理表タブの操作の様子"></video></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="part2" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 2　作業入力タブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">作業入力</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-2 items-center">
+        <div class="lg:order-2 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">全員</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">数量と開始時刻を入れるだけで、時間は自動計算</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="tasks" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="tasks"><li data-t="0" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>作業入力タブを開く</span></li><li data-t="1.37" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>「＋ 作業を追加」を押す</span></li><li data-t="3.14" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>数量を入れると時間が出る</span></li><li data-t="4.99" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>「追加して続ける」で次の作業へ</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>数量 × 1個あたりの秒数 ÷ 人数 ＋ 段取り時間で計算</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>「追加して続ける」「複製」で入力が速い</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>所要時間は手入力で上書きもできる</li></ul>
+        </div>
+        <div class="lg:order-1 min-w-0"><div class="mx-auto w-full max-w-[320px] rounded-[2rem] border border-slate-700 bg-[#0B0F18] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="overflow-hidden rounded-[1.5rem]"><video style="aspect-ratio:780/1380" data-part="tasks" src="vid/tasks.mp4" poster="vid/tasks.jpg" muted loop playsinline preload="metadata" aria-label="作業入力タブの操作の様子"></video></div></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="part3" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 3　出勤・欠勤タブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">出勤・欠勤</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-2 items-center">
+        <div class="lg:order-1 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">全員</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">シフト表から、その日の出勤者が自動で並ぶ</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="staff" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="staff"><li data-t="0" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>出勤の早い順に自動で並ぶ</span></li><li data-t="2.17" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>名前を押して休憩を追加</span></li><li data-t="6.55" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>「欠勤にする」を押す</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>出勤が早い順に並び、休みの人は下へ</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>名前を押して休憩を追加</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>「欠勤にする」はワンタップ</li></ul>
+        </div>
+        <div class="lg:order-2 min-w-0"><div class="mx-auto w-full max-w-[320px] rounded-[2rem] border border-slate-700 bg-[#0B0F18] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="overflow-hidden rounded-[1.5rem]"><video style="aspect-ratio:780/1380" data-part="staff" src="vid/staff.mp4" poster="vid/staff.jpg" muted loop playsinline preload="metadata" aria-label="出勤・欠勤タブの操作の様子"></video></div></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="part4" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 4　シフト表タブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">シフト表</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-[1.5fr_0.9fr] items-center">
+        <div class="lg:order-2 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">全員</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">いつもの記号のまま、1か月分を塗るだけ</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="shift" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="shift"><li data-t="0" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>シフト表を開く</span></li><li data-t="1.49" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>記号を選ぶ</span></li><li data-t="2.5" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>マスを押して入力</span></li><li data-t="5.26" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>休みも同じように</span></li><li data-t="8.1" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>赤丸などの印も付けられる</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>早・日・遅・公休・有休など、職場の記号をそのまま登録</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>赤丸・黄色・茶色の印も付けられる</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>出勤人数と勤務時間の合計を自動で計算</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>予算時間と予定・メモも日ごとに入力</li></ul>
+        </div>
+        <div class="lg:order-1 min-w-0"><div class="w-full overflow-hidden rounded-xl border border-slate-700 bg-[#0B0F18] shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="flex items-center gap-3 border-b border-slate-800 px-4 py-2.5"><span class="flex gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i></span><span class="truncate rounded-full bg-slate-800/80 px-3 py-0.5 text-[11px] text-slate-400 font-mono">工程・シフト管理 / シフト表</span></div><video style="aspect-ratio:1280/720" data-part="shift" src="vid/shift.mp4" poster="vid/shift.jpg" muted loop playsinline preload="metadata" aria-label="シフト表タブの操作の様子"></video></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="part5" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 5　欠員対応タブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">欠員対応</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-2 items-center">
+        <div class="lg:order-1 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">管理者のみ</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">欠勤が出た作業に、代わりの人を自動で提案</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="vac" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="vac"><li data-t="0.4" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>名前を押して欠勤にする</span></li><li data-t="3.25" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>「代わりの人を探す」を押す</span></li><li data-t="5.27" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>「この人に割り当てる」で完了</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>スキル・空き時間・その日の負担で候補を並べる</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>休みの人も呼び出し候補として表示</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>「この人に割り当てる」で工程表が書き換わる</li></ul>
+        </div>
+        <div class="lg:order-2 min-w-0"><div class="mx-auto w-full max-w-[320px] rounded-[2rem] border border-slate-700 bg-[#0B0F18] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="overflow-hidden rounded-[1.5rem]"><video style="aspect-ratio:780/1380" data-part="vac" src="vid/vac.mp4" poster="vid/vac.jpg" muted loop playsinline preload="metadata" aria-label="欠員対応タブの操作の様子"></video></div></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="part6" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 6　集計グラフタブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">集計グラフ</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-[1.5fr_0.9fr] items-center">
+        <div class="lg:order-2 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">管理者のみ</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">週・月の作業時間の偏りが、ひと目でわかる</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="dash" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="dash"><li data-t="0" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>集計グラフを開く</span></li><li data-t="2.39" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>週と月を切り替え</span></li><li data-t="6.18" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>カテゴリで絞り込み</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>担当者ごとの作業時間をカテゴリ別に色分け</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>作業別・カテゴリ別の割合</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>作業実績・集計・シフト表をExcelに書き出し</li></ul>
+        </div>
+        <div class="lg:order-1 min-w-0"><div class="w-full overflow-hidden rounded-xl border border-slate-700 bg-[#0B0F18] shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="flex items-center gap-3 border-b border-slate-800 px-4 py-2.5"><span class="flex gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i></span><span class="truncate rounded-full bg-slate-800/80 px-3 py-0.5 text-[11px] text-slate-400 font-mono">工程・シフト管理 / 集計グラフ</span></div><video style="aspect-ratio:1280/720" data-part="dash" src="vid/dash.mp4" poster="vid/dash.jpg" muted loop playsinline preload="metadata" aria-label="集計グラフタブの操作の様子"></video></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="part7" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 7　名簿・スキルタブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">名簿・スキル</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.5fr] items-center">
+        <div class="lg:order-1 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">管理者のみ</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">誰が何をできるかを、△○◎で管理</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="roster" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="roster"><li data-t="0" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>名簿・スキルを開く</span></li><li data-t="1.7" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>マスを押してスキルを切り替え</span></li><li data-t="6.19" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>↑↓で並び順を変える</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>マスを押すたびにスキルの段階が切り替わる</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>作業を登録すると、スキルの列も自動で増える</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>スキルは管理者にしか見えない</li></ul>
+        </div>
+        <div class="lg:order-2 min-w-0"><div class="w-full overflow-hidden rounded-xl border border-slate-700 bg-[#0B0F18] shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="flex items-center gap-3 border-b border-slate-800 px-4 py-2.5"><span class="flex gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i></span><span class="truncate rounded-full bg-slate-800/80 px-3 py-0.5 text-[11px] text-slate-400 font-mono">工程・シフト管理 / 名簿・スキル</span></div><video style="aspect-ratio:1280/720" data-part="roster" src="vid/roster.mp4" poster="vid/roster.jpg" muted loop playsinline preload="metadata" aria-label="名簿・スキルタブの操作の様子"></video></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="part8" class="gx py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl flex flex-col gap-10">
+      <div class="border-t border-[#C6FF3D]/60 pt-6 flex flex-col gap-3">
+        <div class="font-en font-bold text-[#C6FF3D] tracking-[0.18em] text-sm">PART 8　マスタ・設定タブ</div>
+        <h2 class="font-serif-jp font-bold text-white text-[28px] sm:text-4xl leading-snug">マスタ・設定</h2>
+      </div>
+      <div class="grid gap-10 lg:grid-cols-[1.5fr_0.9fr] items-center">
+        <div class="lg:order-2 flex flex-col gap-5 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="rounded-full border border-[#C6FF3D]/50 px-2.5 py-0.5 text-[11px] text-[#DDFF8A]">管理者のみ</span></div>
+          <h3 class="font-serif-jp font-bold text-white text-2xl sm:text-[28px] leading-snug">作業の標準時間や、画面の言葉を職場に合わせる</h3>
+          <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-4 flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-3 px-1 pb-2"><span class="text-xs tracking-[0.15em] text-slate-400">操作の流れ</span>
+              <button type="button" data-play="master" class="play inline-flex items-center gap-2 rounded-md bg-[#C6FF3D] px-4 py-2 text-sm font-bold text-[#0E0E0E]"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>最初から再生</button></div>
+            <ol class="flex flex-col gap-1 text-slate-300" data-steps="master"><li data-t="0" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>マスタ・設定を開く</span></li><li data-t="2.06" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>職場の呼び方に変える</span></li><li data-t="6.03" class="step flex gap-3 items-start rounded-lg px-3 py-2"><span class="dot mt-2 h-2 w-2 flex-none rounded-full bg-slate-600"></span><span>管理者だけに見せるタブを選ぶ</span></li></ol>
+          </div>
+          <ul class="flex flex-col gap-2 text-slate-400 text-[15px]"><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>作業ごとの標準時間・段取り時間・基準人数</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>「品番」「数量」などの呼び方と単位を変更</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>どのタブを管理者だけに見せるかを選ぶ</li><li class="flex gap-3"><span class="mt-[11px] h-px w-3 flex-none bg-[#C6FF3D]/70"></span>シフト記号と時間の登録</li></ul>
+        </div>
+        <div class="lg:order-1 min-w-0"><div class="w-full overflow-hidden rounded-xl border border-slate-700 bg-[#0B0F18] shadow-[0_24px_60px_rgba(0,0,0,.5)]"><div class="flex items-center gap-3 border-b border-slate-800 px-4 py-2.5"><span class="flex gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i><i class="h-2.5 w-2.5 rounded-full bg-slate-600"></i></span><span class="truncate rounded-full bg-slate-800/80 px-3 py-0.5 text-[11px] text-slate-400 font-mono">工程・シフト管理 / マスタ・設定</span></div><video style="aspect-ratio:1280/720" data-part="master" src="vid/master.mp4" poster="vid/master.jpg" muted loop playsinline preload="metadata" aria-label="マスタ・設定タブの操作の様子"></video></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="gx py-20 sm:py-28 border-t border-slate-800/60">
+    <div class="mx-auto max-w-3xl flex flex-col gap-6">
+      <h2 class="font-display font-black text-white text-3xl sm:text-4xl">よくある質問</h2>
+      <details class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5"><summary class="cursor-pointer font-bold text-white list-none flex justify-between gap-4">スマホでも使えますか?<span class="text-slate-500 group-open:rotate-45 transition-transform">＋</span></summary><p class="mt-3 text-slate-400">使えます。作業は長押しでドラッグでき、タブは左右のスワイプで切り替えられます。タブの並び順も端末ごとに変えられます。</p></details>
+      <details class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5"><summary class="cursor-pointer font-bold text-white list-none flex justify-between gap-4">現場の人に見せたくない情報はどうなりますか?<span class="text-slate-500 group-open:rotate-45 transition-transform">＋</span></summary><p class="mt-3 text-slate-400">スキルの情報は管理者にしか届きません。そのほかのタブも、管理者だけに表示するよう設定で切り替えられます。</p></details>
+      <details class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5"><summary class="cursor-pointer font-bold text-white list-none flex justify-between gap-4">Excelは使えなくなりますか?<span class="text-slate-500 group-open:rotate-45 transition-transform">＋</span></summary><p class="mt-3 text-slate-400">作業実績・担当者別の集計・シフト表を、月ごとにExcelファイルへ書き出せます。報告やバックアップにそのまま使えます。</p></details>
+      <details class="group rounded-2xl border border-slate-800 bg-slate-900/50 p-5"><summary class="cursor-pointer font-bold text-white list-none flex justify-between gap-4">どうやって作ったのですか?<span class="text-slate-500 group-open:rotate-45 transition-transform">＋</span></summary><p class="mt-3 text-slate-400">職場で聞いた困りごとをきっかけに、Excelの工程表をもとにAIと一緒にアプリにしました。作る過程や次の作品は、@studio_kakuu の各SNSで公開しています。</p></details>
+    </div>
+  </section>
+
+  <!-- Who -->
+  <section class="gx py-16 sm:py-20 border-t border-slate-800/60">
+    <div class="mx-auto max-w-6xl flex flex-col gap-6">
+      <h2 class="font-display font-black text-white text-2xl sm:text-3xl">ほかにも、こんな現場で使えそう</h2>
+      <div class="flex flex-wrap gap-3">
+        <span class="rounded-full border border-slate-700/80 bg-slate-900/60 px-5 py-2.5 text-slate-200">食品工場・セントラルキッチン</span>
+        <span class="rounded-full border border-slate-700/80 bg-slate-900/60 px-5 py-2.5 text-slate-200">お弁当・給食・仕出し</span>
+        <span class="rounded-full border border-slate-700/80 bg-slate-900/60 px-5 py-2.5 text-slate-200">物流倉庫のピッキング・梱包</span>
+        <span class="rounded-full border border-slate-700/80 bg-slate-900/60 px-5 py-2.5 text-slate-200">製造ラインの組立・検品</span>
+        <span class="rounded-full border border-slate-700/80 bg-slate-900/60 px-5 py-2.5 text-slate-200">クリーニング工場</span>
+        <span class="rounded-full border border-slate-700/80 bg-slate-900/60 px-5 py-2.5 text-slate-200">印刷・製本</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="relative overflow-hidden gx py-28 sm:py-36">
+    <div class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[420px] w-[720px] max-w-[160vw]" style="background:radial-gradient(closest-side,rgba(198,255,61,.09),transparent)" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-3xl flex flex-col items-center text-center gap-6">
+      <h2 class="font-serif-jp font-bold text-white text-3xl sm:text-4xl leading-snug">新作は各SNSで公開しています。<br>フォローして、次の作品もお楽しみに。</h2>
+      <p class="text-slate-400">KAKUU STUDIOでは、AIとコードで作ったものと、その制作の裏側を発信しています。<br><span class="font-en text-sm">Follow us for the next imaginary world.</span></p>
+      <div class="mt-2 flex flex-wrap justify-center gap-3"><a href="https://x.com/studio_kakuu" target="_blank" rel="noopener" class="glow-btn inline-flex items-center justify-center rounded-full px-7 py-3.5 font-bold min-h-[48px] font-en tracking-wide bg-[#C6FF3D] text-[#0E0E0E]">X</a><a href="https://www.tiktok.com/@studio_kakuu" target="_blank" rel="noopener" class="inline-flex items-center justify-center rounded-full px-7 py-3.5 font-bold min-h-[48px] font-en tracking-wide border border-[#C6FF3D] text-white hover:bg-[#C6FF3D] hover:text-[#0E0E0E] transition-colors">TikTok</a><a href="https://www.instagram.com/studio_kakuu/" target="_blank" rel="noopener" class="inline-flex items-center justify-center rounded-full px-7 py-3.5 font-bold min-h-[48px] font-en tracking-wide border border-[#C6FF3D] text-white hover:bg-[#C6FF3D] hover:text-[#0E0E0E] transition-colors">Instagram</a></div>
+    </div>
+  </section>
+
+  <footer class="gx py-8 border-t border-slate-800/80 text-slate-500 text-sm">
+    <div class="mx-auto max-w-6xl flex flex-wrap justify-between gap-2"><a href="../../" class="font-en hover:text-white">← KAKUU STUDIO</a><span>画面・動画はサンプルデータです。AIで制作しています。</span></div>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const PARTS = [{"id": "tl", "name": "工程管理表", "adm": false}, {"id": "tasks", "name": "作業入力", "adm": false}, {"id": "staff", "name": "出勤・欠勤", "adm": false}, {"id": "shift", "name": "シフト表", "adm": false}, {"id": "vac", "name": "欠員対応", "adm": true}, {"id": "dash", "name": "集計グラフ", "adm": true}, {"id": "roster", "name": "名簿・スキル", "adm": true}, {"id": "master", "name": "マスタ・設定", "adm": true}];
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const KEY = "koutei-lp-seen";
+  let seen = new Set(); try { seen = new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...seen])); } catch (e) {} };
+  function renderProg() {
+    const n = PARTS.filter(p => seen.has(p.id)).length, pct = Math.round(n / PARTS.length * 100);
+    document.getElementById("pct").textContent = pct + "%";
+    document.getElementById("bar").style.width = pct + "%";
+    document.getElementById("hdrProg").textContent = `${n} / ${PARTS.length} 見た`;
+    PARTS.forEach(p => { const c = document.querySelector(`[data-check="${p.id}"]`); if (c) { const on = seen.has(p.id); c.dataset.on = on; c.querySelector(".ck").textContent = on ? "✓" : ""; c.querySelector(".ck").className = "ck flex h-6 w-6 flex-none items-center justify-center rounded-full text-sm font-bold " + (on ? "bg-[#C6FF3D] text-slate-900" : "border border-slate-600 text-transparent"); } });
+  }
+  document.getElementById("resetProg").addEventListener("click", () => { seen.clear(); save(); renderProg(); });
+
+  // video ↔ steps sync, replay button, "watched" detection
+  document.querySelectorAll("video[data-part]").forEach(v => {
+    const id = v.dataset.part, steps = [...document.querySelectorAll(`[data-steps="${id}"] .step`)], ts = steps.map(s => +s.dataset.t);
+    let maxT = 0;
+    const sync = () => {
+      const t = v.currentTime; let k = 0; ts.forEach((x, i) => { if (t >= x) k = i; });
+      steps.forEach((s, i) => { s.classList.toggle("on", i === k); s.classList.toggle("done", i < k); });
+      if (t > maxT) maxT = t;
+      if (v.duration && t >= v.duration - 0.35 && !seen.has(id)) { seen.add(id); save(); renderProg(); }
+      if (t < 0.3) maxT = 0;
+    };
+    v.addEventListener("timeupdate", sync);
+    steps.forEach((s, i) => { s.style.cursor = "pointer"; s.title = "ここから再生"; s.addEventListener("click", () => { v.currentTime = ts[i]; const p = v.play(); p && p.catch(() => {}); }); });
+    const btn = document.querySelector(`[data-play="${id}"]`);
+    btn && btn.addEventListener("click", () => { v.currentTime = 0; const p = v.play(); p && p.catch(() => {}); });
+  });
+
+  const countUp = el => {
+    const to = +el.dataset.count, dur = 1200, t0 = performance.now();
+    if (reduce || !to) { el.textContent = to; return; }
+    const step = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(to * e); if (p < 1) requestAnimationFrame(step); };
+    el.textContent = 0; requestAnimationFrame(step);
+  };
+  renderProg();
+  if (!("IntersectionObserver" in window)) return;
+  // play clips only while on screen (unless reduced motion: they wait for the replay button)
+  const vio = new IntersectionObserver(es => es.forEach(en => { const v = en.target; if (en.isIntersecting && !reduce) { const p = v.play(); p && p.catch(() => {}); } else if (!en.isIntersecting) v.pause(); }), { threshold: 0.35 });
+  document.querySelectorAll("video[data-part]").forEach(v => vio.observe(v));
+  // highlight current PART in the nav
+  const navLinks = [...document.querySelectorAll(".navx a")];
+  const sio = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { navLinks.forEach(a => a.classList.toggle("cur", a.getAttribute("href") === "#" + en.target.id)); const a = navLinks.find(a => a.classList.contains("cur")); if (a) { const nav = a.closest(".navx"); const l = a.offsetLeft - nav.clientWidth / 2 + a.offsetWidth / 2; nav.scrollTo({ left: Math.max(0, l), behavior: "auto" }); } } }), { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll("section[id]").forEach(s => sio.observe(s));
+  document.querySelectorAll("[data-count]").forEach(countUp);
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,12 @@
+架空の世界をつくるスタジオが、今回は現実の困りごとを形にしました。
+
+「毎朝の工程表づくりが大変」という職場の声から、Excelの工程表をAIと一緒にアプリに。ドラッグで組み替え、急な休みには代わりの人を提案します。
+※デモ版。名前・数字はすべて架空です。AIで制作しています。
+制作記録シリーズ 第2弾。
+
+ガイドページは、Instagram(@studio_kakuu)の投稿に『工程』とコメントすると届きます。
+
+A studio of imaginary worlds made something real: an Excel work schedule turned into an app with AI.
+*Demo. Names and numbers are fictional. Made with AI.
+
+#KAKUUSTUDIO #制作記録 #業務改善 #AIアプリ #behindthescenes

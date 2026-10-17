@@ -10,6 +10,7 @@
 | 003 | MOKO(くものこ もこ) | `works/moko/` | 公開・SNS投稿済み |
 | 004 | MOTION 100(モーション図鑑) | `works/motion-zukan/` | 公開・SNS投稿済み |
 | 005 | KAKUU GAMES(ピクトグラム図鑑) | `works/kakuu-games/` | **完了**:公開・ManyChat『ゲームズ』設定・全SNS投稿済み |
+| 006 | 制作記録 02 工程・シフト管理(ガイドページ) | `works/koutei/` | 公開。動画 `videos/koutei/`(3媒体)・投稿文 `captions/koutei/`。SNS投稿はこれから |
 
 公開URL:https://studio-kakuu.github.io/kakuu-studio/
 
@@ -24,5 +25,5 @@
 
 ## 次の作品を始めるとき
 1. 新しいセッションで `STATUS.md` と `CLAUDE.md` を読んでから始める(完了済みの作業は調べ直さない)
-2. 手順は `docs/production-flow.md`。番号は 006 から
+2. 手順は `docs/production-flow.md`。番号は 007 から(候補:ドット絵バトル〈魔法使い・騎士・影狼〉をシリーズ第1話として)
 3. 終えるときにこのファイルを更新して、コミット・プッシュ

@@ -1,0 +1,24 @@
+架空の世界をつくるスタジオが、今回は現実の困りごとを形にしました。
+
+「毎朝の工程表づくりが大変」
+職場で聞いたその声から、Excelで組んでいた工程表を、AIと一緒にアプリにしています。
+数量と人数から作業時間を出して、ドラッグで組み替え。急な休みが出たら、代わりの人を提案。シフト表や週・月のグラフまで、8つの画面をひとつにまとめました。
+
+※動画はデモ版です。名前・品番・数字はすべて架空です。AIで制作しています。
+制作記録シリーズ、第2弾。
+
+8つの画面を順番に再生できるガイドページを作りました。
+見てみたい方は、コメントで『工程』と送ってね、URLをお届けします。
+
+―――
+
+A studio that builds imaginary worlds made something real this time.
+
+"Building the work schedule every morning is tough." From that voice at work, we turned an Excel schedule into an app with AI: task times from quantity and headcount, drag-to-rearrange, and stand-in suggestions when someone is absent.
+
+*Demo version. All names and numbers are fictional. Made with AI.
+Making-of series, part 2.
+
+Comment "工程" and we'll send you the guide page.
+
+#KAKUUSTUDIO #制作記録 #業務改善

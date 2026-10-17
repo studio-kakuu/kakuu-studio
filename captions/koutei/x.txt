@@ -1,0 +1,20 @@
+# X は日本語版を本投稿、英語版をそのリプライとして投稿する(各280字以内。日本語は1字=2で計算)。動画は videos/koutei/x.mp4
+
+【日本語】(本投稿)
+架空の世界をつくるスタジオが、
+今回は現実の困りごとを形にしました。
+
+「毎朝の工程表づくりが大変」
+職場で聞いた声から、Excelの工程表をAIと一緒にアプリにしています。
+※デモ版。名前・数字はすべて架空です(AIで制作)
+
+ガイドのURLはプロフィールのリンクから。
+
+#KAKUUSTUDIO #制作記録
+
+【English】(リプライ)
+A studio of imaginary worlds made something real this time.
+"Making the schedule every morning is tough." From that voice at work, we turned an Excel schedule into an app with AI.
+*Demo. Names and numbers are fictional. Made with AI.
+
+#KAKUUSTUDIO #behindthescenes

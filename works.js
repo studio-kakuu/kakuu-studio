@@ -16,6 +16,17 @@
 */
 window.KAKUU_WORKS = [
   {
+    no: "006",
+    slug: "koutei",
+    genre: "WEB",
+    name: "KOUTEI",
+    nameJa: "制作記録 02 工程・シフト管理",
+    theme: "職場の声から作った工程・シフト管理アプリ(デモ)",
+    themeEn: "Making-of Series 02 — Work Schedule App",
+    date: "2026-10-17",
+    palette: ["#0E0E0E", "#E2E8F0", "#C6FF3D"]
+  },
+  {
     no: "005",
     slug: "kakuu-games",
     genre: "WEB",

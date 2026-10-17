@@ -10,7 +10,7 @@
 | 003 | MOKO(くものこ もこ) | `works/moko/` | 公開・SNS投稿済み |
 | 004 | MOTION 100(モーション図鑑) | `works/motion-zukan/` | 公開・SNS投稿済み |
 | 005 | KAKUU GAMES(ピクトグラム図鑑) | `works/kakuu-games/` | **完了**:公開・ManyChat『ゲームズ』設定・全SNS投稿済み |
-| 006 | 制作記録 02 工程・シフト管理(ガイドページ) | `works/koutei/` | 公開。動画 `videos/koutei/`(3媒体)・投稿文 `captions/koutei/`。SNS投稿はこれから |
+| 006 | 制作記録 02 工程・シフト管理(ガイドページ) | `works/koutei/` | 公開。動画 `videos/koutei/`(3媒体)・投稿文 `captions/koutei/`。Instagram 投稿・ManyChat『工程』LIVE 済み(001 カフェの自動返信は停止) |
 
 公開URL:https://studio-kakuu.github.io/kakuu-studio/
 

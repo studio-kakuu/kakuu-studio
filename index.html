@@ -38,10 +38,36 @@
   header nav { display: flex; gap: 20px; font-size: 12px; letter-spacing: .14em; }
   header nav a { color: var(--dim); transition: color .3s; }
   header nav a:hover { color: var(--kakuu-accent); }
-  @media (max-width: 479px) {
-    header .wrap { flex-wrap: wrap; height: auto; padding: 24px 0 8px; row-gap: 14px; }
-    header nav { width: 100%; gap: 18px; font-size: 11px; }
+  header nav { align-items: center; }
+  header nav a.sns {
+    display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px;
+    border: 1px solid var(--kakuu-accent); border-radius: 999px;
+    color: var(--kakuu-white); font-size: 13px; font-weight: 700; letter-spacing: .08em; line-height: 1;
+    transition: background-color .25s, color .25s;
   }
+  header nav a.sns:hover { background: var(--kakuu-accent); color: var(--kakuu-black); }
+  header nav a:focus-visible, .follow a:focus-visible { outline: 2px solid var(--kakuu-white); outline-offset: 3px; }
+  header nav .sns-first { margin-left: 4px; }
+  @media (max-width: 479px) {
+    header .wrap { flex-wrap: wrap; height: auto; padding: 22px 0 6px; row-gap: 14px; }
+    header nav { width: 100%; gap: 8px; font-size: 12px; }
+    header nav a:first-child { margin-right: auto; }
+    header nav a.sns { padding: 0 12px; }
+  }
+
+  .follow { margin: 32px 0 0; }
+  .follow-label { margin: 0 0 12px; font-size: 11px; font-weight: 500; letter-spacing: .24em; color: var(--kakuu-accent); }
+  .follow ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; max-width: 460px; }
+  .follow li { flex: 1 1 auto; }
+  .follow a {
+    display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px;
+    border: 1px solid var(--kakuu-accent); border-radius: 999px;
+    color: var(--kakuu-white); font-size: 15px; font-weight: 700; letter-spacing: .06em; line-height: 1; white-space: nowrap;
+    transition: background-color .25s, color .25s, border-color .25s;
+  }
+  .follow a:hover { background: var(--kakuu-accent); color: var(--kakuu-black); }
+  .follow li:first-child a { background: var(--kakuu-accent); color: var(--kakuu-black); }
+  .follow li:first-child a:hover { background: var(--kakuu-white); border-color: var(--kakuu-white); }
 
   .intro { padding: 72px 0 64px; border-bottom: 1px solid var(--rule); }
   .intro h1 {
@@ -115,9 +141,9 @@
     <a href="./" aria-label="KAKUU STUDIO"><img src="brand/logo.svg" alt="KAKUU STUDIO"></a>
     <nav>
       <a href="#works">WORKS</a>
-      <a href="https://x.com/studio_kakuu" rel="noopener">X</a>
-      <a href="https://www.tiktok.com/@studio_kakuu" rel="noopener">TIKTOK</a>
-      <a href="https://www.instagram.com/studio_kakuu/" rel="noopener">INSTAGRAM</a>
+      <a class="sns sns-first" href="https://x.com/studio_kakuu" rel="noopener">X</a>
+      <a class="sns" href="https://www.tiktok.com/@studio_kakuu" rel="noopener">TIKTOK</a>
+      <a class="sns" href="https://www.instagram.com/studio_kakuu/" rel="noopener">INSTAGRAM</a>
     </nav>
   </div>
 </header>
@@ -127,6 +153,14 @@
     <div class="wrap">
       <h1>Imaginary worlds,<br>made real<span>.</span></h1>
       <p><b>AIでつくる、架空の世界。</b><br>KAKUU STUDIO は、AIとともに実在しない世界を描き、作品として発表するスタジオです。Webサイト、映像、アニメーション、映画のようなショートフィルム、CM — ジャンルを問わず、毎回ひとつの「架空」をかたちにしています。</p>
+      <div class="follow">
+        <p class="follow-label">FOLLOW</p>
+        <ul>
+          <li><a href="https://x.com/studio_kakuu" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://www.tiktok.com/@studio_kakuu" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.instagram.com/studio_kakuu/" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
       <ul class="genres" aria-label="ジャンル"><li>WEB</li><li>FILM</li><li>ANIMATION</li><li>CM</li></ul>
     </div>
   </section>

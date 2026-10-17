@@ -17,6 +17,7 @@
 - サイト:トップのナビに X・TikTok・Instagram、noscript に 001〜005。各作品ページの最後にフォロー案内(kakuu-os は `npm run build:page` で再ビルド)
 - ManyChat:フォロー確認は無料プランで使えないため、opening DM とコメント返信でやわらかくお願い(`captions/posting-checklist.md`)
 - SNSプロフィール文と、TikTok 1,000人超えでリンク+締め切り替えの条件を `brand/brand.md` 3.6章・`video/spec.md` に記録
+- SNSリンクを目立つボタンに変更(ライム枠・X だけ塗り)。トップの説明文の下に FOLLOW ボタン、作品ページの案内も同じ見た目
 
 ## 未対応の課題
 - ElevenLabs の API キーの作り直しを検討中

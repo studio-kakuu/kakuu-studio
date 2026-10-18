@@ -9,7 +9,7 @@
 ## Instagram(リール)
 
 ```
-AIとコードで、動きの技100種の図鑑をつくりました。
+AIとコードでつくった、プレゼント中の「モーション図鑑」を紹介します。
 
 「FADE IN」「BOUNCE」「SHATTER」…
 技の名前を押すと、その名前が その技の動きで動きます。
@@ -25,7 +25,7 @@ MV「MOTION 100」で歌われた順に並び、MVと同じ動きのコードで
 
 ―――
 
-I made an encyclopedia of 100 animation techniques with AI and code.
+Introducing our free "Motion Encyclopedia" of 100 animation techniques, made with AI and code.
 Tap a name like "FADE IN," "BOUNCE," or "SHATTER," and the name moves in that very motion.
 100 motions in 6 groups: entrance, exit, transition, loop, scene change, and finale.
 Once you know the names, you can ask AI in one line: "Bring the title in with BOUNCE."
@@ -100,7 +100,7 @@ Tap a name and it moves in that very motion. 6 groups, 100 motions. Know the nam
 - [ ] 動画は媒体ごと(`instagram.mp4` / `tiktok.mp4` / `x.mp4`)。締めの文言が投稿文と同じ
 - [ ] Instagram の編集で、右下に MV を重ねる(字幕・ロゴにかからない大きさ)
 - [ ] 本文はこのファイルの同じ媒体の欄からコピー
-- [ ] 1行目「AIとコードで、動きの技100種の図鑑をつくりました。」がある/実在の製品名を書いていない
+- [ ] 1行目にテーマとキーワードがある(Instagram は「AIとコードでつくった、プレゼント中の「モーション図鑑」を紹介します。」)/実在の製品名を書いていない
 - [ ] 冒頭 1.5 秒に「AIとコードでつくった プレゼント中の モーション図鑑の紹介」が出ている
 - [ ] **AIラベルをオン**(Instagram:詳細設定 →「AIラベル」/TikTok:その他のオプション →「AI生成コンテンツ」/X:ラベルがあればオン)
 - [ ] BGM を付けるなら各アプリで。効果音とぶつからない音量に

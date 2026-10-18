@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MOTION 100 モーション図鑑の受け取り方 — KAKUU STUDIO</title>
+<meta name="description" content="アニメーションの技100種を、名前と動きで見くらべる「モーション図鑑」でできることと、受け取り方。※KAKUU STUDIO が AI とコードでつくったオリジナル作品です。">
+<meta name="theme-color" content="#F2F0E9">
+<link rel="icon" href="../../brand/logo-on-black.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/gsap.min.js" defer></script>
+<script type="module" src="lp.js"></script>
+</head>
+<body>
+<header class="hero" id="hero">
+  <p class="hero-kicker">無料でお届けする、動きの図鑑</p>
+  <div class="stage hero-stage" id="heroStage" aria-hidden="true"></div>
+  <p class="hero-now" aria-live="off">いまの動き <span id="heroNow">STAGGER IN</span></p>
+  <h1 class="hero-title">アニメーションの技100種を、<br>名前と動きで見くらべる図鑑。</h1>
+  <img class="hero-koma" src="img/chara.png" alt="図鑑の案内役、アンドロイドのコマ" width="560" height="1003">
+  <a class="cta" href="#get">受け取り方を見る</a>
+</header>
+
+<main>
+  <section class="can" id="tap" aria-labelledby="tap-h">
+    <h2 id="tap-h">名前を押すと、<br>その動きで動く</h2>
+    <p class="body">図鑑には、技の名前がそのまま見本として並んでいます。下の「BOUNCE」を押してみてください。</p>
+    <button class="stage tap-stage" id="tapStage" type="button" aria-label="BOUNCE(バウンス)の動きを見る"><span class="no">004</span><span class="tap">押すと動く</span></button>
+    <p class="meta"><b>バウンス</b>上から落ちて 3回はねて止まる</p>
+  </section>
+
+  <section class="can dark-band" id="groups" aria-labelledby="groups-h">
+    <h2 id="groups-h">6つのグループから<br>探せる</h2>
+    <p class="body">出る・消えるから、場面転換やおわりの動きまで。グループを押すと、代表の動きが見られます。</p>
+    <div class="stage group-stage" id="groupStage" aria-hidden="true"></div>
+    <p class="group-name" id="groupName"></p>
+    <div class="g-list">
+      <button class="g-row" type="button" data-motion="ZOOM IN" data-no="009"><span class="g-jp">出る動き</span><span class="g-n">30</span></button>
+      <button class="g-row" type="button" data-motion="EVAPORATE" data-no="043" data-dark="1"><span class="g-jp">消える動き</span><span class="g-n">13</span></button>
+      <button class="g-row" type="button" data-motion="WHIP PAN" data-no="047" data-dark="1"><span class="g-jp">切り替え</span><span class="g-n">7</span></button>
+      <button class="g-row" type="button" data-motion="JELLO" data-no="066" data-dark="1"><span class="g-jp">くり返しの動き</span><span class="g-n">22</span></button>
+      <button class="g-row" type="button" data-motion="SHATTER" data-no="078"><span class="g-jp">場面転換</span><span class="g-n">22</span></button>
+      <button class="g-row" type="button" data-motion="CONFETTI" data-no="099"><span class="g-jp">おわりの動き</span><span class="g-n">6</span></button>
+    </div>
+  </section>
+
+  <section class="can" id="ask" aria-labelledby="ask-h">
+    <h2 id="ask-h">名前がわかると、<br>AIに一言で頼める</h2>
+    <p class="body">「ふわっと出して」より「BOUNCE で出して」。動きの名前を知っていると、AIやコードで作るときに思った動きを伝えやすくなります。押すと、その動きで出ます。</p>
+    <div class="stage ask-stage" id="askStage" aria-hidden="true"></div>
+    <div class="asks">
+      <button class="ask" type="button" data-motion="BOUNCE" aria-pressed="false">タイトルを BOUNCE で出して</button>
+      <button class="ask" type="button" data-motion="GLITCH IN" aria-pressed="false">タイトルを GLITCH IN で出して</button>
+      <button class="ask" type="button" data-motion="TYPEWRITER" aria-pressed="false">タイトルを TYPEWRITER で出して</button>
+    </div>
+  </section>
+
+  <section class="can mv" id="mv" aria-labelledby="mv-h">
+    <h2 id="mv-h">MVと同じ動きで、<br>001から100まで</h2>
+    <p class="body">MV「MOTION 100」で歌われた順に並んでいます。MVと図鑑は、同じ動きのコードで動いています。曲を聞きながら探すと、名前と動きがつながります。</p>
+  </section>
+
+  <section class="get" id="get" aria-labelledby="get-h">
+    <h2 id="get-h">受け取り方</h2>
+    <ol class="steps">
+      <li><b>Instagram の投稿に、コメントで『図鑑』と送る</b><span>@studio_kakuu の、この図鑑を紹介したリールです</span></li>
+      <li><b>DMで、図鑑のURLが届く</b><span>届いたボタンから、スマホでそのまま開けます</span></li>
+      <li><b>名前を押して、100種を試す</b><span>無料です。登録はいりません</span></li>
+    </ol>
+    <p class="get-direct">このページから見ている方は、ここから開けます。<a href="../motion-zukan/">モーション図鑑を開く</a></p>
+  </section>
+</main>
+
+<footer class="credit">
+  <p>図鑑と LP は AI とコードで、絵は画像生成AIでつくりました。<br>※実在しない、KAKUU STUDIO のオリジナル作品です。</p>
+  <p><a href="../../">KAKUU STUDIO のほかの作品</a></p>
+</footer>
+<aside class="kk-follow" aria-label="KAKUU STUDIO のSNS">
+  <p class="kk-follow-ja"><span>新作は各SNSで公開しています。</span><span>フォローして次の作品もお楽しみに</span></p>
+  <p class="kk-follow-en">Follow us for the next imaginary world.</p>
+  <ul class="kk-follow-links">
+    <li><a href="https://x.com/studio_kakuu" target="_blank" rel="noopener">X</a></li>
+    <li><a href="https://www.tiktok.com/@studio_kakuu" target="_blank" rel="noopener">TikTok</a></li>
+    <li><a href="https://www.instagram.com/studio_kakuu/" target="_blank" rel="noopener">Instagram</a></li>
+  </ul>
+</aside>
+<noscript><p class="noscript">見本を動かすには JavaScript をオンにしてください。</p></noscript>
+</body>
+</html>

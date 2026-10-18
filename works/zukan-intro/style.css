@@ -1,0 +1,121 @@
+/* MOTION 100 図鑑の LP — 図鑑と同じ3色(黒・オフホワイト・ライム)と書体。
+   いちばん目立たせるのは「その場で動く見本」。まわりの文字と飾りは静かにする。 */
+:root {
+  --ink: #0E0E0E;
+  --paper: #F2F0E9;
+  --lime: #C6FF3D;
+  --en: "Anton", "Arial Narrow", sans-serif;
+  --ja: "Zen Kaku Gothic New", sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--ja); font-weight: 700; -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+:focus-visible { outline: 4px solid var(--lime); outline-offset: 3px; }
+button { font: inherit; color: inherit; }
+
+/* 見本の台(図鑑のカードと同じ太い枠と影) */
+.stage {
+  position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; padding: 0; margin: 0; overflow: hidden;
+  container-type: inline-size; background: var(--paper); border: 4px solid var(--ink); box-shadow: 8px 8px 0 var(--ink);
+}
+button.stage { cursor: pointer; transition: transform .12s, box-shadow .12s; }
+button.stage:active { transform: translate(4px, 4px); box-shadow: 4px 4px 0 var(--ink); }
+.stage.dark { background: var(--ink); border-color: var(--paper); box-shadow: 8px 8px 0 var(--lime); }
+.no { position: absolute; left: 10px; top: 6px; z-index: 6; font-family: var(--en); font-size: 18px; line-height: 1; opacity: .6; }
+.tap { position: absolute; right: 10px; bottom: 8px; z-index: 6; font-size: 12px; font-weight: 900; padding: 2px 8px; background: var(--lime); color: var(--ink); }
+.played .tap { display: none; }
+
+/* ── 冒頭:見本そのものが見出し ── */
+.hero { position: relative; padding: 28px 16px 48px; overflow: hidden; display: grid; }
+.hero-kicker { margin: 0 0 18px; font-size: 15px; font-weight: 900; }
+.hero-stage { aspect-ratio: 5 / 4; border: 0; box-shadow: none; background: transparent; z-index: 2; }
+.hero-now { position: relative; z-index: 3; margin: 4px 0 0; font-size: 13px; opacity: .7; }
+.hero-now span { font-family: var(--en); font-weight: 400; font-size: 18px; letter-spacing: .02em; margin-left: 6px; opacity: 1; }
+.hero-title { position: relative; z-index: 3; margin: 26px 0 0; font-weight: 900; font-size: clamp(24px, 6.4vw, 40px); line-height: 1.45; letter-spacing: .01em; }
+.hero-koma { position: absolute; right: -22px; top: 92px; height: 290px; width: auto; z-index: 1; opacity: .95; pointer-events: none; }
+.cta { position: relative; z-index: 3; justify-self: start; margin-top: 28px; padding: 16px 26px; background: var(--ink); color: var(--paper); text-decoration: none; font-weight: 900; font-size: 17px; box-shadow: 6px 6px 0 var(--lime); }
+.cta:active { transform: translate(3px, 3px); box-shadow: 3px 3px 0 var(--lime); }
+
+/* ── できること ── */
+.can { padding: 64px 16px 72px; border-top: 4px solid var(--ink); }
+.can h2 { margin: 0 0 16px; font-weight: 900; font-size: clamp(30px, 8vw, 52px); line-height: 1.25; letter-spacing: .01em; }
+.body { margin: 0 0 30px; max-width: 30em; font-weight: 500; font-size: 16px; line-height: 1.9; }
+.meta { margin: 18px 2px 0; font-weight: 500; font-size: 14px; line-height: 1.7; }
+.meta b { display: block; font-weight: 900; font-size: 19px; }
+
+.dark-band { background: var(--ink); color: var(--paper); border-top-color: var(--ink); }
+.group-stage { background: var(--paper); }
+.dark-band .group-stage { border-color: var(--paper); box-shadow: 8px 8px 0 var(--lime); }
+.group-name { margin: 18px 0 22px; font-family: var(--en); font-weight: 400; font-size: 22px; letter-spacing: .02em; color: var(--lime); }
+.g-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.g-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 14px 14px; background: transparent; border: 2px solid rgba(242, 240, 233, .4); cursor: pointer; text-align: left; font-weight: 900; font-size: 15px; }
+.g-n { font-family: var(--en); font-weight: 400; font-size: 22px; color: var(--lime); }
+.g-row[aria-pressed="true"] { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+.g-row[aria-pressed="true"] .g-n { color: var(--ink); }
+
+.asks { display: grid; gap: 10px; margin-top: 26px; }
+.ask { padding: 14px 18px; text-align: left; background: var(--paper); border: 3px solid var(--ink); border-radius: 22px 22px 22px 4px; cursor: pointer; font-weight: 900; font-size: 16px; }
+.ask[aria-pressed="true"] { background: var(--lime); }
+
+.mv { padding-bottom: 56px; }
+.mv .body { margin-bottom: 0; }
+
+/* ── 受け取り方(手順なので番号をつける)── */
+.get { padding: 64px 16px 72px; background: var(--lime); border-top: 4px solid var(--ink); }
+.get h2 { margin: 0 0 30px; font-weight: 900; font-size: clamp(34px, 9vw, 60px); line-height: 1.2; }
+.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 14px; }
+.steps li { counter-increment: s; position: relative; padding: 18px 18px 18px 74px; background: var(--paper); border: 4px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
+.steps li::before { content: counter(s); position: absolute; left: 18px; top: 10px; font-family: var(--en); font-size: 44px; line-height: 1; }
+.steps b { display: block; font-weight: 900; font-size: 18px; line-height: 1.5; }
+.steps span { display: block; margin-top: 4px; font-weight: 500; font-size: 14px; line-height: 1.7; }
+.get-direct { margin: 30px 0 0; font-weight: 500; font-size: 14px; line-height: 1.9; }
+.get-direct a { font-weight: 900; }
+
+@media (min-width: 900px) {
+  .hero { padding: 48px 8vw 72px; grid-template-columns: 1fr; max-width: 1200px; margin: 0 auto; }
+  .hero-stage { aspect-ratio: 16 / 8; width: 78%; }
+  .hero-koma { right: 6vw; top: auto; bottom: 40px; height: 78%; }
+  .can, .get { padding-inline: 8vw; }
+  .can > *, .get > * { max-width: 760px; }
+  .g-list { grid-template-columns: repeat(3, 1fr); }
+  .can > .stage { max-width: 640px; }
+}
+@media (prefers-reduced-motion: reduce) { button.stage, .cta { transition: none; } }
+
+/* 見本の中身(motions.js のスタイルが当たる部品)*/
+.layer { position: absolute; inset: 0; pointer-events: none; }
+.layer i { position: absolute; display: block; }
+.center { display: flex; align-items: center; justify-content: center; z-index: 3; }
+.fx { z-index: 4; }
+.under { z-index: 2; }
+.kal { z-index: 1; }
+.kal .wedge { inset: 0; clip-path: polygon(50% 50%, 100% 21%, 100% 79%); }
+.word { font-family: var(--en); font-weight: 400; line-height: .94; text-align: center; white-space: pre; position: relative; }
+.word > div > span { display: inline-block; white-space: pre; }
+.word.twin, .word.ghost, .word.prev, .word.shine, .echoes .word { position: absolute; }
+.echoes { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.pix, .slats { position: absolute; inset: 0; }
+.pix i, .slats i { position: absolute; display: block; }
+.art { position: absolute; right: 2%; bottom: -14%; height: 112%; aspect-ratio: 420 / 754; z-index: 1; opacity: .9; }
+.art img { width: 100%; height: 100%; display: block; }
+.dark .art img { filter: drop-shadow(0 0 0 var(--paper)) drop-shadow(1.5px 0 0 var(--paper)) drop-shadow(-1.5px 0 0 var(--paper)) drop-shadow(0 1.5px 0 var(--paper)); }
+
+
+/* ── おわり ── */
+.credit { padding: 48px 16px 64px; text-align: center; font-weight: 500; font-size: 14px; line-height: 1.9; border-top: 4px solid var(--ink); }
+.noscript { padding: 24px; }
+
+/* KAKUU STUDIO のフォロー案内(ページの最後。ブランドの3色とフォントで控えめに) */
+.kk-follow { background: #0E0E0E; color: #FFFFFF; font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif; font-weight: 500; text-align: center; padding: 28px 20px 32px; line-height: 1.7; letter-spacing: .02em; border-top: 1px solid rgba(255, 255, 255, .14); }
+.kk-follow p { margin: 0; }
+.kk-follow-ja { font-size: 12px; color: rgba(255, 255, 255, .72); }
+.kk-follow-ja span { display: inline-block; }
+.kk-follow-en { margin-top: 2px; font-size: 11px; letter-spacing: .06em; color: rgba(255, 255, 255, .48); }
+.kk-follow-links { list-style: none; margin: 18px auto 0; padding: 0; max-width: 420px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.kk-follow-links li { flex: 1 1 auto; }
+.kk-follow-links a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border: 1px solid #C6FF3D; border-radius: 999px; background: transparent; font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif; font-size: 15px; font-weight: 700; line-height: 1; letter-spacing: .06em; color: #FFFFFF; text-decoration: none; white-space: nowrap; transition: background-color .25s, color .25s, border-color .25s; }
+.kk-follow-links li:first-child a { background: #C6FF3D; color: #0E0E0E; }
+.kk-follow-links a:hover { background: #C6FF3D; color: #0E0E0E; }
+.kk-follow-links li:first-child a:hover { background: #FFFFFF; border-color: #FFFFFF; }
+.kk-follow-links a:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }

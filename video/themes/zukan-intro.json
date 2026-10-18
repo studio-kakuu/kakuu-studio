@@ -1,57 +1,114 @@
 {
- "_comment": "作品008 モーション図鑑の紹介動画:プレゼントなし・1本を3媒体で共通利用。台本は video/storyboards/zukan-intro.md。素材は works/motion-zukan/ を押して撮影(capture.mjs の keys / clicks)と、MV(videos/motion-mv/instagram.mp4)の一部。秒はすべて動画の時刻。",
+ "_comment": "作品008 モーション図鑑のLPと紹介動画:プレゼントあり(コメント『図鑑』→ DM で図鑑のURL)。3媒体で締めが違う。台本は video/storyboards/zukan-intro.md。素材は LP(works/zukan-intro/)と図鑑(works/motion-zukan/)を押して撮影、MV の一部。秒はすべて動画の時刻。",
  "slug": "zukan-intro",
  "theme": "モーション図鑑",
- "keyword": "",
+ "keyword": "図鑑",
  "hook": "AIとコードで、\n動きの技100種の\n図鑑をつくった",
  "hookAccent": "100種",
  "hookEnd": 2.5,
- "closingStart": 52,
- "closing": {
-  "instagram": "100種、ぜんぶ押して試せます。\n次の作品も、お楽しみに。",
-  "tiktok": "100種、ぜんぶ押して試せます。\n次の作品も、お楽しみに。",
-  "x": "100種、ぜんぶ押して試せます。\n次の作品も、お楽しみに。"
- },
- "closingSub": "NEXT WORK — COMING SOON",
- "output": {
-  "single": "zukan-intro.mp4"
- },
- "finale": {
-  "from": 46,
-  "to": 52,
-  "big": "100",
-  "small": "MOTIONS",
-  "sub": "ぜんぶ、押して試せる。"
- },
+ "urlNotice": "図鑑のURLは最後に",
+ "urlNoticeAt": [
+  2.6,
+  5.4
+ ],
+ "closingStart": 55,
  "capture": {
   "clips": [
    {
-    "id": "hero",
-    "url": "/works/motion-zukan/",
-    "seconds": 10,
+    "id": "lphero",
+    "url": "/works/zukan-intro/",
+    "seconds": 9,
     "keys": [
      {
       "t": 0,
       "y": 0
-     },
+     }
+    ]
+   },
+   {
+    "id": "lptap",
+    "url": "/works/zukan-intro/",
+    "seconds": 5,
+    "keys": [
      {
-      "t": 6.6,
-      "y": 0
-     },
-     {
-      "t": 7.8,
-      "sel": "#g-in",
-      "top": 0
+      "t": 0,
+      "sel": "#tapStage",
+      "center": true,
+      "dy": 40
      }
     ],
     "clicks": [
      {
-      "t": 2.4,
-      "sel": ".hero-stage"
+      "t": 1.0,
+      "sel": "#tapStage"
      },
      {
-      "t": 5.1,
-      "sel": ".hero-stage"
+      "t": 2.8,
+      "sel": "#tapStage"
+     }
+    ]
+   },
+   {
+    "id": "lpgroups",
+    "url": "/works/zukan-intro/",
+    "seconds": 6,
+    "keys": [
+     {
+      "t": 0,
+      "sel": "#groupStage",
+      "top": 150
+     }
+    ],
+    "clicks": [
+     {
+      "t": 0.6,
+      "sel": ".g-row[data-no=\"043\"]"
+     },
+     {
+      "t": 2.4,
+      "sel": ".g-row[data-no=\"066\"]"
+     },
+     {
+      "t": 4.2,
+      "sel": ".g-row[data-no=\"078\"]"
+     }
+    ]
+   },
+   {
+    "id": "lpask",
+    "url": "/works/zukan-intro/",
+    "seconds": 7,
+    "keys": [
+     {
+      "t": 0,
+      "sel": "#askStage",
+      "top": 150
+     }
+    ],
+    "clicks": [
+     {
+      "t": 0.8,
+      "sel": ".ask[data-motion=\"BOUNCE\"]"
+     },
+     {
+      "t": 2.9,
+      "sel": ".ask[data-motion=\"GLITCH IN\"]"
+     },
+     {
+      "t": 5.0,
+      "sel": ".ask[data-motion=\"TYPEWRITER\"]"
+     }
+    ]
+   },
+   {
+    "id": "lpget",
+    "url": "/works/zukan-intro/",
+    "seconds": 7,
+    "keys": [
+     {
+      "t": 0,
+      "sel": "#get",
+      "top": 0
      }
     ]
    },
@@ -188,101 +245,111 @@
  },
  "clips": [
   {
-   "id": "hero",
+   "id": "lphero",
    "from": 0,
-   "seconds": 10
+   "seconds": 8
+  },
+  {
+   "id": "lptap",
+   "from": 8,
+   "seconds": 5
   },
   {
    "id": "taps",
-   "from": 10,
-   "seconds": 20
+   "from": 13,
+   "seconds": 8,
+   "trimBefore": 4
+  },
+  {
+   "id": "lpgroups",
+   "from": 21,
+   "seconds": 6
   },
   {
    "id": "all",
-   "from": 30,
-   "seconds": 8,
+   "from": 27,
+   "seconds": 6,
    "playbackRate": 3
   },
   {
+   "id": "lpask",
+   "from": 33,
+   "seconds": 7
+  },
+  {
    "id": "mv",
-   "from": 38,
+   "from": 40,
    "seconds": 3.5
   },
   {
    "id": "confetti",
-   "from": 41.5,
+   "from": 43.5,
    "seconds": 4.5
   },
   {
-   "id": "hero",
-   "from": 46,
-   "seconds": 6
+   "id": "lpget",
+   "from": 48,
+   "seconds": 7
   },
   {
-   "id": "hero",
-   "from": 52,
-   "seconds": 10
+   "id": "lphero",
+   "from": 55,
+   "seconds": 9
   }
  ],
  "badges": [
   {
-   "from": 30,
-   "to": 38,
+   "from": 27,
+   "to": 33,
    "text": "×3"
   }
  ],
  "notes": [
   {
-   "from": 7.2,
-   "to": 9.9,
-   "text": "出る・消える・切り替え\n← くり返し・場面転換・おわり",
-   "size": "caption"
-  },
-  {
-   "from": 10.8,
-   "to": 13.95,
+   "from": 8.9,
+   "to": 12.95,
    "text": "004 BOUNCE\n← 上から落ちて 3回はねて止まる",
    "size": "caption"
   },
   {
-   "from": 15.1,
-   "to": 17.95,
+   "from": 13.4,
+   "to": 16.95,
    "text": "022 GLITCH IN\n← 横にずれた断片が\nガタついてから そろう",
    "size": "caption"
   },
   {
-   "from": 19.1,
-   "to": 21.95,
+   "from": 17.4,
+   "to": 20.95,
    "text": "043 EVAPORATE\n← 下から薄くなり、\n粒が上へ昇って消える",
    "size": "caption"
   },
   {
-   "from": 23.1,
-   "to": 25.95,
-   "text": "069 SQUASH AND STRETCH\n← 落ちてつぶれ、\n縦に伸びて跳ね上がる",
+   "from": 21.3,
+   "to": 26.95,
+   "text": "出る・消える・切り替え\n← くり返し・場面転換・おわり",
    "size": "caption"
   },
   {
-   "from": 27.1,
-   "to": 29.95,
-   "text": "078 SHATTER\n← ガラスのように割れて 破片が飛ぶ",
-   "size": "caption"
-  },
-  {
-   "from": 30.2,
-   "to": 37.9,
+   "from": 27.2,
+   "to": 32.95,
    "text": "001 → 100\n← MVで歌われた順に並んでいます",
    "size": "caption"
   },
   {
-   "from": 38.2,
-   "to": 41.4,
+   "from": 33.4,
+   "to": 39.95,
+   "text": "「ふわっと出して」より\n← 「BOUNCE で出して」",
+   "size": "caption"
+  },
+  {
+   "from": 40.2,
+   "to": 43.4,
    "text": "MVでは、歌に合わせて\n← 099 CONFETTI",
    "size": "caption"
   },
   {
-   "from": 42.0,
-   "to": 45.9,
+   "from": 44.0,
+   "to": 47.95,
    "text": "MVと図鑑は、同じ動きのコード\n← motions.js を共用",
    "size": "caption"
   }
@@ -314,7 +381,7 @@
   },
   {
    "from": 2.5,
-   "to": 7.0,
+   "to": 8.0,
    "chip": "MOTION 100",
    "title": "モーション図鑑",
    "camera": {
@@ -336,146 +403,77 @@
    }
   },
   {
-   "from": 7.0,
-   "to": 10.0,
+   "from": 8.0,
+   "to": 13.0,
+   "chip": "TAP",
+   "title": "押すと、その動きで動く",
+   "camera": {
+    "to": [
+     4,
+     6,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     -4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 13.0,
+   "to": 21.0,
+   "chip": "ZUKAN",
+   "title": "図鑑では100種ぜんぶ",
+   "camera": {
+    "to": [
+     4,
+     -6,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 21.0,
+   "to": 27.0,
    "chip": "6 GROUPS",
-   "title": "6つのグループ",
+   "title": "6つのグループから探せる",
    "camera": {
     "to": [
      6,
+     8,
      0,
-     0,
-     1.25,
-     330
-    ],
-    "move": 0.9,
-    "drift": [
-     4,
-     -4,
-     0,
-     1.28,
-     320
-    ]
-   }
-  },
-  {
-   "from": 10,
-   "to": 14,
-   "chip": "TAP",
-   "title": "押すと、その動きで動く",
-   "camera": {
-    "to": [
-     4,
-     6,
-     0,
-     1.32,
-     40
+     1.18,
+     60
     ],
     "move": 0.8,
     "drift": [
-     2,
-     -4,
-     0,
-     1.36,
-     40
-    ]
-   }
-  },
-  {
-   "from": 14,
-   "to": 18,
-   "chip": "TAP",
-   "title": "押すと、その動きで動く",
-   "camera": {
-    "to": [
-     4,
+     3,
      -6,
      0,
-     1.32,
-     40
-    ],
-    "move": 0.8,
-    "drift": [
-     2,
-     4,
-     0,
-     1.36,
-     40
+     1.22,
+     60
     ]
    }
   },
   {
-   "from": 18,
-   "to": 22,
-   "chip": "TAP",
-   "title": "押すと、その動きで動く",
-   "camera": {
-    "to": [
-     4,
-     6,
-     0,
-     1.32,
-     40
-    ],
-    "move": 0.8,
-    "drift": [
-     2,
-     -4,
-     0,
-     1.36,
-     40
-    ]
-   }
-  },
-  {
-   "from": 22,
-   "to": 26,
-   "chip": "TAP",
-   "title": "押すと、その動きで動く",
-   "camera": {
-    "to": [
-     4,
-     -6,
-     0,
-     1.32,
-     40
-    ],
-    "move": 0.8,
-    "drift": [
-     2,
-     4,
-     0,
-     1.36,
-     40
-    ]
-   }
-  },
-  {
-   "from": 26,
-   "to": 30,
-   "chip": "TAP",
-   "title": "押すと、その動きで動く",
-   "camera": {
-    "to": [
-     4,
-     6,
-     0,
-     1.32,
-     40
-    ],
-    "move": 0.8,
-    "drift": [
-     2,
-     -4,
-     0,
-     1.36,
-     40
-    ]
-   }
-  },
-  {
-   "from": 30.0,
-   "to": 38.0,
+   "from": 27.0,
+   "to": 33.0,
    "chip": "ALL 100",
    "title": "全100種",
    "camera": {
@@ -497,8 +495,31 @@
    }
   },
   {
-   "from": 38.0,
-   "to": 41.5,
+   "from": 33.0,
+   "to": 40.0,
+   "chip": "ASK",
+   "title": "AIに、名前で頼める",
+   "camera": {
+    "to": [
+     4,
+     -6,
+     0,
+     1.2,
+     60
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     6,
+     0,
+     1.24,
+     60
+    ]
+   }
+  },
+  {
+   "from": 40.0,
+   "to": 43.5,
    "chip": "MV",
    "title": "歌で見た動きを",
    "camera": {
@@ -520,14 +541,14 @@
    }
   },
   {
-   "from": 41.5,
-   "to": 46.0,
+   "from": 43.5,
+   "to": 48.0,
    "chip": "TRY",
    "title": "図鑑で、自分で押す",
    "camera": {
     "to": [
      4,
-     8,
+     6,
      0,
      1.32,
      40
@@ -543,23 +564,31 @@
    }
   },
   {
-   "from": 46.0,
-   "to": 52.0,
-   "chip": "",
-   "title": "",
+   "from": 48.0,
+   "to": 55.0,
+   "chip": "GET",
+   "title": "受け取り方",
    "camera": {
     "to": [
+     3,
+     10,
+     -1,
+     1.05,
+     30
+    ],
+    "move": 1.0,
+    "drift": [
      1,
      -6,
      0,
-     1.03,
-     20
+     1.09,
+     30
     ]
    }
   },
   {
-   "from": 52.0,
-   "to": 62.0,
+   "from": 55.0,
+   "to": 64.0,
    "chip": "",
    "title": "",
    "camera": {
@@ -586,83 +615,110 @@
   },
   {
    "type": "whoosh",
-   "at": 6.95
+   "at": 7.95
   },
   {
    "type": "key",
-   "at": 11.0,
+   "at": 9.0,
    "volume": 0.55
   },
   {
    "type": "key",
-   "at": 12.6,
-   "volume": 0.55
-  },
-  {
-   "type": "key",
-   "at": 15.3,
-   "volume": 0.55
-  },
-  {
-   "type": "key",
-   "at": 16.9,
-   "volume": 0.55
-  },
-  {
-   "type": "key",
-   "at": 19.3,
-   "volume": 0.55
-  },
-  {
-   "type": "key",
-   "at": 20.9,
-   "volume": 0.55
-  },
-  {
-   "type": "key",
-   "at": 23.3,
-   "volume": 0.55
-  },
-  {
-   "type": "key",
-   "at": 27.3,
-   "volume": 0.55
-  },
-  {
-   "type": "key",
-   "at": 28.9,
+   "at": 10.8,
    "volume": 0.55
   },
   {
    "type": "whoosh",
-   "at": 29.95
-  },
-  {
-   "type": "whoosh",
-   "at": 37.95
-  },
-  {
-   "type": "whoosh",
-   "at": 41.45
+   "at": 12.95
   },
   {
    "type": "key",
-   "at": 42.3,
+   "at": 14.3,
    "volume": 0.55
   },
   {
    "type": "key",
-   "at": 44.1,
+   "at": 15.9,
    "volume": 0.55
   },
   {
-   "type": "hit",
-   "at": 46.1
+   "type": "key",
+   "at": 18.3,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 19.9,
+   "volume": 0.55
+  },
+  {
+   "type": "whoosh",
+   "at": 20.95
+  },
+  {
+   "type": "key",
+   "at": 21.6,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 23.4,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 25.2,
+   "volume": 0.55
+  },
+  {
+   "type": "whoosh",
+   "at": 26.95
+  },
+  {
+   "type": "whoosh",
+   "at": 32.95
+  },
+  {
+   "type": "key",
+   "at": 33.8,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 35.9,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 38.0,
+   "volume": 0.55
+  },
+  {
+   "type": "whoosh",
+   "at": 39.95
+  },
+  {
+   "type": "whoosh",
+   "at": 43.45
+  },
+  {
+   "type": "key",
+   "at": 44.3,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 46.1,
+   "volume": 0.55
+  },
+  {
+   "type": "whoosh",
+   "at": 47.95
   },
   {
    "type": "close",
-   "at": 52.3
+   "at": 55.3
   }
  ],
- "duration": 62.0
+ "duration": 64.0
 }

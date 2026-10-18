@@ -18,12 +18,11 @@ window.KAKUU_WORKS = [
   {
     no: "008",
     slug: "zukan-intro",
-    genre: "FILM",
-    href: "works/motion-zukan/",
+    genre: "WEB",
     name: "MOTION 100 GUIDE",
-    nameJa: "モーション図鑑の紹介動画",
-    theme: "動きの技100種の図鑑を、押しながら紹介するショート動画",
-    themeEn: "Intro Film — Tapping Through 100 Motions",
+    nameJa: "モーション図鑑の受け取り方",
+    theme: "動きの技100種の図鑑でできることを、押して試せるLP",
+    themeEn: "Landing Page — What the Motion Encyclopedia Can Do",
     date: "2026-10-18",
     palette: ["#F2F0E9", "#0E0E0E", "#C6FF3D"]
   },

@@ -1,0 +1,668 @@
+{
+ "_comment": "作品008 モーション図鑑の紹介動画:プレゼントなし・1本を3媒体で共通利用。台本は video/storyboards/zukan-intro.md。素材は works/motion-zukan/ を押して撮影(capture.mjs の keys / clicks)と、MV(videos/motion-mv/instagram.mp4)の一部。秒はすべて動画の時刻。",
+ "slug": "zukan-intro",
+ "theme": "モーション図鑑",
+ "keyword": "",
+ "hook": "AIとコードで、\n動きの技100種の\n図鑑をつくった",
+ "hookAccent": "100種",
+ "hookEnd": 2.5,
+ "closingStart": 52,
+ "closing": {
+  "instagram": "100種、ぜんぶ押して試せます。\n次の作品も、お楽しみに。",
+  "tiktok": "100種、ぜんぶ押して試せます。\n次の作品も、お楽しみに。",
+  "x": "100種、ぜんぶ押して試せます。\n次の作品も、お楽しみに。"
+ },
+ "closingSub": "NEXT WORK — COMING SOON",
+ "output": {
+  "single": "zukan-intro.mp4"
+ },
+ "finale": {
+  "from": 46,
+  "to": 52,
+  "big": "100",
+  "small": "MOTIONS",
+  "sub": "ぜんぶ、押して試せる。"
+ },
+ "capture": {
+  "clips": [
+   {
+    "id": "hero",
+    "url": "/works/motion-zukan/",
+    "seconds": 10,
+    "keys": [
+     {
+      "t": 0,
+      "y": 0
+     },
+     {
+      "t": 6.6,
+      "y": 0
+     },
+     {
+      "t": 7.8,
+      "sel": "#g-in",
+      "top": 0
+     }
+    ],
+    "clicks": [
+     {
+      "t": 2.4,
+      "sel": ".hero-stage"
+     },
+     {
+      "t": 5.1,
+      "sel": ".hero-stage"
+     }
+    ]
+   },
+   {
+    "id": "taps",
+    "url": "/works/motion-zukan/",
+    "seconds": 20,
+    "keys": [
+     {
+      "t": 0,
+      "sel": ".card:has(.stage[aria-label^=\"BOUNCE(\"])",
+      "center": true
+     },
+     {
+      "t": 4,
+      "sel": ".card:has(.stage[aria-label^=\"BOUNCE(\"])",
+      "center": true
+     },
+     {
+      "t": 4.9,
+      "sel": ".card:has(.stage[aria-label^=\"GLITCH IN(\"])",
+      "center": true
+     },
+     {
+      "t": 8,
+      "sel": ".card:has(.stage[aria-label^=\"GLITCH IN(\"])",
+      "center": true
+     },
+     {
+      "t": 8.9,
+      "sel": ".card:has(.stage[aria-label^=\"EVAPORATE(\"])",
+      "center": true
+     },
+     {
+      "t": 12,
+      "sel": ".card:has(.stage[aria-label^=\"EVAPORATE(\"])",
+      "center": true
+     },
+     {
+      "t": 12.9,
+      "sel": ".card:has(.stage[aria-label^=\"SQUASH AND STRETCH(\"])",
+      "center": true
+     },
+     {
+      "t": 16,
+      "sel": ".card:has(.stage[aria-label^=\"SQUASH AND STRETCH(\"])",
+      "center": true
+     },
+     {
+      "t": 16.9,
+      "sel": ".card:has(.stage[aria-label^=\"SHATTER(\"])",
+      "center": true
+     }
+    ],
+    "clicks": [
+     {
+      "t": 1.0,
+      "sel": ".stage[aria-label^=\"BOUNCE(\"]"
+     },
+     {
+      "t": 2.6,
+      "sel": ".stage[aria-label^=\"BOUNCE(\"]"
+     },
+     {
+      "t": 5.3,
+      "sel": ".stage[aria-label^=\"GLITCH IN(\"]"
+     },
+     {
+      "t": 6.9,
+      "sel": ".stage[aria-label^=\"GLITCH IN(\"]"
+     },
+     {
+      "t": 9.3,
+      "sel": ".stage[aria-label^=\"EVAPORATE(\"]"
+     },
+     {
+      "t": 10.9,
+      "sel": ".stage[aria-label^=\"EVAPORATE(\"]"
+     },
+     {
+      "t": 13.3,
+      "sel": ".stage[aria-label^=\"SQUASH AND STRETCH(\"]"
+     },
+     {
+      "t": 17.3,
+      "sel": ".stage[aria-label^=\"SHATTER(\"]"
+     },
+     {
+      "t": 18.9,
+      "sel": ".stage[aria-label^=\"SHATTER(\"]"
+     }
+    ]
+   },
+   {
+    "id": "all",
+    "url": "/works/motion-zukan/",
+    "seconds": 24,
+    "keys": [
+     {
+      "t": 0,
+      "sel": "#g-in",
+      "top": 0
+     },
+     {
+      "t": 24,
+      "sel": ".credit",
+      "top": 600
+     }
+    ]
+   },
+   {
+    "id": "confetti",
+    "url": "/works/motion-zukan/",
+    "seconds": 4.5,
+    "keys": [
+     {
+      "t": 0,
+      "sel": ".card:has(.stage[aria-label^=\"CONFETTI(\"])",
+      "center": true
+     }
+    ],
+    "clicks": [
+     {
+      "t": 0.8,
+      "sel": ".stage[aria-label^=\"CONFETTI(\"]"
+     },
+     {
+      "t": 2.6,
+      "sel": ".stage[aria-label^=\"CONFETTI(\"]"
+     }
+    ]
+   }
+  ]
+ },
+ "clips": [
+  {
+   "id": "hero",
+   "from": 0,
+   "seconds": 10
+  },
+  {
+   "id": "taps",
+   "from": 10,
+   "seconds": 20
+  },
+  {
+   "id": "all",
+   "from": 30,
+   "seconds": 8,
+   "playbackRate": 3
+  },
+  {
+   "id": "mv",
+   "from": 38,
+   "seconds": 3.5
+  },
+  {
+   "id": "confetti",
+   "from": 41.5,
+   "seconds": 4.5
+  },
+  {
+   "id": "hero",
+   "from": 46,
+   "seconds": 6
+  },
+  {
+   "id": "hero",
+   "from": 52,
+   "seconds": 10
+  }
+ ],
+ "badges": [
+  {
+   "from": 30,
+   "to": 38,
+   "text": "×3"
+  }
+ ],
+ "notes": [
+  {
+   "from": 7.2,
+   "to": 9.9,
+   "text": "出る・消える・切り替え\n← くり返し・場面転換・おわり",
+   "size": "caption"
+  },
+  {
+   "from": 10.8,
+   "to": 13.95,
+   "text": "004 BOUNCE\n← 上から落ちて 3回はねて止まる",
+   "size": "caption"
+  },
+  {
+   "from": 15.1,
+   "to": 17.95,
+   "text": "022 GLITCH IN\n← 横にずれた断片が\nガタついてから そろう",
+   "size": "caption"
+  },
+  {
+   "from": 19.1,
+   "to": 21.95,
+   "text": "043 EVAPORATE\n← 下から薄くなり、\n粒が上へ昇って消える",
+   "size": "caption"
+  },
+  {
+   "from": 23.1,
+   "to": 25.95,
+   "text": "069 SQUASH AND STRETCH\n← 落ちてつぶれ、\n縦に伸びて跳ね上がる",
+   "size": "caption"
+  },
+  {
+   "from": 27.1,
+   "to": 29.95,
+   "text": "078 SHATTER\n← ガラスのように割れて 破片が飛ぶ",
+   "size": "caption"
+  },
+  {
+   "from": 30.2,
+   "to": 37.9,
+   "text": "001 → 100\n← MVで歌われた順に並んでいます",
+   "size": "caption"
+  },
+  {
+   "from": 38.2,
+   "to": 41.4,
+   "text": "MVでは、歌に合わせて\n← 099 CONFETTI",
+   "size": "caption"
+  },
+  {
+   "from": 42.0,
+   "to": 45.9,
+   "text": "MVと図鑑は、同じ動きのコード\n← motions.js を共用",
+   "size": "caption"
+  }
+ ],
+ "scenes": [
+  {
+   "from": 0,
+   "to": 2.5,
+   "chip": "",
+   "title": "",
+   "camera": {
+    "from": [
+     16,
+     -30,
+     6,
+     0.84,
+     110,
+     0.55
+    ],
+    "to": [
+     16,
+     -30,
+     6,
+     0.84,
+     110,
+     0.55
+    ]
+   }
+  },
+  {
+   "from": 2.5,
+   "to": 7.0,
+   "chip": "MOTION 100",
+   "title": "モーション図鑑",
+   "camera": {
+    "to": [
+     4,
+     -8,
+     1,
+     1.0,
+     30
+    ],
+    "move": 2.2,
+    "drift": [
+     2,
+     6,
+     0,
+     1.03,
+     24
+    ]
+   }
+  },
+  {
+   "from": 7.0,
+   "to": 10.0,
+   "chip": "6 GROUPS",
+   "title": "6つのグループ",
+   "camera": {
+    "to": [
+     6,
+     0,
+     0,
+     1.25,
+     330
+    ],
+    "move": 0.9,
+    "drift": [
+     4,
+     -4,
+     0,
+     1.28,
+     320
+    ]
+   }
+  },
+  {
+   "from": 10,
+   "to": 14,
+   "chip": "TAP",
+   "title": "押すと、その動きで動く",
+   "camera": {
+    "to": [
+     4,
+     6,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     -4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 14,
+   "to": 18,
+   "chip": "TAP",
+   "title": "押すと、その動きで動く",
+   "camera": {
+    "to": [
+     4,
+     -6,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 18,
+   "to": 22,
+   "chip": "TAP",
+   "title": "押すと、その動きで動く",
+   "camera": {
+    "to": [
+     4,
+     6,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     -4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 22,
+   "to": 26,
+   "chip": "TAP",
+   "title": "押すと、その動きで動く",
+   "camera": {
+    "to": [
+     4,
+     -6,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 26,
+   "to": 30,
+   "chip": "TAP",
+   "title": "押すと、その動きで動く",
+   "camera": {
+    "to": [
+     4,
+     6,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     -4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 30.0,
+   "to": 38.0,
+   "chip": "ALL 100",
+   "title": "全100種",
+   "camera": {
+    "to": [
+     10,
+     14,
+     -2,
+     0.96,
+     20
+    ],
+    "move": 1.0,
+    "drift": [
+     4,
+     -12,
+     1,
+     1.0,
+     20
+    ]
+   }
+  },
+  {
+   "from": 38.0,
+   "to": 41.5,
+   "chip": "MV",
+   "title": "歌で見た動きを",
+   "camera": {
+    "to": [
+     3,
+     -10,
+     1,
+     1.02,
+     20
+    ],
+    "move": 0.8,
+    "drift": [
+     1,
+     6,
+     0,
+     1.06,
+     20
+    ]
+   }
+  },
+  {
+   "from": 41.5,
+   "to": 46.0,
+   "chip": "TRY",
+   "title": "図鑑で、自分で押す",
+   "camera": {
+    "to": [
+     4,
+     8,
+     0,
+     1.32,
+     40
+    ],
+    "move": 0.8,
+    "drift": [
+     2,
+     -4,
+     0,
+     1.36,
+     40
+    ]
+   }
+  },
+  {
+   "from": 46.0,
+   "to": 52.0,
+   "chip": "",
+   "title": "",
+   "camera": {
+    "to": [
+     1,
+     -6,
+     0,
+     1.03,
+     20
+    ]
+   }
+  },
+  {
+   "from": 52.0,
+   "to": 62.0,
+   "chip": "",
+   "title": "",
+   "camera": {
+    "to": [
+     16,
+     -18,
+     4,
+     0.6,
+     -360,
+     0.62
+    ],
+    "move": 1.3
+   }
+  }
+ ],
+ "sfxExtra": [
+  {
+   "type": "hook",
+   "at": 0.0
+  },
+  {
+   "type": "whoosh",
+   "at": 2.45
+  },
+  {
+   "type": "whoosh",
+   "at": 6.95
+  },
+  {
+   "type": "key",
+   "at": 11.0,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 12.6,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 15.3,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 16.9,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 19.3,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 20.9,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 23.3,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 27.3,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 28.9,
+   "volume": 0.55
+  },
+  {
+   "type": "whoosh",
+   "at": 29.95
+  },
+  {
+   "type": "whoosh",
+   "at": 37.95
+  },
+  {
+   "type": "whoosh",
+   "at": 41.45
+  },
+  {
+   "type": "key",
+   "at": 42.3,
+   "volume": 0.55
+  },
+  {
+   "type": "key",
+   "at": 44.1,
+   "volume": 0.55
+  },
+  {
+   "type": "hit",
+   "at": 46.1
+  },
+  {
+   "type": "close",
+   "at": 52.3
+  }
+ ],
+ "duration": 62.0
+}

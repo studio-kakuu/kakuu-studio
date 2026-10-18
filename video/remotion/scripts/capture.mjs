@@ -61,14 +61,40 @@ for (const clip of clips) {
   if (clip.waitFor) await page.waitForFunction(clip.waitFor, null, { timeout: 30000 });   // ページの準備(字体の読みこみなど)が終わるまで待つ
   await page.addStyleTag({ content: 'html{scrollbar-width:none}::-webkit-scrollbar{display:none}' });
   const max = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
+  // keys があれば:要素(sel)の位置を目当てにスクロールする(t 秒でその位置。間は easeInOutSine)。center: true で画面の中央、なければ上端 + top px
+  const keys = clip.keys ? await page.evaluate((keys) => keys.map((k) => {
+    if (k.sel == null) return { t: k.t, y: k.y ?? 0 };
+    const e = document.querySelector(k.sel); const r = e.getBoundingClientRect(); const top = r.top + scrollY;
+    return { t: k.t, y: Math.max(0, k.center ? top - (innerHeight - r.height) / 2 + (k.dy ?? 0) : top - (k.top ?? 0)) };
+  }), clip.keys) : null;
+  const scrollAt = (t) => {
+    if (!keys) { const k = ease((t - clip.holdStart) / (clip.seconds - clip.holdStart - clip.holdEnd)); return max * (clip.scroll[0] + (clip.scroll[1] - clip.scroll[0]) * k); }
+    let i = keys.findIndex((k) => k.t > t);
+    if (i === 0) return keys[0].y;
+    if (i < 0) return keys[keys.length - 1].y;
+    const a = keys[i - 1], b = keys[i];
+    return a.y + (b.y - a.y) * ease((t - a.t) / (b.t - a.t));
+  };
+  // clicks:t 秒にその要素を押す(タップの丸い波紋を 0.5 秒だけ重ねる)
+  const clicks = (clip.clicks ?? []).map((c) => ({ ...c, done: false }));
   const total = Math.round(clip.seconds * fps);
   let clock = 0;
   const t0 = await page.evaluate(() => performance.now());
   for (let f = 0; f < total; f++) {
     const t = f / fps;
-    const k = ease((t - clip.holdStart) / (clip.seconds - clip.holdStart - clip.holdEnd));
-    const y = Math.round(max * (clip.scroll[0] + (clip.scroll[1] - clip.scroll[0]) * k));
+    const y = Math.round(Math.min(max, scrollAt(t)));
     await page.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' }), y);
+    for (const c of clicks) if (!c.done && t >= c.t) {
+      c.done = true;
+      c.at = await page.evaluate((sel) => { const e = document.querySelector(sel); const r = e.getBoundingClientRect(); e.click(); return [r.left + r.width * 0.5, r.top + r.height * 0.55]; }, c.sel);
+    }
+    const tap = clicks.find((c) => c.done && t - c.t < 0.5);
+    await page.evaluate(([at, k]) => {
+      let d = document.getElementById('__tap');
+      if (!d) { d = document.body.appendChild(document.createElement('div')); d.id = '__tap'; d.style.cssText = 'position:fixed;z-index:9999;pointer-events:none;border-radius:50%;width:90px;height:90px;margin:-45px 0 0 -45px;border:5px solid #C6FF3D;background:rgba(198,255,61,.28)'; }
+      d.style.display = at ? 'block' : 'none';
+      if (at) { d.style.left = `${at[0]}px`; d.style.top = `${at[1]}px`; d.style.transform = `scale(${0.5 + k * 0.9})`; d.style.opacity = String(1 - k); }
+    }, [tap?.at ?? null, tap ? (t - tap.t) / 0.5 : 0]);
     const target = Math.round((f + 1) * 1000 / fps);
     await page.clock.runFor(target - clock); clock = target;
     await page.screenshot({ path: join(tmp, `${String(f).padStart(5, '0')}.jpg`), type: 'jpeg', quality: 92 });

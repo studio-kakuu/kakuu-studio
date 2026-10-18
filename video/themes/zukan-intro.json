@@ -3,8 +3,8 @@
  "slug": "zukan-intro",
  "theme": "モーション図鑑",
  "keyword": "モーション",
- "hook": "AIとコードで、\n動きの技100種の\n図鑑をつくった",
- "hookAccent": "100種",
+ "hook": "AIとコードでつくった\nプレゼント中の\nモーション図鑑の紹介",
+ "hookAccent": "プレゼント中",
  "hookEnd": 2.5,
  "closingStart": 55,
  "capture": {

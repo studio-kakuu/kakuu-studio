@@ -103,7 +103,8 @@ const Notes: React.FC<{ items: { from: number; to: number; text: string; size?: 
       {cap && top && <div style={{ position: "absolute", left: 0, right: 0, top: 170, height: 400, background: "linear-gradient(rgba(14,14,14,0), rgba(14,14,14,.9) 18%, rgba(14,14,14,.9) 72%, rgba(14,14,14,0))", opacity: o }} />}
       <div style={{ position: "absolute", left: 80, right: 80, ...(cap && top ? { top: 214 } : { bottom: cap ? 150 : 70 }), textAlign: cap && top ? "left" : "center", opacity: o, translate: `0px ${(1 - o) * 12}px`,
         fontFamily: FONT, fontWeight: cap ? 700 : 500, fontSize: cap ? 50 : 28, lineHeight: 1.4, letterSpacing: cap ? "0.02em" : "0.1em", color: cap ? WHITE : white(0.6), whiteSpace: "pre-line" }}>
-        {cap ? n.text.split("←").map((part, i) => i === 0 ? <span key={i}>{part}</span> : <span key={i} style={{ color: ACCENT }}>← {part.trim()}</span>) : n.text}
+        {/* 上に出すときは矢印を付けない(指す先が下にないため)。「←」は2行目をアクセント色にする区切りとしてだけ使う */}
+        {cap ? n.text.split("←").map((part, i) => i === 0 ? <span key={i}>{part}</span> : <span key={i} style={{ color: ACCENT }}>{top ? "" : "← "}{part.trim()}</span>) : n.text}
       </div>
     </>
   );

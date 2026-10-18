@@ -1,7 +1,8 @@
 # 008 モーション図鑑の LP と紹介動画 — 完成パッケージの投稿文
 
 動画:`videos/zukan-intro/instagram.mp4` / `tiktok.mp4` / `x.mp4`(締めが媒体ごとに違うので取り違えない)。カバーは冒頭のフック画面。
-プレゼント:モーション図鑑(キーワード『図鑑』)。LP:`https://studio-kakuu.github.io/kakuu-studio/works/zukan-intro/`
+プレゼント:モーション図鑑。受け取りは **MV「MOTION 100」の投稿へのコメント『モーション』**(004 の ManyChat をそのまま使う)。
+投稿時に Instagram の編集で、右下に MV を重ねて流す(動画の右下は空けてある。字幕は上、URL予告なし)。LP:`https://studio-kakuu.github.io/kakuu-studio/works/zukan-intro/`
 
 ---
 
@@ -20,7 +21,7 @@ MV「MOTION 100」で歌われた順に並び、MVと同じ動きのコードで
 
 ※KAKUU STUDIO が AI とコードでつくった、架空の世界のオリジナル作品です。
 
-コメントで『図鑑』と送ってね、URLをお届けします。
+図鑑は、MVの投稿に『モーション』とコメントすると届きます。
 
 ―――
 
@@ -30,7 +31,7 @@ Tap a name like "FADE IN," "BOUNCE," or "SHATTER," and the name moves in that ve
 Once you know the names, you can ask AI in one line: "Bring the title in with BOUNCE."
 *An original work by KAKUU STUDIO, made with AI and code.
 
-Comment "図鑑" (zukan) and I'll send you the URL.
+To get it, comment "モーション" (motion) on our music video post.
 
 #KAKUUSTUDIO #MOTION100 #アニメーション
 ```
@@ -46,10 +47,10 @@ MV「MOTION 100」と同じ動きのコードで動いています。
 
 ※AI制作。架空の世界をつくる KAKUU STUDIO のオリジナル作品です。
 
-Instagram(@studio_kakuu)の投稿に『図鑑』とコメントすると届きます。
+Instagram(@studio_kakuu)のMVの投稿に『モーション』とコメントすると届きます。
 
 I made an encyclopedia of 100 animation techniques with AI and code. Tap a name and it moves in that motion.
-*Made with AI. Comment "図鑑" on our Instagram post (@studio_kakuu) to get it.
+*Made with AI. Comment "モーション" on our music video post on Instagram (@studio_kakuu) to get it.
 
 #KAKUUSTUDIO #MOTION100 #アニメーション #AI制作 #つくってみた
 ```
@@ -86,36 +87,10 @@ Tap a name and it moves in that very motion. 6 groups, 100 motions. Know the nam
 
 ---
 
-## ManyChat(Instagram のコメント『図鑑』→ DM で図鑑の URL)
+## ManyChat(新しい設定はなし)
 
-1. Automation → New Automation → トリガー「User comments on your Post or Reel」
-2. 対象の投稿:投稿前なら「Next Post or Reel」/投稿後ならこのリール
-3. Keywords:`図鑑` `ずかん` `ズカン` `zukan` `図かん`
-4. 公開のコメント返信(3つをランダム。全作品共通)
-   ```
-   DMをお送りしました📩 フォローしておくと、次の作品もすぐ届きます
-   ありがとうございます!DMを見てみてください📩 Check your DMs!
-   お届けしました⚡ 次の作品もお楽しみに。Sent you a DM!
-   ```
-5. 最初のDM(opening DM)— ボタン「受け取る / Get it」1つ
-   ```
-   コメントありがとうございます📖
-   アニメーションの技100種を、押して試せる「モーション図鑑」をお届けします。
-
-   よければフォローしてから受け取ってください。
-   次の作品もいち早く届きます🙌
-
-   Thanks for commenting! Follow us to catch the next work.
-   ```
-6. リンク付きDM — ボタン「ひらく / Open」→ `https://studio-kakuu.github.io/kakuu-studio/works/motion-zukan/`
-   ```
-   「モーション図鑑」はこちらです👇
-   技の名前を押すと、その動きで動きます。全100種。
-   個人の制作や勉強に使えます。再配布・販売はご遠慮ください。
-
-   KAKUU STUDIO
-   ```
-7. **Set Live**。無料プランは LIVE 4つまでなので、いちばん古い作品の自動返信を止めてから
+- 004 MV の自動返信(キーワード『モーション』、DM で図鑑の URL)をそのまま使う。**LIVE になっているか確認**(無料プランは LIVE 4つまで。止めていたら、いちばん古いものと入れ替える)
+- この紹介リールには自動返信を付けない(ここに『モーション』とコメントが来たら、手で MV の投稿へ案内するか URL を返す)
 
 ---
 
@@ -123,6 +98,7 @@ Tap a name and it moves in that very motion. 6 groups, 100 motions. Know the nam
 
 ### 共通
 - [ ] 動画は媒体ごと(`instagram.mp4` / `tiktok.mp4` / `x.mp4`)。締めの文言が投稿文と同じ
+- [ ] Instagram の編集で、右下に MV を重ねる(字幕・ロゴにかからない大きさ)
 - [ ] 本文はこのファイルの同じ媒体の欄からコピー
 - [ ] 1行目「AIとコードで、動きの技100種の図鑑をつくりました。」がある/実在の製品名を書いていない
 - [ ] 冒頭 1.5 秒に「AIとコードで、動きの技100種の図鑑をつくった」が出ている
@@ -133,11 +109,11 @@ Tap a name and it moves in that very motion. 6 groups, 100 motions. Know the nam
 ### Instagram
 - [ ] 「オーディエンス」で「メイングリッドとリールグリッドに表示」がオン
 - [ ] ハッシュタグ3個(#KAKUUSTUDIO #MOTION100 #アニメーション)
-- [ ] ManyChat『図鑑』が LIVE(投稿前に「Next Post or Reel」で作るのがおすすめ)
-- [ ] テスト:別のアカウントで『図鑑』とコメント → 公開の返信と DM が届く/DM のボタンから図鑑がスマホで開く/`ずかん` `zukan` でも届く
+- [ ] 004 MV の ManyChat『モーション』が LIVE
+- [ ] テスト:別のアカウントで MV の投稿に『モーション』とコメント → DM が届き、ボタンから図鑑が開く
 
 ### TikTok
-- [ ] ハッシュタグ5個/締めが「Instagram(@studio_kakuu)の投稿に『図鑑』とコメントすると届きます」
+- [ ] ハッシュタグ5個/締めが「Instagram(@studio_kakuu)のMVの投稿に『モーション』とコメントすると届きます」
 
 ### X
 - [ ] 日本語を本投稿、英語をそのリプライに。ハッシュタグ各2個

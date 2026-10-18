@@ -89,7 +89,7 @@ const Badges: React.FC<{ items: { from: number; to: number; text: string }[] }> 
 };
 
 // 画面下の小さな一言(small)/字幕(caption)
-const Notes: React.FC<{ items: { from: number; to: number; text: string; size?: "small" | "caption" }[] }> = ({ items }) => {
+const Notes: React.FC<{ items: { from: number; to: number; text: string; size?: "small" | "caption" }[]; top?: boolean }> = ({ items, top }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -99,8 +99,9 @@ const Notes: React.FC<{ items: { from: number; to: number; text: string; size?: 
   const cap = n.size === "caption";
   return (
     <>
-      {cap && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 420, background: `linear-gradient(rgba(14,14,14,0), rgba(14,14,14,.92) 55%, ${BLACK})`, opacity: o }} />}
-      <div style={{ position: "absolute", left: 80, right: 80, bottom: cap ? 150 : 70, textAlign: "center", opacity: o, translate: `0px ${(1 - o) * 12}px`,
+      {cap && !top && <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 420, background: `linear-gradient(rgba(14,14,14,0), rgba(14,14,14,.92) 55%, ${BLACK})`, opacity: o }} />}
+      {cap && top && <div style={{ position: "absolute", left: 0, right: 0, top: 170, height: 400, background: "linear-gradient(rgba(14,14,14,0), rgba(14,14,14,.9) 18%, rgba(14,14,14,.9) 72%, rgba(14,14,14,0))", opacity: o }} />}
+      <div style={{ position: "absolute", left: 80, right: 80, ...(cap && top ? { top: 214 } : { bottom: cap ? 150 : 70 }), textAlign: cap && top ? "left" : "center", opacity: o, translate: `0px ${(1 - o) * 12}px`,
         fontFamily: FONT, fontWeight: cap ? 700 : 500, fontSize: cap ? 50 : 28, lineHeight: 1.4, letterSpacing: cap ? "0.02em" : "0.1em", color: cap ? WHITE : white(0.6), whiteSpace: "pre-line" }}>
         {cap ? n.text.split("←").map((part, i) => i === 0 ? <span key={i}>{part}</span> : <span key={i} style={{ color: ACCENT }}>← {part.trim()}</span>) : n.text}
       </div>
@@ -130,7 +131,7 @@ export const ScenesProcess: React.FC<ProcessProps> = (props) => {
         : <Phone slug={props.slug} clips={props.clips as Clip[]} pose={pose} hidden={(t) => !!fin && t >= fin.from + 0.1 && t < fin.to - 0.4} />}
       <SceneHeader scenes={scenes} soft={props.frame === "full"} />
       {props.badges && <Badges items={props.badges} />}
-      {props.notes && <Notes items={props.notes} />}
+      {props.notes && <Notes items={props.notes} top={props.notesTop} />}
       {fin && <Finale {...fin} />}
       {props.hook !== "" && (
         <Sequence name="Hook" durationInFrames={Math.round(((props.hookEnd ?? 2) + 0.5) * fps)} premountFor={fps}>

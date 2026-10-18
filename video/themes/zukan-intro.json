@@ -1,16 +1,11 @@
 {
- "_comment": "作品008 モーション図鑑のLPと紹介動画:プレゼントあり(コメント『図鑑』→ DM で図鑑のURL)。3媒体で締めが違う。台本は video/storyboards/zukan-intro.md。素材は LP(works/zukan-intro/)と図鑑(works/motion-zukan/)を押して撮影、MV の一部。秒はすべて動画の時刻。",
+ "_comment": "作品008 モーション図鑑のLPと紹介動画:プレゼントあり(MV の投稿へのコメント『モーション』(004 の ManyChat)→ DM で図鑑のURL)。3媒体で締めが違う。台本は video/storyboards/zukan-intro.md。素材は LP(works/zukan-intro/)と図鑑(works/motion-zukan/)を押して撮影、MV の一部。秒はすべて動画の時刻。 右下は投稿時に MV を重ねるので空けておく(字幕は上、URL予告なし)。",
  "slug": "zukan-intro",
  "theme": "モーション図鑑",
- "keyword": "図鑑",
+ "keyword": "モーション",
  "hook": "AIとコードで、\n動きの技100種の\n図鑑をつくった",
  "hookAccent": "100種",
  "hookEnd": 2.5,
- "urlNotice": "図鑑のURLは最後に",
- "urlNoticeAt": [
-  2.6,
-  5.4
- ],
  "closingStart": 55,
  "capture": {
   "clips": [
@@ -720,5 +715,11 @@
    "at": 55.3
   }
  ],
- "duration": 64.0
+ "duration": 64.0,
+ "notesTop": true,
+ "closing": {
+  "instagram": "MVの投稿に『モーション』と\nコメントすると届きます",
+  "tiktok": "Instagram(@studio_kakuu)の\nMVの投稿に『モーション』と\nコメントすると届きます",
+  "x": "URLは\nプロフィールのリンクから"
+ }
 }

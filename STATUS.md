@@ -12,7 +12,7 @@
 | 005 | KAKUU GAMES(ピクトグラム図鑑) | `works/kakuu-games/` | **完了**:公開・ManyChat『ゲームズ』設定・全SNS投稿済み |
 | 006 | 制作記録 02 工程・シフト管理(ガイドページ) | `works/koutei/` | 公開。動画 `videos/koutei/`(3媒体)・投稿文 `captions/koutei/`。全SNS投稿済み・ManyChat『工程』LIVE(001 カフェの自動返信は停止) |
 | 007 | ドットアニメ(アニメ戦闘MV) | ブランチ `claude/006-anime-battle-mv` | **保留中**(main には未取り込み。ブランチ名は旧番号のまま) |
-| 008 | モーション図鑑の LP と紹介動画 | `works/zukan-intro/` | LP 公開。動画 `videos/zukan-intro/`(3媒体)・投稿文と ManyChat『図鑑』の設定 `captions/zukan-intro.md`。**未投稿・ManyChat 未設定** |
+| 008 | モーション図鑑の LP と紹介動画 | `works/zukan-intro/` | LP 公開。動画 `videos/zukan-intro/`(3媒体)・投稿文 `captions/zukan-intro.md`。受け取りは MV 投稿のコメント『モーション』(004 の ManyChat)。投稿時に右下へ MV を重ねる。**未投稿** |
 
 公開URL:https://studio-kakuu.github.io/kakuu-studio/
 

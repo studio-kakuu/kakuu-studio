@@ -37,6 +37,8 @@ export const processSchema = z.object({
   narration: z.array(z.object({ file: z.string(), at: z.number(), len: z.number() })).optional(),
   // SNS のボタン・説明文に隠れない配置(上 220px・下 420px・右 160px をあける)
   safeArea: z.boolean().optional(),
+  // 字幕を上(左上のラベルの下)に出す。右下に別の動画を重ねて投稿する作品で、下を空けるため
+  notesTop: z.boolean().optional(),
   // 書き出しの音量(LUFS)。render.mjs が最後にそろえる
   loudness: z.number().optional(),
 });

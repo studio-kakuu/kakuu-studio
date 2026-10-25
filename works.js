@@ -16,6 +16,17 @@
 */
 window.KAKUU_WORKS = [
   {
+    no: "009",
+    slug: "stamp-kobo",
+    genre: "WEB",
+    name: "STAMP KOBO",
+    nameJa: "スタンプ工房",
+    theme: "Geminiの絵からLINEスタンプ40個を仕上げる半自動ツール",
+    themeEn: "Semi-Automatic LINE Sticker Maker — 40 Stickers from Gemini Art",
+    date: "2026-10-26",
+    palette: ["#EDF1F0", "#1C2629", "#D63A5A"]
+  },
+  {
     no: "008",
     slug: "zukan-intro",
     genre: "WEB",

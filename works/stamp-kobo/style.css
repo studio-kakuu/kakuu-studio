@@ -1,0 +1,117 @@
+/* 009 スタンプ工房の紹介ページ — ツール本体と同じ色(青みのグレー・スタンプの赤)と、LINE のトーク画面の青。
+   いちばん目立たせるのは「できたスタンプ」そのもの。ほかは静かにする。 */
+:root {
+  --paper: #EDF1F0;
+  --white: #FFFFFF;
+  --ink: #1C2629;
+  --muted: #56666A;
+  --red: #D63A5A;
+  --talk: #8098BB;
+  --line-green: #06C755;
+  --round: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--round); font-weight: 500; font-size: 17px; line-height: 1.8; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+h1, h2, h3 { margin: 0; font-weight: 900; line-height: 1.35; text-wrap: balance; }
+p { margin: 0; }
+img { display: block; max-width: 100%; height: auto; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: var(--red); color: var(--white); font-weight: 700; font-size: 17px; text-decoration: none; box-shadow: 0 4px 0 #9E2640; transition: transform .1s, box-shadow .1s; }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #9E2640; }
+.btn.line { background: var(--line-green); box-shadow: 0 4px 0 #04883A; }
+.btn.line:active { box-shadow: 0 1px 0 #04883A; }
+
+/* ---- 冒頭:左に名前、右にトーク画面 ---- */
+.hero { max-width: 1040px; margin: 0 auto; padding: 28px 16px 48px; display: grid; gap: 32px; }
+.hero-from { font-size: 14px; color: var(--muted); }
+.hero-from a { text-underline-offset: 3px; }
+.hero-title { margin-top: 10px; font-size: clamp(44px, 12vw, 76px); letter-spacing: .04em; line-height: 1.1; color: var(--ink); }
+.hero-lead { margin-top: 14px; font-size: clamp(20px, 5.2vw, 26px); font-weight: 700; line-height: 1.55; }
+.hero-sub { margin-top: 12px; color: var(--muted); max-width: 30em; }
+.hero .btn { margin-top: 24px; }
+
+.talk { background: var(--talk); border-radius: 28px; overflow: hidden; max-width: 420px; width: 100%; justify-self: center; box-shadow: 0 0 0 6px var(--white), 0 0 0 8px var(--ink); }
+.talk-head { background: rgba(255, 255, 255, .22); color: var(--white); text-align: center; font-weight: 700; font-size: 15px; padding: 10px 0; }
+.talk-body { padding: 18px 16px 22px; display: grid; gap: 10px; }
+.msg { display: flex; }
+.msg.them span { background: var(--white); border-radius: 18px; padding: 8px 14px; font-size: 16px; line-height: 1.5; max-width: 80%; }
+.msg.me { justify-content: flex-end; }
+.msg.st img { width: 148px; }
+/* 読み込み時に、トークが上から順に届く(この1か所だけ自動で動く) */
+@media (prefers-reduced-motion: no-preference) {
+  .talk .msg { animation: arrive .45s cubic-bezier(.3, 1.4, .5, 1) both; }
+  .talk .msg:nth-child(1) { animation-delay: .3s; }
+  .talk .msg:nth-child(2) { animation-delay: .9s; }
+  .talk .msg:nth-child(3) { animation-delay: 1.7s; }
+  .talk .msg:nth-child(4) { animation-delay: 2.3s; }
+  .talk .msg:nth-child(5) { animation-delay: 3.1s; }
+  .talk .msg:nth-child(6) { animation-delay: 3.7s; }
+}
+@keyframes arrive { from { opacity: 0; transform: translateY(12px) scale(.9); } to { opacity: 1; transform: none; } }
+
+@media (min-width: 820px) {
+  .hero { grid-template-columns: 1fr 400px; align-items: center; padding-top: 56px; padding-bottom: 72px; gap: 56px; }
+}
+
+/* ---- 40個の壁:トーク画面と同じ青の上に全部並べる ---- */
+.wall { background: var(--talk); color: var(--white); padding: 56px 16px 64px; }
+.wall-copy { max-width: 1008px; margin: 0 auto; }
+.wall h2 { font-size: clamp(26px, 6.4vw, 36px); }
+.wall-copy p { margin-top: 14px; max-width: 34em; }
+.wall-grid { list-style: none; margin: 32px auto 0; padding: 0; max-width: 1008px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+@media (min-width: 560px) { .wall-grid { grid-template-columns: repeat(5, 1fr); } }
+@media (min-width: 820px) { .wall-grid { grid-template-columns: repeat(8, 1fr); gap: 8px; } }
+.wall-grid button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 12px; }
+.wall-grid img { width: 100%; aspect-ratio: 37 / 32; }
+.wall-grid .hop img { animation: hop .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes hop { 0% { transform: scale(1); } 35% { transform: scale(1.18) rotate(-4deg); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .wall-grid .hop img { animation: none; } }
+
+/* ---- できること:スマホ画面と説明を交互に ---- */
+.feat { max-width: 1040px; margin: 0 auto; padding: 64px 16px 24px; }
+.feat-title { font-size: clamp(26px, 6.4vw, 36px); }
+.row { display: grid; gap: 22px; margin-top: 44px; align-items: center; }
+.row h3 { font-size: clamp(21px, 5.4vw, 26px); }
+.row-copy p { margin-top: 10px; max-width: 30em; }
+.phone { margin: 0; width: min(250px, 66vw); justify-self: center; border: 6px solid var(--ink); border-radius: 30px; overflow: hidden; background: var(--white); }
+@media (min-width: 820px) {
+  .row { grid-template-columns: 280px 1fr; gap: 56px; }
+  .row:nth-of-type(even) { grid-template-columns: 1fr 280px; }
+  .row:nth-of-type(even) .phone { order: 2; }
+  .phone { width: 260px; }
+}
+
+/* ---- 手順(順番があるものだけ番号) ---- */
+.how, .get { max-width: 1040px; margin: 0 auto; padding: 56px 16px; }
+.how h2, .get h2 { font-size: clamp(26px, 6.4vw, 36px); }
+.steps { list-style: none; counter-reset: s; margin: 24px 0 0; padding: 0; display: grid; gap: 12px; max-width: 640px; }
+.steps li { counter-increment: s; position: relative; background: var(--white); border-radius: 18px; padding: 16px 18px 16px 70px; }
+.steps li::before { content: counter(s); position: absolute; left: 16px; top: 14px; width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: var(--white); font-weight: 900; font-size: 20px; display: grid; place-items: center; }
+.steps b { display: block; font-weight: 700; font-size: 18px; line-height: 1.5; }
+.steps span { display: block; margin-top: 2px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+.get { padding-bottom: 72px; }
+.get-when { margin-top: 14px; display: inline-block; background: var(--ink); color: var(--white); border-radius: 12px; padding: 10px 16px; font-weight: 700; }
+.get-when.now { background: var(--red); }
+.get-links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 14px; }
+.get-note { margin-top: 18px; color: var(--muted); font-size: 15px; max-width: 34em; }
+
+.credit { text-align: center; padding: 32px 16px 36px; font-size: 13px; color: var(--muted); line-height: 1.8; border-top: 1px solid #D3DCDA; }
+.credit p + p { margin-top: 10px; }
+
+/* ---- フォロー案内(全作品ページ共通の見た目) ---- */
+.kk-follow { background: #0E0E0E; color: #FFFFFF; font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif; font-weight: 500; text-align: center; padding: 28px 20px 32px; line-height: 1.7; letter-spacing: .02em; border-top: 1px solid rgba(255, 255, 255, .14); }
+.kk-follow p { margin: 0; }
+.kk-follow-ja { font-size: 12px; color: rgba(255, 255, 255, .72); }
+.kk-follow-ja span { display: inline-block; }
+.kk-follow-en { margin-top: 2px; font-size: 11px; letter-spacing: .06em; color: rgba(255, 255, 255, .48); }
+.kk-follow-links { list-style: none; margin: 18px auto 0; padding: 0; max-width: 420px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.kk-follow-links li { flex: 1 1 auto; }
+.kk-follow-links a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border: 1px solid #C6FF3D; border-radius: 999px; background: transparent; font-family: "Space Grotesk", "Zen Kaku Gothic New", sans-serif; font-size: 15px; font-weight: 700; line-height: 1; letter-spacing: .06em; color: #FFFFFF; text-decoration: none; white-space: nowrap; transition: background-color .25s, color .25s, border-color .25s; }
+.kk-follow-links li:first-child a { background: #C6FF3D; color: #0E0E0E; }
+.kk-follow-links a:hover { background: #C6FF3D; color: #0E0E0E; }
+.kk-follow-links li:first-child a:hover { background: #FFFFFF; border-color: #FFFFFF; }
+.kk-follow-links a:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }

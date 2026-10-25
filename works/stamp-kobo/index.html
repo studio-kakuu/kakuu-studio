@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>スタンプ工房 — KAKUU STUDIO</title>
+<meta name="description" content="Gemini で描いた絵を、LINE スタンプ40個に仕上げるツール「スタンプ工房」の紹介と受け取り方。※KAKUU STUDIO が AI とコードでつくったオリジナル作品です。">
+<meta name="theme-color" content="#8098BB">
+<link rel="icon" href="../../brand/logo-on-black.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="lp.js" defer></script>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-copy">
+    <p class="hero-from"><a href="../../">KAKUU STUDIO</a> の作品 009</p>
+    <h1 class="hero-title">スタンプ工房</h1>
+    <p class="hero-lead">Gemini で描いた絵を、<br>LINE スタンプ40個に仕上げるツール。</p>
+    <p class="hero-sub">指示文づくりから、切り分け・文字入れ・申請前のチェックまで。スマホのブラウザだけで使えます。</p>
+    <a class="btn" href="#get">受け取り方を見る</a>
+  </div>
+  <div class="talk" aria-label="できたスタンプをトークで使った例">
+    <p class="talk-head">トーク</p>
+    <div class="talk-body">
+      <p class="msg them"><span>月曜だね…</span></p>
+      <p class="msg me st"><img src="img/st/00.webp" alt="スタンプ「月曜つらい」" width="185" height="160"></p>
+      <p class="msg them"><span>今日も残業?</span></p>
+      <p class="msg me st"><img src="img/st/29.webp" alt="スタンプ「帰りたい」" width="185" height="160"></p>
+      <p class="msg them"><span>終わったらごはん行こ</span></p>
+      <p class="msg me st"><img src="img/st/06.webp" alt="スタンプ「秒で行く!」" width="185" height="160"></p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="wall" aria-labelledby="wall-h">
+    <div class="wall-copy">
+      <h2 id="wall-h">40個、ポーズもセリフも<br>かぶらないように</h2>
+      <p>Gemini に貼る指示文を、8個ずつ5回ぶん作ります。Gemini アプリに貼るだけなので、API の登録や追加の料金はいりません。下の40個は、ツールで仕上げた見本です。押すと動きます。</p>
+    </div>
+    <ul class="wall-grid" id="wall"></ul>
+  </section>
+
+  <section class="feat" aria-labelledby="feat-h">
+    <h2 id="feat-h" class="feat-title">できること</h2>
+
+    <div class="row">
+      <figure class="phone"><img src="img/presets.webp" alt="キャラクターとテーマの見本を選ぶ画面" width="540" height="960" loading="lazy"></figure>
+      <div class="row-copy">
+        <h3>キャラとテーマを選ぶ</h3>
+        <p>白ねこ・しば犬・会社員など10の見本から選ぶと、絵柄とセリフがまとめて入ります。自分で描いた絵や、自分の指示文でも作れます。</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <figure class="phone"><img src="img/text.webp" alt="文字をカーブさせ、後半だけ色を変え、飾りと白フチをつけたスタンプの一覧" width="540" height="960" loading="lazy"></figure>
+      <div class="row-copy">
+        <h3>文字を曲げる、色を変える、飾る</h3>
+        <p>フォント、9か所の位置、縦書き、カーブ、後半だけの色変え、キラキラやハートの飾り、スタンプ全体の白フチまで。文字の大きさは40個でそろいます。</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <figure class="phone"><img src="img/phrases.webp" alt="セリフを1個ずつ書き換える画面" width="540" height="960" loading="lazy"></figure>
+      <div class="row-copy">
+        <h3>セリフは見本から、1個ずつ直せる</h3>
+        <p>ゆるい日常、職場のあるある、敬語、家族、季節など。気になる1個だけ書き換えたり、2か所目の小さい文字を足したりできます。</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <figure class="phone"><img src="img/check.webp" alt="申請前の自動チェックで、すべての項目にチェックがついた画面" width="540" height="960" loading="lazy"></figure>
+      <div class="row-copy">
+        <h3>申請前のチェックと書き出し</h3>
+        <p>余白・透明な背景・文字数・ファイルの大きさを自動で確かめて、LINE Creators Market に出せる形の ZIP にまとめます。タイトルや説明文の入力もここで。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" aria-labelledby="how-h">
+    <h2 id="how-h">使う流れ</h2>
+    <ol class="steps">
+      <li><b>指示文をコピーして、Gemini に貼る</b><span>8個ずつの画像が5枚できます</span></li>
+      <li><b>できた画像を取り込む</b><span>40個に切り分けて、背景を自動で消します</span></li>
+      <li><b>文字を入れて、チェックして、ZIP で書き出す</b><span>そのまま LINE Creators Market に申請できます</span></li>
+    </ol>
+  </section>
+
+  <section class="get" id="get" aria-labelledby="get-h">
+    <h2 id="get-h">受け取り方</h2>
+    <p class="get-when" id="getWhen">10/26(月)21:00〜23:59 の間だけ、フォロワー限定で配布します。</p>
+    <ol class="steps">
+      <li><b>Instagram の投稿に「スタンプ」とコメント</b><span>@studio_kakuu の、スタンプ工房の紹介リールです。TikTok から来た方も、こちらでコメントしてください</span></li>
+      <li><b>DM でオープンチャットの案内が届く</b><span>「AIスタンプ作り部|スタンプ工房」の参加コードも DM に入っています</span></li>
+      <li><b>21:00 にオープンチャットで合言葉を発表</b><span>先に参加コードで入って、21:00 を待っていてください</span></li>
+      <li><b>ツールを開いて、合言葉を入れる</b><span>一度入れれば、その端末ではそのまま使えます。無料です</span></li>
+    </ol>
+    <div class="get-links">
+      <a class="btn" id="toolBtn" href="https://yuji2110n-web.github.io/stamp-kobo/" target="_blank" rel="noopener">スタンプ工房を開く</a>
+      <a class="btn line" href="https://line.me/ti/g2/ywDezi3KsC9QM2n-rvPhAXJ4zKNDtb0Jwma9lQ" target="_blank" rel="noopener">オープンチャットを開く</a>
+    </div>
+    <p class="get-note">使ってみた感想や、ほしい機能はオープンチャットで聞かせてください。次の改良に使います。</p>
+  </section>
+</main>
+
+<footer class="credit">
+  <p>ツールとこのページは AI とコードでつくりました。見本のねこは、動作確認のためにコードで描いた絵です。<br>※KAKUU STUDIO のオリジナル作品です。LINE 公式のツールではありません。</p>
+  <p><a href="../../">KAKUU STUDIO のほかの作品</a></p>
+</footer>
+<aside class="kk-follow" aria-label="KAKUU STUDIO のSNS">
+  <p class="kk-follow-ja"><span>新作は各SNSで公開しています。</span><span>フォローして次の作品もお楽しみに</span></p>
+  <p class="kk-follow-en">Follow us for the next imaginary world.</p>
+  <ul class="kk-follow-links">
+    <li><a href="https://x.com/studio_kakuu" target="_blank" rel="noopener">X</a></li>
+    <li><a href="https://www.tiktok.com/@studio_kakuu" target="_blank" rel="noopener">TikTok</a></li>
+    <li><a href="https://www.instagram.com/studio_kakuu/" target="_blank" rel="noopener">Instagram</a></li>
+  </ul>
+</aside>
+</body>
+</html>

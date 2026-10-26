@@ -20,6 +20,7 @@
 - 作品一覧は `works.js` に1件追加(`genre`:WEB / FILM / ANIMATION / CM など)
 - 制作時間を測る作品は `works/<作品名>/measured_time.txt` に実測を記録し、盛らない
 - 台本は `video/storyboards/<作品名>.md`。画面の文字・ナレーション・テロップ・投稿文は一字一句書く。**承認済みの台本・投稿文・ナレーションは断りなく変えない**(変えるなら箇所を示して再び OK をもらう)
+- **コードで作る映像作品は Lemo-Opuscar(プラグイン `lemo-opuscar@lemolab`、ライブラリ `~/lemo-opuscar`)のスタイルと手順を基本にする。ブランド色・フォントは KAKUU の規定(`brand/brand.md`)を優先**。縦は `--size 1080x1920`。導入テストは `video/lemo-opuscar-test/`
 - Gemini の演出指示書が貼られたら、そのまま真似ず技法を参考にオリジナルで作る(`toolbox/reference-analysis.md`)
 
 ## 見てほしい人・リール・投稿文

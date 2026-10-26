@@ -1,6 +1,6 @@
 # STATUS — いまの状態(作業の最初に読み、終わりに更新する)
 
-最終更新:2026-10-25
+最終更新:2026-10-26
 
 ## 作品一覧
 | No | 作品 | フォルダ | 状態 |
@@ -22,6 +22,11 @@
 - ManyChat:フォロー確認は無料プランで使えないため、opening DM とコメント返信でやわらかくお願い(`captions/posting-checklist.md`)
 - SNSプロフィール文と、TikTok 1,000人超えでリンク+締め切り替えの条件を `brand/brand.md` 3.6章・`video/spec.md` に記録
 - SNSリンクを目立つボタンに変更(ライム枠・X だけ塗り)。トップの説明文の下に FOLLOW ボタン、作品ページの案内も同じ見た目
+
+## 2026-10-26 Lemo-Opuscar 導入
+- `.claude/settings.json` にマーケットプレイス lemolab とプラグイン lemo-opuscar@lemolab を登録。クラウドでは起動時フック `.claude/hooks/lemo-opuscar-setup.sh` がライブラリ `~/lemo-opuscar` と依存を自動で入れる(Node 22・ffmpeg・Python 3.12・Chromium は環境に既存)
+- テスト映像(5秒・1080×1920・無音):`videos/lemo-opuscar-test/kakuu-lemo-test_1080x1920.mp4` 書き出し成功。ソースは `video/lemo-opuscar-test/`
+- 007 に合うスタイル:`pixel-rpg`(16-bit Pixel RPG)
 
 ## 未対応の課題
 - ElevenLabs の API キーの作り直しを検討中

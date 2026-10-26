@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>KAKUU × Lemo-Opuscar test</title>
+<style>html,body{margin:0;background:#0E0E0E;overflow:hidden}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Lemo-Opuscar 動作確認用(5秒・縦9:16)。render(t) だけで絵が決まる
+const BLACK = '#0E0E0E', WHITE = '#FFFFFF', LIME = '#C6FF3D';
+const JP = '"Zen Kaku Gothic New"', EN = '"Space Grotesk"';
+const c = document.getElementById('c'), x = c.getContext('2d');
+const W = innerWidth, H = innerHeight; c.width = W; c.height = H;
+const clamp = v => Math.max(0, Math.min(1, v));
+const ease = v => 1 - Math.pow(1 - clamp(v), 3);
+const seg = (t, a, b) => ease((t - a) / (b - a));
+
+window.DUR = 5;
+window.render = t => {
+  const u = W / 1080;
+  x.fillStyle = BLACK; x.fillRect(0, 0, W, H);
+
+  // 格子(12列)が上から下りてくる
+  x.strokeStyle = 'rgba(255,255,255,0.08)'; x.lineWidth = 1;
+  for (let i = 1; i < 12; i++) {
+    const gx = Math.round(i * W / 12) + 0.5, gh = H * seg(t, 0.02 * i, 0.6 + 0.02 * i);
+    x.beginPath(); x.moveTo(gx, 0); x.lineTo(gx, gh); x.stroke();
+  }
+
+  // ライムの帯が左から走る
+  const bw = W * seg(t, 0.2, 0.8), out = W * seg(t, 4.3, 4.8);
+  x.fillStyle = LIME; x.fillRect(out, 760 * u, bw - out, 12 * u);
+
+  // 英字のロゴ(1文字ずつ下から)
+  x.textBaseline = 'alphabetic';
+  x.font = `700 ${150 * u}px ${EN}`;
+  const word = 'KAKUU'; let lx = 90 * u;
+  for (let i = 0; i < word.length; i++) {
+    const k = seg(t, 0.5 + i * 0.08, 1.1 + i * 0.08);
+    x.save(); x.beginPath(); x.rect(0, 560 * u, W, 180 * u); x.clip();
+    x.fillStyle = WHITE; x.fillText(word[i], lx, 720 * u + (1 - k) * 170 * u);
+    x.restore(); lx += x.measureText(word[i]).width;
+  }
+  x.fillStyle = LIME; x.font = `700 ${40 * u}px ${EN}`;
+  x.globalAlpha = seg(t, 1.0, 1.4); x.fillText('STUDIO', 96 * u, 840 * u); x.globalAlpha = 1;
+
+  // 日本語の見出し
+  const lines = ['コードで、', '映像を書き出す。'];
+  x.font = `700 ${92 * u}px ${JP}`;
+  lines.forEach((s, i) => {
+    const k = seg(t, 1.5 + i * 0.25, 2.2 + i * 0.25);
+    x.globalAlpha = k; x.fillStyle = WHITE;
+    x.fillText(s, 90 * u, (1060 + i * 130) * u + (1 - k) * 40 * u);
+  });
+  x.globalAlpha = 1;
+
+  // 下部:テスト表記と時間のカウンター
+  const k = seg(t, 2.6, 3.2);
+  x.globalAlpha = k; x.fillStyle = 'rgba(255,255,255,0.6)';
+  x.font = `500 ${34 * u}px ${JP}`; x.fillText('Lemo-Opuscar 導入テスト', 90 * u, 1560 * u);
+  x.font = `700 ${34 * u}px ${EN}`; x.fillStyle = LIME;
+  x.fillText(`${t.toFixed(2)}s / 5.00s · 1080×1920`, 90 * u, 1620 * u);
+  x.globalAlpha = 1;
+
+  // ライムの四角が拍で点滅(右上)
+  const beat = Math.floor(t * 2) % 2 === 0;
+  x.fillStyle = beat ? LIME : 'rgba(198,255,61,0.25)';
+  x.fillRect(W - 150 * u, 120 * u, 60 * u, 60 * u);
+
+  // 最後は黒に閉じる
+  const fade = seg(t, 4.6, 5.0);
+  if (fade > 0) { x.fillStyle = `rgba(14,14,14,${fade})`; x.fillRect(0, 0, W, H); }
+};
+
+window.TEXTS = () => [];
+Promise.all([
+  new FontFace('Zen Kaku Gothic New', 'url(fonts/ZenKakuGothicNew-Bold.ttf)', { weight: '500 700' }).load(),
+  new FontFace('Space Grotesk', 'url(fonts/SpaceGrotesk-Bold.ttf)', { weight: '500 700' }).load(),
+]).then(fs => { fs.forEach(f => document.fonts.add(f)); render(0); window.READY = true; });
+</script></body></html>

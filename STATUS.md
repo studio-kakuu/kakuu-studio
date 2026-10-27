@@ -1,6 +1,6 @@
 # STATUS — いまの状態(作業の最初に読み、終わりに更新する)
 
-最終更新:2026-10-26
+最終更新:2026-10-27
 
 ## 作品一覧
 | No | 作品 | フォルダ | 状態 |
@@ -13,6 +13,7 @@
 | 006 | 制作記録 02 工程・シフト管理(ガイドページ) | `works/koutei/` | 公開。動画 `videos/koutei/`(3媒体)・投稿文 `captions/koutei/`。全SNS投稿済み・ManyChat『工程』LIVE(001 カフェの自動返信は停止) |
 | 007 | ドットアニメ(アニメ戦闘MV) | ブランチ `claude/006-anime-battle-mv` | **保留中**(main には未取り込み。ブランチ名は旧番号のまま) |
 | 009 | スタンプ工房(LINEスタンプ半自動ツール)の紹介ページ | `works/stamp-kobo/` | 公開(一覧の日付は配布日 10/26)。ツール本体は別リポジトリ yuji2110n-web/stamp-kobo(合言葉つき・10/26 21:00〜23:59 配布)。受け取りは Instagram リールのコメント『スタンプ』→ オープンチャットで合言葉発表。合言葉と参加コードはこのリポジトリに書かない |
+| 010 | LINEスタンプ(ストア 37544900)の紹介ショート | 企画案 `video/storyboards/line-stamp-ideas.md` | **企画中**:3案を提案済み・未承認。スタンプ名・個数などが未確認(LINE のページがこの環境から開けない) |
 | 008 | モーション図鑑の LP と紹介動画 | `works/zukan-intro/` | LP 公開。動画 `videos/zukan-intro/`(3媒体)・投稿文 `captions/zukan-intro.md`。受け取りは MV 投稿のコメント『モーション』(004 の ManyChat)。投稿時に右下へ MV を重ねる。**未投稿** |
 
 公開URL:https://studio-kakuu.github.io/kakuu-studio/

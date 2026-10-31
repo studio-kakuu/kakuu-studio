@@ -21,3 +21,8 @@ LINE スタンプを半自動で作るツール「スタンプ工房」(本体�
 
 ## 書かないもの
 - 合言葉とオープンチャットの参加コード(DM とオープンチャットだけで伝える)
+
+## 紹介ショート 第1話のナレーション(ElevenLabs)
+- 声:**Shizuka - Natural & Soft**(Voice ID `WQz3clzUdMqvBf0jswZQ`)/モデル `eleven_v4`/stability 0.9/similarity 0.75/seed 20261009/speed なし/`with-timestamps`
+- 文頭のタグ `[明るく親しみやすく、友だちに話しかけるように]` を付けて全体を1回で生成(送った文字数 334 字)。タグは声に出ず(時刻データで約0.24秒)
+- 保存先:`video/audio/stampkobo-ep1/narration.mp3`(49.8秒)・`timestamps.json`(文字ごと・段落ごとの開始と終了の秒)

@@ -26,3 +26,9 @@ LINE スタンプを半自動で作るツール「スタンプ工房」(本体�
 - 声:**Shizuka - Natural & Soft**(Voice ID `WQz3clzUdMqvBf0jswZQ`)/モデル `eleven_v4`/stability 0.9/similarity 0.75/seed 20261009/speed なし/`with-timestamps`
 - 文頭のタグ `[明るく親しみやすく、友だちに話しかけるように]` を付けて全体を1回で生成(送った文字数 334 字)。タグは声に出ず(時刻データで約0.24秒)
 - 保存先:`video/audio/stampkobo-ep1/narration.mp3`(49.8秒)・`timestamps.json`(文字ごと・段落ごとの開始と終了の秒)
+
+## 紹介ショート 第2話のナレーション(ElevenLabs)
+- 声・モデル・設定・seed は第1話と同じ(Shizuka `WQz3clzUdMqvBf0jswZQ`/`eleven_v4`/stability 0.9/similarity 0.75/seed 20261009/speed なし/`with-timestamps`)
+- 文頭のタグ `[明るく親しみやすく、友だちに話しかけるように]` を付けて全体を1回で生成(送った文字数 264 字)。タグ部分は時刻データで約0.24秒
+- 保存先:`video/audio/stampkobo-ep2/narration.mp3`(38.7秒)・`timestamps.json`(文字ごと・段落ごとの開始と終了の秒)
+- 段落と段落の間の無音は約0.1〜0.2秒と短め。足りなければ動画側で間を足す
